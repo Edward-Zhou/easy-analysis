@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Models", "Easy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Repository", "EasyAnalysis.Repository\EasyAnalysis.Repository.csproj", "{CB49D11B-8684-4158-967E-3A89FCC1B089}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{21C57808-9DDB-40C1-BAE9-5B5E552EED53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +62,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2347877E-F596-4AAF-8BA2-9630A39142E6} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
 	EndGlobalSection
 EndGlobal
