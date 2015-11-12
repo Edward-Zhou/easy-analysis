@@ -16,11 +16,14 @@ namespace EasyAnalysis.Api.Controllers
     [EnableCors("*", "*", "*")]
     public class ThreadProfilesController : ApiController
     {
+        private const string THREAD_PROFILE_COLLECTION = "uwp_oct_thread_profiles";
+
         [Route("api/ThreadProfiles/relatedtags")]
         public async Task<HttpResponseMessage> GetRelatedTags(
             [FromUri] string repository,
             [FromUri] DateTime? start,
             [FromUri] DateTime? end,
+            [FromUri] bool? answered,
             [FromUri] string tags)
         {
             EasyAnalysis.Framework.ConnectionStringProviders.IConnectionStringProvider mongoDBCSProvider =
@@ -29,7 +32,7 @@ namespace EasyAnalysis.Api.Controllers
 
             var database = client.GetDatabase(repository);
 
-            var threadProfiles = database.GetCollection<BsonDocument>("thread_profiles");
+            var threadProfiles = database.GetCollection<BsonDocument>(THREAD_PROFILE_COLLECTION);
 
             var builder = Builders<BsonDocument>.Filter;
 
@@ -50,6 +53,11 @@ namespace EasyAnalysis.Api.Controllers
             if (start.HasValue && end.HasValue)
             {
                 filter = filter & builder.Gte("create_on", start) & builder.Lt("create_on", end);
+            }
+
+            if(answered.HasValue)
+            {
+                filter = filter & builder.Eq("answered", answered);
             }
 
             if (!string.IsNullOrWhiteSpace(tags))
@@ -107,6 +115,7 @@ namespace EasyAnalysis.Api.Controllers
             [FromUri] int length,
             [FromUri] DateTime? start, 
             [FromUri] DateTime? end,
+            [FromUri] bool? answered,
             [FromUri] string tags)
         {
             EasyAnalysis.Framework.ConnectionStringProviders.IConnectionStringProvider mongoDBCSProvider =
@@ -115,7 +124,7 @@ namespace EasyAnalysis.Api.Controllers
 
             var database = client.GetDatabase(repository);
 
-            var threadProfiles = database.GetCollection<BsonDocument>("thread_profiles");
+            var threadProfiles = database.GetCollection<BsonDocument>(THREAD_PROFILE_COLLECTION);
 
             var builder = Builders<BsonDocument>.Filter;
 
@@ -124,6 +133,11 @@ namespace EasyAnalysis.Api.Controllers
             if (start.HasValue && end.HasValue)
             {
                 filter = filter & builder.Gte("create_on", start) & builder.Lt("create_on", end);
+            }
+
+            if (answered.HasValue)
+            {
+                filter = filter & builder.Eq("answered", answered);
             }
 
             if (!string.IsNullOrWhiteSpace(tags))

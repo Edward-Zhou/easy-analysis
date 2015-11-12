@@ -1,5 +1,5 @@
-﻿controllers.controller('threadexplorerController', ['$scope', '$location', '$routeParams', '$http',
-        function ($scope, $location, $routeParams, $http) {
+﻿controllers.controller('threadexplorerController', ['$scope', '$location', '$routeParams', 'threadProfileService',
+        function ($scope, $location, $routeParams, threadProfileService) {
             $scope.repository = $routeParams.repository;
 
             function applyFilterChange(selection)
@@ -22,15 +22,16 @@
                     tags.push($scope.filter.tag.selected[i]);
                 }
 
-                $http.get('http://eas-api.azurewebsites.net/api/ThreadProfiles/relatedtags?repository=uwp&start=&end=&tags=' + encodeURIComponent(tags.join('|')))
-                     .then(function (response) {
-                         $scope.filter.tag.related = response.data;
-                     });
+                var start = '2015-10-1', end = '2015-10-31';
 
-                $http.get('http://eas-api.azurewebsites.net/api/ThreadProfiles?repository=uwp&page=1&length=10&start=&end=&tags=' + encodeURIComponent(tags.join('|')))
-                     .then(function (response) {
-                         $scope.threadProfiles = response.data;
-                     });
+                threadProfileService.relatedTags(start, end, tags, $scope.filter.answered)
+                                           .then(function (response) {
+                                               $scope.filter.tag.related = response.data;
+                                           });
+
+                threadProfileService.list(start, end, tags, $scope.filter.answered).then(function (response) {
+                    $scope.threadProfiles = response.data;
+                });
             }
 
             $scope.selection = {};

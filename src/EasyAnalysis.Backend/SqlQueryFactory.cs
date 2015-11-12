@@ -26,7 +26,7 @@ namespace EasyAnalysis.Backend
 
                 return text;
 
-            }catch(FileNotFoundException e)
+            }catch(FileNotFoundException ex)
             {
                 throw new Exception("No SQL Statement found");
             }

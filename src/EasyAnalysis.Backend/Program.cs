@@ -27,12 +27,24 @@ namespace EasyAnalysis.Backend
             //    }
             // });
 
+            //steps.Add(new Step
+            //{
+            //    Action = "extract-user-activies",
+            //    Parameters = new string[] {
+            //        "uwp",
+            //        "aug_threads"
+            //    }
+            //});
+
             steps.Add(new Step
             {
-                Action = "extract-user-activies",
+                Action = "build-thread-profiles",
                 Parameters = new string[] {
-                    "uwp",
-                    "aug_threads"
+                    "uwp", // [repository]
+                    "2015-10-1", // [start date]
+                    "2015-10-31", // [end date]
+                    "uwp_latest", // [thread collection name]
+                    "uwp_oct_thread_profiles" // [target collection name]
                 }
             });
 

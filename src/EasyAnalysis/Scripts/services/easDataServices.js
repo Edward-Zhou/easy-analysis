@@ -6,6 +6,25 @@ var web_api_config = {
     // host: 'localhost:58116'
 }
 
+app.factory('threadProfileService', ['$http', function ($http) {
+    return {
+        relatedTags: function (start, end, tags, answered) {
+            return $http.get(
+                'http://' + web_api_config.host + '/api/ThreadProfiles/relatedtags?repository=uwp&start=' + start +
+                '&end=' + end +
+                '&answered=' + answered +
+                '&tags=' + encodeURIComponent(tags.join('|')))
+        },
+
+        list: function (start, end, tags, answered) {
+            return $http.get('http://' + web_api_config.host + '/api/ThreadProfiles?repository=uwp&page=1&length=10&start=' + start +
+                '&end=' + end +
+                '&answered=' + answered +
+                '&tags=' + encodeURIComponent(tags.join('|')));
+        }
+    }
+}]);
+
 app.factory('userProfileService', ['$http', function ($http) {
     return {
         search: function (resp, name) {

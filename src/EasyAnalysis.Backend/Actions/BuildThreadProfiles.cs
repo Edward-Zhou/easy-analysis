@@ -81,7 +81,7 @@ namespace EasyAnalysis.Backend.Actions
 
             var key = Builders<BsonDocument>.Filter.Eq("id", (profile.Id as string).Trim());
 
-            var match = await threadCollection.Find(key).Project("{url: 1, messages: 1, _id: 0}").SingleOrDefaultAsync();
+            var match = await threadCollection.Find(key).Project("{url: 1, messages: 1, answered: 1, _id: 0}").SingleOrDefaultAsync();
 
             var updateAction = Builders<BsonDocument>.Update
                                  .Set("create_on", (DateTime)profile.CreateOn)
@@ -106,6 +106,7 @@ namespace EasyAnalysis.Backend.Actions
                 var excerpt = text.Substring(0, Math.Min(256, text.Length));
 
                 updateAction = updateAction.Set("url", match.GetValue("url").AsString)
+                                           .Set("answered", bool.Parse(match.GetValue("answered").AsString) )
                                            .Set("excerpt", excerpt);
             }
 
