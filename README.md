@@ -1,3 +1,5 @@
+Easy Analysis is analysis platfrom used for analyze the technical forum datat trend.
+
 ## Overview Of Easy Analysis System
 
 ![alt text][eas-overview]
