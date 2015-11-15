@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using EasyAnalysis.Framework.Cache;
 
 namespace EasyAnalysis.Infrastructure.Cache.UnitTests
 {
@@ -25,13 +26,9 @@ namespace EasyAnalysis.Infrastructure.Cache.UnitTests
         }
 
         [TestMethod]
-        public void CacheTest()
+        public void AddOrUpdateCacheTest()
         {
-            var service = new LocalFileCacheServcie();
-
-            service.Configure(@"D:\forum_cache");
-
-            var client = service.CreateClient();
+            ICacheClient client = CreateTestClient();
 
             using (var content = new MemoryStream())
             using (var sw = new StreamWriter(content))
@@ -54,6 +51,43 @@ namespace EasyAnalysis.Infrastructure.Cache.UnitTests
 
                 Assert.AreEqual("hello world!", contentInCache);
             }
+        }
+
+        [TestMethod]
+        public void GetCacheStatusTest()
+        {
+            ICacheClient client = CreateTestClient();
+
+            var noneStatus = client.GetStatus(new Uri("http://www.none.com"));
+
+            Assert.AreEqual(CacheStatus.None, noneStatus);
+
+            using (var content = new MemoryStream())
+            using (var sw = new StreamWriter(content))
+            {
+                sw.WriteLine("hello world!");
+
+                sw.Flush();
+
+                content.Position = 0;
+
+                client.SetCache(new Uri("http://www.localhost.com/new"), content);
+
+                var activeStatus = client.GetStatus(new Uri("http://www.localhost.com/new"));
+
+                Assert.AreEqual(CacheStatus.Active, activeStatus);
+            }
+
+        }
+
+        private static ICacheClient CreateTestClient()
+        {
+            var service = new LocalFileCacheServcie();
+
+            service.Configure(@"D:\forum_cache");
+
+            var client = service.CreateClient();
+            return client;
         }
     }
 }
