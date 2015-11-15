@@ -14,11 +14,11 @@ namespace EasyAnalysis.Framework
 
         IActionFactory _actionFactory;
 
-        IURIDiscovery _URIDiscovery;
+        IURIDiscovery _uriDiscovery;
 
         public GeneralDataFlow(IURIDiscovery uriDiscovery, ICacheService cacheServcie, IActionFactory actionFactory)
         {
-            _URIDiscovery = uriDiscovery;
+            _uriDiscovery = uriDiscovery;
 
             _cacheService = cacheServcie;
 
@@ -27,14 +27,19 @@ namespace EasyAnalysis.Framework
 
         public void Run()
         {
-            _URIDiscovery.OnNew += URIDiscovery_OnNew;
+            _uriDiscovery.OnDiscovered += OnUriDiscovered;
 
-            _URIDiscovery.Start();
+            _uriDiscovery.Start();
         }
 
-        private void URIDiscovery_OnNew(string url)
+        private void OnUriDiscovered(string url)
         {
             
+        }
+
+        private void OnChange()
+        {
+
         }
     }
 }

@@ -7,12 +7,20 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.Framework.Cache
 {
+    public enum CacheStatus
+    {
+        None = 0,
+        Active = 1,
+        Expired = 2,
+        Deleted = 3
+    }
+
     public interface ICacheClient
     {
         Stream GetCache(Uri resource);
 
         void SetCache(Uri resource, Stream stream);
 
-        bool IsCached(Uri resource);
+        CacheStatus GetStatus(Uri resouces);
     }
 }

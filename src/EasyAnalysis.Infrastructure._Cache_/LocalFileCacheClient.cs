@@ -1,10 +1,6 @@
 ﻿using EasyAnalysis.Framework.Cache;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyAnalysis.Infrastructure.Cache
 {
@@ -17,9 +13,9 @@ namespace EasyAnalysis.Infrastructure.Cache
             _service = service;
         }
 
-        public bool IsCached(Uri resource)
+        public CacheStatus GetStatus(Uri resouces)
         {
-            throw new NotImplementedException();
+            return _service.GetStatus(resouces);
         }
 
         Stream ICacheClient.GetCache(Uri resource)

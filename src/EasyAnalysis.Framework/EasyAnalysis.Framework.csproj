@@ -51,7 +51,7 @@
     <Compile Include="ConnectionStringProviders\MongoDBConnectionStringProvider.cs" />
     <Compile Include="ConnectionStringProviders\SqlServerConnectionStringProvider.cs" />
     <Compile Include="GeneralDataFlow.cs" />
-    <Compile Include="IURIDiscovery.cs" />
+    <Compile Include="Discover\IURIDiscovery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

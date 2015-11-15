@@ -44,27 +44,37 @@ namespace EasyAnalysis.Infrastructure.Cache
             _rootFolder = rootFolder;
         }
 
-        public bool IsCached(Uri uri)
+        public CacheStatus GetStatus(Uri uri)
         {
             var hash = Utils.ComputeStringMD5Hash(uri.AbsoluteUri, Encoding.UTF8);
 
             var selectByHashSql = SqlLibrary.Instance.Require("SELECT_INDEX_BY_HASH");
 
             using (var connection = new SQLiteConnection(string.Format("Data Source={0};Version=3;", _sqliteFilePath)))
+            using (var context = new CacheDataContext(connection))
             {
-                var cacheIndex = connection
-                                    .Query<CacheIndex>(selectByHashSql, new { @Hash = hash })
-                                    .FirstOrDefault();
+                var cacheIndex = context.GetCacheIndex(hash);
 
-                if(cacheIndex == null)
+                if (cacheIndex == null)
                 {
-                    return false;
+                    return CacheStatus.None;
                 }
 
                 var cacheFilePath = GetCacheFilePhysicalPath(cacheIndex.Path);
 
-                return File.Exists(cacheFilePath);
+                if (!File.Exists(cacheFilePath))
+                {
+                    return CacheStatus.Deleted;
+                }
+
+                if(cacheIndex.ExpiredOn < DateTime.Now)
+                {
+                    return CacheStatus.Expired;
+                }
+
+                return CacheStatus.Active;
             }
+
         }
 
         public Stream GetCache(Uri uri)
@@ -75,21 +85,20 @@ namespace EasyAnalysis.Infrastructure.Cache
             var selectByHashSql = SqlLibrary.Instance.Require("SELECT_INDEX_BY_HASH");
 
             using (var connection = new SQLiteConnection(string.Format("Data Source={0};Version=3;", _sqliteFilePath)))
+            using (var context = new CacheDataContext(connection))
             {
                 try
                 {
-                    var cacheIndex = connection
-                        .Query<CacheIndex>(selectByHashSql, new { @Hash = hash })
-                        .FirstOrDefault();
+                    var cacheIndex = context.GetCacheIndex(hash);
 
-                    if(cacheIndex == null)
+                    if (cacheIndex == null)
                     {
                         return null;
                     }
 
                     var cacheFilePath = GetCacheFilePhysicalPath(cacheIndex.Path);
 
-                    if(!File.Exists(cacheFilePath))
+                    if (!File.Exists(cacheFilePath))
                     {
                         return null;
                     }
@@ -106,7 +115,9 @@ namespace EasyAnalysis.Infrastructure.Cache
                     }
 
                     return mem;
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     // TODO: log the excpetion here
 
                     return null;
@@ -117,35 +128,30 @@ namespace EasyAnalysis.Infrastructure.Cache
         public void CacheOrUpdate(Uri uri, Stream content)
         {
             using (var connection = new SQLiteConnection(string.Format("Data Source={0};Version=3;", _sqliteFilePath)))
+            using (var context = new CacheDataContext(connection))
             {
                 try
                 {
                     var hash = Utils.ComputeStringMD5Hash(uri.AbsoluteUri, Encoding.UTF8);
 
-                    var selectByHashSql = SqlLibrary.Instance.Require("SELECT_INDEX_BY_HASH");
+                    var cacheIndex = context.GetCacheIndex(hash);
 
-                    var cacheIndex = connection
-                        .Query<CacheIndex>(selectByHashSql, new { @Hash = hash })
-                        .FirstOrDefault();
-
-                    if(cacheIndex != null)
+                    if (cacheIndex != null)
                     {
                         var existingCacheFilePath = GetCacheFilePhysicalPath(cacheIndex.Path);
 
-                        if(File.Exists(existingCacheFilePath))
+                        if (File.Exists(existingCacheFilePath))
                         {
                             File.Delete(existingCacheFilePath);
                         }
 
                         // delete history by hash
-                        var deleteByHashSql = SqlLibrary.Instance.Require("DELETE_INDEX_BY_HASH");
-
-                        connection.Execute(deleteByHashSql, new { Hash = hash });
+                        context.DelteCacheIndex(hash);
                     }
 
                     var newCacheFilePath = GetCacheFilePhysicalPath(hash + ".cache");
 
-                    if(File.Exists(newCacheFilePath))
+                    if (File.Exists(newCacheFilePath))
                     {
                         File.Delete(newCacheFilePath);
                     }
@@ -157,9 +163,7 @@ namespace EasyAnalysis.Infrastructure.Cache
                         fs.Flush();
                     }
 
-                    var insertIntoCacheSql = SqlLibrary.Instance.Require("INSERT_INTO_CACHE_INDEX");
-
-                    connection.Execute(insertIntoCacheSql, new CacheIndex
+                    context.InsertCaccheIndex(new CacheIndex
                     {
                         Url = uri.AbsoluteUri,
                         Path = hash + ".cache",
@@ -168,7 +172,7 @@ namespace EasyAnalysis.Infrastructure.Cache
                         Hash = hash
                     });
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     // TODO: log the excpetion here
 

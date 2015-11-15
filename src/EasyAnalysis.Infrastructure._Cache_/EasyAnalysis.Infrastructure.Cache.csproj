@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheIndexContext.cs" />
     <Compile Include="LocalFileCacheClient.cs" />
     <Compile Include="LocalFileCacheServcie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

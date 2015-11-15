@@ -8,7 +8,7 @@ namespace EasyAnalysis.Framework
 {
     public interface IURIDiscovery
     {
-        event Action<string> OnNew;
+        event Action<string> OnDiscovered;
 
         void Start();
     }
