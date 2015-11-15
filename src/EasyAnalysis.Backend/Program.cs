@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Configuration;
 using EasyAnalysis.Framework.Analysis;
+using EasyAnalysis.Framework;
+using EasyAnalysis.Infrastructure.Discovery;
+using EasyAnalysis.Infrastructure.Cache;
 
 namespace EasyAnalysis.Backend
 {
@@ -16,7 +19,7 @@ namespace EasyAnalysis.Backend
     {
         static void Main(string[] args)
         {
-            var steps = new List<Step>();
+            // var steps = new List<Step>();
 
             //steps.Add(new Step {
             //    Action = "import-new-users",
@@ -36,28 +39,65 @@ namespace EasyAnalysis.Backend
             //    }
             //});
 
-            steps.Add(new Step
+            //steps.Add(new Step
+            //{
+            //    Action = "build-thread-profiles",
+            //    Parameters = new string[] {
+            //        "uwp", // [repository]
+            //        "2015-10-1", // [start date]
+            //        "2015-10-31", // [end date]
+            //        "uwp_latest", // [thread collection name]
+            //        "uwp_oct_thread_profiles" // [target collection name]
+            //    }
+            //});
+
+            //var factory = new DefaultActionFactory();
+
+            //foreach(var step in steps)
+            //{
+            //    var action = factory.CreateInstance(step.Action);
+
+            //    var task = action.RunAsync(step.Parameters);
+
+            //    task.Wait();
+            //}
+        }
+
+        static void RunDataFollow()
+        {
+            var generalDataFlowConfigration = new GeneralDataFlowConfigration
             {
-                Action = "build-thread-profiles",
-                Parameters = new string[] {
-                    "uwp", // [repository]
-                    "2015-10-1", // [start date]
-                    "2015-10-31", // [end date]
-                    "uwp_latest", // [thread collection name]
-                    "uwp_oct_thread_profiles" // [target collection name]
+                ModuleConfigurations = new List<ModuleConfiguration>
+                {
+                    new ModuleConfiguration
+                    {
+                        Name = "msdn-metadata-module"
+                    }
                 }
-            });
+            };
 
-            var factory = new DefaultActionFactory();
-
-            foreach(var step in steps)
+            var paginationDiscoveryConfigration = new PaginationDiscoveryConfigration
             {
-                var action = factory.CreateInstance(step.Action);
+                UrlFormat = "https://social.technet.microsoft.com/Forums/office/en-US/home?category=officeitpro&filter=alltypes&sort=firstpostdesc&page={0}",
+                Start = 1,
+                Length = 100,
+                Encoding = "utf8"
+            };
 
-                var task = action.RunAsync(step.Parameters);
+            PaginationDiscovery discovery = new PaginationDiscovery(paginationDiscoveryConfigration);
 
-                task.Wait();
-            }
+            var cacheService = new LocalFileCacheServcie();
+
+            cacheService.Configure(@"D:\forum_cache");
+
+            var dataflow = new GeneralDataFlow(
+                config:generalDataFlowConfigration, 
+                uriDiscovery:discovery,
+                moduleFactory: new DefaultModuleFactory(),
+                cacheServcie: cacheService,
+                output: new MongoDBOutput());
+
+            dataflow.Run();
         }
     }
 }

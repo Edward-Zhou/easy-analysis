@@ -8,15 +8,24 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.Infrastructure.Discovery
 {
+    public class XPathAttributeLookUp {
+        public string XPath { get; set; }
+        public string Attribute { get; set; }
+    }
+
     public class PaginationDiscoveryConfigration
     {
         public string UrlFormat { get; set; }
+
+        public string BaseUri { get; set; }
 
         public int Start { get; set; }
 
         public int Length { get; set; }
 
         public string Encoding { get; set; }
+
+        public XPathAttributeLookUp LookUp { get; set; }
     }
 
     public class PaginationDiscovery : IURIDiscovery
@@ -29,7 +38,6 @@ namespace EasyAnalysis.Infrastructure.Discovery
         }
 
         public event Action<string> OnDiscovered;
-
 
         public void Start()
         {
@@ -60,6 +68,8 @@ namespace EasyAnalysis.Infrastructure.Discovery
                 using (var sr = new StreamReader(content, encoding))
                 {
                     text = await sr.ReadToEndAsync();
+
+                    // TODO: implement the discovery
                 }
             }
         }

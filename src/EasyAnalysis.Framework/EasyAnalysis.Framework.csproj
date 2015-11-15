@@ -44,6 +44,9 @@
   <ItemGroup>
     <Compile Include="Analysis\IAction.cs" />
     <Compile Include="Analysis\IActionFactory.cs" />
+    <Compile Include="Analysis\IModule.cs" />
+    <Compile Include="Analysis\IModuleFactory.cs" />
+    <Compile Include="Analysis\ModuleConfiguration.cs" />
     <Compile Include="Cache\ICacheClient.cs" />
     <Compile Include="Cache\ICacheService.cs" />
     <Compile Include="ConnectionStringProviders\ConnectionStringProvider.cs" />
@@ -52,6 +55,7 @@
     <Compile Include="ConnectionStringProviders\SqlServerConnectionStringProvider.cs" />
     <Compile Include="GeneralDataFlow.cs" />
     <Compile Include="Discover\IURIDiscovery.cs" />
+    <Compile Include="IO\IOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
