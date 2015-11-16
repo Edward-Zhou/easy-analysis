@@ -53,6 +53,12 @@
     <Compile Include="PaginationDiscoveryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EasyAnalysis.Infrastructure.Discovery\EasyAnalysis.Infrastructure.Discovery.csproj">
+      <Project>{4df80993-db0a-4fad-a2a6-e1e08802c604}</Project>
+      <Name>EasyAnalysis.Infrastructure.Discovery</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

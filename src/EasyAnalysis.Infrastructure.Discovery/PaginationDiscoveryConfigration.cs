@@ -25,6 +25,8 @@
 
         public string Encoding { get; set; }
 
+        public string Filter { get; set; }
+
         public XPathAttributeLookUp LookUp { get; set; }
 
         public RegexTransform Transform { get; set; }

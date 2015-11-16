@@ -24,8 +24,6 @@ namespace EasyAnalysis.Infrastructure.Discovery
             var task = Dsicover();
 
             task.Wait();
-
-            throw new NotImplementedException();
         }
 
         private async Task Dsicover()
@@ -59,6 +57,14 @@ namespace EasyAnalysis.Infrastructure.Discovery
             var htmlAttributes = new HtmlAttributeParse(_config.LookUp.XPath, _config.LookUp.Attribute);
 
             var attributes = htmlAttributes.Parse(text);
+
+            foreach(var attribute in attributes)
+            {
+                if(IsMatch(attribute))
+                {
+                    OnDiscovered(Transform(attribute));
+                }
+            }
         }
 
         #region helper methods
@@ -111,6 +117,18 @@ namespace EasyAnalysis.Infrastructure.Discovery
             }
 
             return true;
+        }
+        
+        private bool IsMatch(string text)
+        {
+            if(string.IsNullOrEmpty(_config.Filter))
+            {
+                return true;
+            }
+
+            var pattern = new Regex(_config.Filter);
+
+            return pattern.IsMatch(text);
         }
         #endregion
     }
