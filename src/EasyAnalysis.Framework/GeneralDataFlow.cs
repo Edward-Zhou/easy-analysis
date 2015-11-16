@@ -4,6 +4,7 @@ using EasyAnalysis.Framework.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -69,6 +70,8 @@ namespace EasyAnalysis.Framework
                 moduleToLoad.Init(moduleConfig.Parameters);
 
                 modules.Add(moduleToLoad);
+
+                Logger.Current.Info(string.Format("Load module [{0}]", moduleConfig.Name));
             }
 
             _modules = modules;
@@ -76,16 +79,24 @@ namespace EasyAnalysis.Framework
 
         private void OnUriDiscovered(string url)
         {
-            var client = _cacheService.CreateClient();
+            Logger.Current.Info(string.Format("Discovered [{0}]", url));
 
-            var status = client.GetStatus(new Uri(url));
+            var cacheClient = _cacheService.CreateClient();
+
+            var status = cacheClient.GetStatus(new Uri(url));
 
             if(status != CacheStatus.Active)
             {
-                // HTTP Client Require the cotent and set the cache
+                var httpClient = new HttpClient();
+
+                var task = httpClient.GetStreamAsync(url);
+
+                task.Wait();
+
+                cacheClient.SetCache(new Uri(url), task.Result);
             }
 
-            using (var cache = client.GetCache(new Uri(url)))
+            using (var cache = cacheClient.GetCache(new Uri(url)))
             {
                 var metadata = new Dictionary<string, object>();
 
@@ -94,7 +105,10 @@ namespace EasyAnalysis.Framework
                     module.OnProcess(metadata, cache);
                 }
 
-                _output.Output(metadata);
+                if(_output != null)
+                {
+                    _output.Output(metadata);
+                }
             }            
         }
     }

@@ -20,6 +20,7 @@ namespace EasyAnalysis.Backend
     {
         static void Main(string[] args)
         {
+            RunDataFollow();
             // var steps = new List<Step>();
 
             //steps.Add(new Step {
@@ -66,6 +67,8 @@ namespace EasyAnalysis.Backend
 
         static void RunDataFollow()
         {
+            var cacheFolder = @"D:\forum_cache";
+
             var generalDataFlowConfigration = new GeneralDataFlowConfigration
             {
                 ModuleConfigurations = new List<ModuleConfiguration>
@@ -79,24 +82,39 @@ namespace EasyAnalysis.Backend
 
             var paginationDiscoveryConfigration = new PaginationDiscoveryConfigration
             {
-                UrlFormat = "https://social.technet.microsoft.com/Forums/office/en-US/home?category=officeitpro&filter=alltypes&sort=firstpostdesc&page={0}",
+                UrlFormat = "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
                 Start = 1,
-                Length = 100,
-                Encoding = "utf8"
+                Length = 1,
+                Encoding = "utf-8",
+                LookUp = new XPathAttributeLookUp
+                {
+                    XPath = "//*[@id=\"threadList\"]/li/div/a",
+                    Attribute = "href"
+                },
+                Transform = new RegexTransform
+                {
+                    Pattern = "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+                    Expression = "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+                },
+                Filter = "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})"
             };
 
             PaginationDiscovery discovery = new PaginationDiscovery(paginationDiscoveryConfigration);
 
+            var moduleFactory = new DefaultModuleFactory();
+
             var cacheService = new LocalFileCacheServcie();
 
-            cacheService.Configure(@"D:\forum_cache");
+            cacheService.Configure(cacheFolder);
 
             var dataflow = new GeneralDataFlow(
                 config:generalDataFlowConfigration, 
                 uriDiscovery:discovery,
-                moduleFactory: new DefaultModuleFactory(),
+                moduleFactory: moduleFactory,
                 cacheServcie: cacheService,
                 output: null);
+
+            dataflow.Init();
 
             dataflow.Run();
         }
