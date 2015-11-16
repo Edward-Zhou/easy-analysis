@@ -3,16 +3,21 @@ using EasyAnalysis.Framework.Cache;
 using EasyAnalysis.Framework.IO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyAnalysis.Framework
 {
     public class GeneralDataFlowConfigration
     {
+        public GeneralDataFlowConfigration()
+        {
+            // set default values
+            UseCache = true;
+        }
+
         public IEnumerable<ModuleConfiguration> ModuleConfigurations { get; set; }
+
+        public bool UseCache { get; set; }
     }
 
     public class GeneralDataFlow
@@ -85,7 +90,7 @@ namespace EasyAnalysis.Framework
 
             var status = cacheClient.GetStatus(new Uri(url));
 
-            if(status != CacheStatus.Active)
+            if(status != CacheStatus.Active || !_config.UseCache)
             {
                 var httpClient = new HttpClient();
 

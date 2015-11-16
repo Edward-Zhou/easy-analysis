@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EasyAnalysis.Infrastructure.Discovery
 {
     public class PaginationDiscovery : IURIDiscovery
     {
-        private readonly PaginationDiscoveryConfigration _config;
+        protected readonly PaginationDiscoveryConfigration _config;
+
+        protected Task _currentRunningTask;
+
+        protected bool _isCanceled = false;
 
         public PaginationDiscovery(PaginationDiscoveryConfigration config)
         {
@@ -21,12 +26,12 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
         public void Start()
         {
-            var task = Dsicover();
+            _currentRunningTask = Dsicover();
 
-            task.Wait();
+            _currentRunningTask.Wait();
         }
 
-        private async Task Dsicover()
+        protected async Task Dsicover()
         {
             var navigation = new PageNavigation(_config.UrlFormat);
 
@@ -38,6 +43,11 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
             for (int i = start; i < end; i++)
             {
+                if(_isCanceled)
+                {
+                    return;
+                }
+
                 navigation.NavigateTo(i);
 
                 string text = string.Empty;
@@ -60,11 +70,26 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
             foreach(var attribute in attributes)
             {
-                if(IsMatch(attribute))
+                if (_isCanceled)
                 {
-                    OnDiscovered(Transform(attribute));
+                    return;
+                }
+
+                if (IsMatch(attribute))
+                {
+                    InternalOnDiscovered(attribute);
                 }
             }
+        }
+
+        protected virtual void InternalOnDiscovered(string url)
+        {
+            OnDiscovered(Transform(url));
+        }
+
+        protected void Cancel()
+        {
+            _isCanceled = true;
         }
 
         #region helper methods

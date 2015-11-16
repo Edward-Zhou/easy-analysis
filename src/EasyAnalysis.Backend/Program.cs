@@ -78,12 +78,13 @@ namespace EasyAnalysis.Backend
                     {
                         Name = "msdn-metadata-module"
                     }
-                }
+                },
+                UseCache = false
             };
 
             var paginationDiscoveryConfigration = new PaginationDiscoveryConfigration
             {
-                UrlFormat = "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+                UrlFormat = "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}",
                 Start = 1,
                 Length = 1,
                 Encoding = "utf-8",
@@ -100,7 +101,7 @@ namespace EasyAnalysis.Backend
                 Filter = "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})"
             };
 
-            PaginationDiscovery discovery = new PaginationDiscovery(paginationDiscoveryConfigration);
+            PeriodicPaginationDiscovery discovery = new PeriodicPaginationDiscovery(paginationDiscoveryConfigration);
 
             var moduleFactory = new DefaultModuleFactory();
 

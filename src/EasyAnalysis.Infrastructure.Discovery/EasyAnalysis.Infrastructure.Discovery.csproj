@@ -48,6 +48,7 @@
     <Compile Include="PaginationDiscovery.cs" />
     <Compile Include="PageNavigation.cs" />
     <Compile Include="PaginationDiscoveryConfigration.cs" />
+    <Compile Include="PeriodicPaginationDiscovery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
