@@ -56,14 +56,11 @@ namespace EasyAnalysis.Backend
 
             //var factory = new DefaultActionFactory();
 
-            //foreach(var step in steps)
-            //{
-            //    var action = factory.CreateInstance(step.Action);
+            //var action = factory.CreateInstance("extract-user-activies");
 
-            //    var task = action.RunAsync(step.Parameters);
+            //var task = action.RunAsync(new string[] { "landing", "threads" });
 
-            //    task.Wait();
-            //}
+            //task.Wait();
         }
 
         static void RunDataFollow()

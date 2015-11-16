@@ -102,7 +102,7 @@ namespace EasyAnalysis.Actions
 
         private static void ExtractInThread(BsonDocument item, EmitScope scope)
         {
-            var threadId = item.GetValue("id").AsString;
+            var threadId = item.GetValue("_id").AsString;
 
             var authorId = item.GetValue("authorId").AsString;
 

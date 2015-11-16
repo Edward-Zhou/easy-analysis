@@ -11,13 +11,17 @@ namespace EasyAnalysis.Infrastructure.Discovery
 {
     public class PeriodicPaginationDiscovery : PaginationDiscovery, IURIDiscovery
     {
+        private string _nextLastStartUrl;
+
         private string _lastStartUrl;
 
         private bool _isFirst;
 
         public PeriodicPaginationDiscovery(PaginationDiscoveryConfigration config) : base(config)
         {
-            _lastStartUrl = String.Empty;
+            _nextLastStartUrl = String.Empty;
+
+            _lastStartUrl = string.Empty;
         }
 
         void IURIDiscovery.Start()
@@ -30,6 +34,8 @@ namespace EasyAnalysis.Infrastructure.Discovery
             _isFirst = true;
 
             _isCanceled = false;
+
+            _lastStartUrl = _nextLastStartUrl;
 
             _currentRunningTask = Dsicover();
 
@@ -53,13 +59,12 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
             if (_isFirst)
             {
-                _lastStartUrl = url;
+                _nextLastStartUrl = url;
 
                 _isFirst = false;
             }
 
             base.InternalOnDiscovered(url);
         }
-
     }
 }

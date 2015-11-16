@@ -107,10 +107,17 @@ namespace EasyAnalysis.Framework
 
                 foreach(var module in _modules)
                 {
-                    module.OnProcess(metadata, cache);
+                    try
+                    {
+                        module.OnProcess(metadata, cache);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Current.Error(ex.Message);
+                    }     
                 }
 
-                if(_output != null)
+                if(_output != null && metadata.Count > 0)
                 {
                     _output.Output(metadata);
                 }
