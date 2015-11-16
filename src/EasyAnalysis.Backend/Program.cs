@@ -13,6 +13,7 @@ using EasyAnalysis.Framework;
 using EasyAnalysis.Infrastructure.Discovery;
 using EasyAnalysis.Infrastructure.Cache;
 using EasyAnalysis.Modules;
+using EasyAnalysis.Infrastructure.IO;
 
 namespace EasyAnalysis.Backend
 {
@@ -107,12 +108,14 @@ namespace EasyAnalysis.Backend
 
             cacheService.Configure(cacheFolder);
 
+            var output = new MongoCollectionOutput("landing:threads");
+
             var dataflow = new GeneralDataFlow(
                 config:generalDataFlowConfigration, 
                 uriDiscovery:discovery,
                 moduleFactory: moduleFactory,
                 cacheServcie: cacheService,
-                output: null);
+                output: output);
 
             dataflow.Init();
 

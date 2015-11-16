@@ -62,8 +62,8 @@
       <HintPath>..\packages\MongoDB.Driver.Core.2.1.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.1-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonConfigrationManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -109,6 +110,10 @@
     <ProjectReference Include="..\EasyAnalysis.Infrastructure.Discovery\EasyAnalysis.Infrastructure.Discovery.csproj">
       <Project>{4df80993-db0a-4fad-a2a6-e1e08802c604}</Project>
       <Name>EasyAnalysis.Infrastructure.Discovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyAnalysis.Infrastructure.IO\EasyAnalysis.Infrastructure.IO.csproj">
+      <Project>{d558d626-add3-4b96-9fec-6a6d2beade7e}</Project>
+      <Name>EasyAnalysis.Infrastructure.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasyAnalysis.Infrastructure._Cache_\EasyAnalysis.Infrastructure.Cache.csproj">
       <Project>{b57ef93a-9be9-4ec1-8912-58496b8ce7bb}</Project>

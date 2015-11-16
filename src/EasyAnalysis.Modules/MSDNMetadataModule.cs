@@ -68,7 +68,7 @@ namespace EasyAnalysis.Modules
 
                 var thread = new Dictionary<string, object>
                 {
-                    { "id", xThread.Attribute("id") == null ? string.Empty : xThread.Attribute("id").Value},
+                    { "_id", xThread.Attribute("id") == null ? string.Empty : xThread.Attribute("id").Value},
                     { "authorId", xThread.Attribute("authorId") == null ? string.Empty : xThread.Attribute("authorId").Value },
                     { "title", xThread.Element("topic") == null ? string.Empty : xThread.Element("topic").Value },
                     { "url", xThread.Element("url") == null ? string.Empty : xThread.Element("url").Value},
