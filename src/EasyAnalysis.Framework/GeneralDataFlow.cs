@@ -12,8 +12,6 @@ namespace EasyAnalysis.Framework
     public class GeneralDataFlowConfigration
     {
         public IEnumerable<ModuleConfiguration> ModuleConfigurations { get; set; }
-
-        public IEnumerable<string> Actions { get; set; }
     }
 
     public class GeneralDataFlow

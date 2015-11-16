@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Data.SqlClient;
 
-namespace EasyAnalysis.Backend.Actions
+namespace EasyAnalysis.Actions
 {
     public class BuildThreadProfiles : IAction
     {

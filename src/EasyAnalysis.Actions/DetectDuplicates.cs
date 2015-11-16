@@ -1,5 +1,4 @@
-﻿using EasyAnalysis.Backend.Algorithm;
-using EasyAnalysis.Framework.Analysis;
+﻿using EasyAnalysis.Framework.Analysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,9 @@ using Dapper;
 using EasyAnalysis.Framework.ConnectionStringProviders;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using EasyAnalysis.Actions.Algorithm;
 
-namespace EasyAnalysis.Backend.Actions
+namespace EasyAnalysis.Actions
 {
     public class DetectDuplicates : IAction
     {

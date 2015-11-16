@@ -4,7 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Threading.Tasks;
 
-namespace EasyAnalysis.Backend.Actions
+namespace EasyAnalysis.Actions
 {
     public class ImportNewUsers : IAction
     {

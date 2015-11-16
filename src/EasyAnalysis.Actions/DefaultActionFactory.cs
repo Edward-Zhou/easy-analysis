@@ -1,4 +1,5 @@
-﻿using EasyAnalysis.Framework.Analysis;
+﻿using EasyAnalysis.Actions;
+using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework.ConnectionStringProviders;
 using System;
 

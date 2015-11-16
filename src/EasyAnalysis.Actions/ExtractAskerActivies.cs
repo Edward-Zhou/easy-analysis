@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace EasyAnalysis.Backend.Actions
+namespace EasyAnalysis.Actions
 {
     public class ExtractUserActivies : IAction
     {

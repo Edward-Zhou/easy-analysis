@@ -76,27 +76,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\BuildThreadProfiles.cs" />
-    <Compile Include="Actions\DetectDuplicates.cs" />
-    <Compile Include="DefaultActionFactory.cs" />
-    <Compile Include="Actions\ExtractAskerActivies.cs" />
-    <Compile Include="Actions\ImportNewUsers.cs" />
-    <Compile Include="Algorithm\LevenshteinDistance.cs" />
-    <Compile Include="Modules\DefaultModuleFactory.cs" />
-    <Compile Include="Modules\MSDNMetadataModule.cs" />
-    <Compile Include="MongoDBOutput.cs" />
-    <Compile Include="UniversalConnectionStringProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlQueryFactory.cs" />
-    <Compile Include="Step.cs" />
-    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasyAnalysis.Actions\EasyAnalysis.Actions.csproj">
+      <Project>{007889cd-7df8-4ee3-af35-4cf5beac4877}</Project>
+      <Name>EasyAnalysis.Actions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasyAnalysis.Framework\EasyAnalysis.Framework.csproj">
       <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>
       <Name>EasyAnalysis.Framework</Name>
@@ -113,24 +104,14 @@
       <Project>{2e1b9307-25e2-4df0-a209-7fcdd78b4046}</Project>
       <Name>EasyAnalysis.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EasyAnalysis.Modules\EasyAnalysis.Modules.csproj">
+      <Project>{1dff20a6-4f2e-4fe5-8b84-5201541b484d}</Project>
+      <Name>EasyAnalysis.Modules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasyAnalysis.Repository\EasyAnalysis.Repository.csproj">
       <Project>{cb49d11b-8684-4158-967e-3a89fcc1b089}</Project>
       <Name>EasyAnalysis.Repository</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Query\find_user_activity_by_hash.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Query\insert_user_activity.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Query\get_thread_tags.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Query\get_thread_profile.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

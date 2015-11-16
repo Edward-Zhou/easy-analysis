@@ -12,6 +12,7 @@ using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework;
 using EasyAnalysis.Infrastructure.Discovery;
 using EasyAnalysis.Infrastructure.Cache;
+using EasyAnalysis.Modules;
 
 namespace EasyAnalysis.Backend
 {
@@ -95,7 +96,7 @@ namespace EasyAnalysis.Backend
                 uriDiscovery:discovery,
                 moduleFactory: new DefaultModuleFactory(),
                 cacheServcie: cacheService,
-                output: new MongoDBOutput());
+                output: null);
 
             dataflow.Run();
         }

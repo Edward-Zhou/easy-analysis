@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyAnalysis.Backend.Algorithm
+namespace EasyAnalysis.Actions.Algorithm
 {
     /// <summary>
     /// code copy from http://www.cnblogs.com/ivanyb/archive/2011/11/25/2263356.html

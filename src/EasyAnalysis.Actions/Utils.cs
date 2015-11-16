@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyAnalysis.Backend
+namespace EasyAnalysis.Actions
 {
     static internal class Utils
     {
