@@ -2,32 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EasyAnalysis.Infrastructure.Discovery
 {
-    public class XPathAttributeLookUp {
-        public string XPath { get; set; }
-        public string Attribute { get; set; }
-    }
-
-    public class PaginationDiscoveryConfigration
-    {
-        public string UrlFormat { get; set; }
-
-        public string BaseUri { get; set; }
-
-        public int Start { get; set; }
-
-        public int Length { get; set; }
-
-        public string Encoding { get; set; }
-
-        public XPathAttributeLookUp LookUp { get; set; }
-    }
-
     public class PaginationDiscovery : IURIDiscovery
     {
         private readonly PaginationDiscoveryConfigration _config;
@@ -68,10 +48,70 @@ namespace EasyAnalysis.Infrastructure.Discovery
                 using (var sr = new StreamReader(content, encoding))
                 {
                     text = await sr.ReadToEndAsync();
-
-                    // TODO: implement the discovery
                 }
+
+                Parse(text);
             }
         }
+
+        private void Parse(string text)
+        {
+            var htmlAttributes = new HtmlAttributeParse(_config.LookUp.XPath, _config.LookUp.Attribute);
+
+            var attributes = htmlAttributes.Parse(text);
+        }
+
+        #region helper methods
+        private string Transform(string value)
+        {
+            string output;
+
+            if (TryTransform(value, out output))
+            {
+                return output;
+            }
+
+            return value;
+        }
+
+        private bool TryTransform(string value, out string output)
+        {
+            output = string.Empty;
+
+            if (_config.Transform == null ||
+                string.IsNullOrEmpty(_config.Transform.Pattern) ||
+                string.IsNullOrEmpty(_config.Transform.Expression))
+            {
+                return false;
+            }
+
+            var pattern = new Regex(_config.Transform.Pattern);
+
+            var match = pattern.Match(value);
+
+            if (!match.Success)
+            {
+                return false;
+            }
+
+            var groupValueList = new List<string>();
+
+            foreach (Group group in match.Groups)
+            {
+                groupValueList.Add(group.Value);
+            }
+
+            try
+            {
+                output = string.Format(_config.Transform.Expression, groupValueList.ToArray());
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
     }
 }
