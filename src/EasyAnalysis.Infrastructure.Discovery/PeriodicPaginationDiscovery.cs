@@ -26,6 +26,8 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
         void IURIDiscovery.Start()
         {
+            Logger.Current.Info("Start periodic pagination discovery");
+
             InternalStart();
         }
 
@@ -42,8 +44,6 @@ namespace EasyAnalysis.Infrastructure.Discovery
             _currentRunningTask.Wait();
 
             Thread.Sleep(60 * 1000);
-
-            Logger.Current.Info("start another round #");
 
             InternalStart();
         }

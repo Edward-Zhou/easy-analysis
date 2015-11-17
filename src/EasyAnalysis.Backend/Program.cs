@@ -21,31 +21,46 @@ namespace EasyAnalysis.Backend
     {
         /// <summary>
         /// e.g:
+        /// 1) run a init dataflow 
+        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:init|D:\\forum_cache|landing.threads"
         /// 1) run a monitor dataflow 
-        /// EasyAnalysis.Backend.exe type:dataflow name:general parameters:init|D:\forum_cache|landing.test
+        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:monitor|D:\\forum_cache|landing.threads"
         /// 2) run a action
         /// EasyAnalysis.Backend.exe type:action name:correct-datatype parameters:landing.threads
         /// </summary>
         /// <param name="args">type:[dataflow|action] name:[e.g. general] parameters:[]</param>
         static void Main(string[] args)
         {
-            var arguments = Arguments.Parse(args);
-
-            if (arguments.Type == ExecutionType.Dataflow)
+            try
             {
-                var exec = new DataflowExec();
+                var arguments = Arguments.Parse(args);
 
-                exec.RunDataFlow(arguments.Parameters);
+                if (arguments.Type == ExecutionType.Dataflow)
+                {
+                    var exec = new DataflowExec();
+
+                    exec.RunDataFlow(arguments.Parameters);
+                }
+                else if (arguments.Type == ExecutionType.Action)
+                {
+                    var factory = new DefaultActionFactory();
+
+                    var action = factory.CreateInstance(arguments.Name);
+
+                    Logger.Current.Info(string.Format("Running action[{0}]", arguments.Name));
+
+                    var task = action.RunAsync(arguments.Parameters);
+
+                    task.Wait();
+
+                    Logger.Current.Info(string.Format("End of running action[{0}]", arguments.Name));
+                }
             }
-            else if (arguments.Type == ExecutionType.Action)
+            catch(Exception ex)
             {
-                var factory = new DefaultActionFactory();
+                Logger.Current.Error(ex.Message);
 
-                var action = factory.CreateInstance(arguments.Name);
-
-                var task = action.RunAsync(arguments.Parameters);
-
-                task.Wait();
+                return;
             }
         }
     }

@@ -51,10 +51,10 @@ namespace EasyAnalysis.Framework
             RollingFileAppender rollingFileAppender = new RollingFileAppender
             {
                 AppendToFile = false,
-                File = @"logs\",
+                File = @"logs\" + Guid.NewGuid().ToString() + "\\",
                 Layout = patternLayout,
                 MaxSizeRollBackups = 5,
-                DatePattern = "yyyyMMddHHmm'.log'",
+                DatePattern = "yyyyMMddHH'.log'",
                 MaximumFileSize = "1GB",
                 RollingStyle = RollingFileAppender.RollingMode.Composite,
                 StaticLogFileName = false

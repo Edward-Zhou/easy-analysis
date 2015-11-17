@@ -113,7 +113,7 @@ namespace EasyAnalysis.Framework
                     }
                     catch (Exception ex)
                     {
-                        Logger.Current.Error(ex.Message);
+                        Logger.Current.Error(string.Format("URL[{0}], ERROR: {1}", url, ex.Message));
                     }     
                 }
 

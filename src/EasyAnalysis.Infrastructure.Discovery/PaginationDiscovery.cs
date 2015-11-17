@@ -26,6 +26,8 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
         public void Start()
         {
+            Logger.Current.Info("Start pagination discovery");
+
             _currentRunningTask = Dsicover();
 
             _currentRunningTask.Wait();

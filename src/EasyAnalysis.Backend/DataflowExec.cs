@@ -53,10 +53,14 @@ namespace EasyAnalysis.Backend
 
             if (monitor)
             {
+                Logger.Current.Info("Run general dataflow in monitor mode");
+
                 discovery = new PeriodicPaginationDiscovery(paginationDiscoveryConfigration);
             }
             else
             {
+                Logger.Current.Info("Run general dataflow in init mode");
+
                 paginationDiscoveryConfigration.UrlFormat = "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}";
 
                 paginationDiscoveryConfigration.Length = 100;
