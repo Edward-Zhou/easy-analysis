@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 
 namespace EasyAnalysis.Infrastructure.IO
@@ -42,6 +43,8 @@ namespace EasyAnalysis.Infrastructure.IO
                 var context = BsonDeserializationContext.CreateRoot(jsonReader);
 
                 var document = _outputCollection.DocumentSerializer.Deserialize(context);
+
+                document.Set("timestamp", DateTime.Now);
 
                 _outputCollection.DeleteOneAsync(id);
 

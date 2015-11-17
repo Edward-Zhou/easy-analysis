@@ -12,13 +12,18 @@ namespace EasyAnalysis.Backend
             switch(name.ToLower())
             {
                 case "build-thread-profiles":
-                    return new Actions.BuildThreadProfiles
+                    return new BuildThreadProfiles
                         (new SqlServerConnectionStringProvider(),
                          new MongoDBConnectionStringProvider() );
+
                 case "extract-user-activies":
-                    return new Actions.ExtractUserActivies(new UniversalConnectionStringProvider());
+                    return new ExtractUserActivies(new UniversalConnectionStringProvider());
+
                 case "import-new-users":
-                    return new Actions.ImportNewUsers(new MongoDBConnectionStringProvider());
+                    return new ImportNewUsers(new MongoDBConnectionStringProvider());
+
+                case "clean-up-data":
+                    return new CleanUpData();
 
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }

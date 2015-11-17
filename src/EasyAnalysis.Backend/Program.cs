@@ -31,13 +31,13 @@ namespace EasyAnalysis.Backend
         {
             var arguments = Arguments.Parse(args);
 
-            if(arguments.Type == ExecutionType.Dataflow)
+            if (arguments.Type == ExecutionType.Dataflow)
             {
                 var exec = new DataflowExec();
 
                 exec.RunDataFlow(arguments.Parameters);
             }
-            else if(arguments.Type == ExecutionType.Action)
+            else if (arguments.Type == ExecutionType.Action)
             {
                 var factory = new DefaultActionFactory();
 

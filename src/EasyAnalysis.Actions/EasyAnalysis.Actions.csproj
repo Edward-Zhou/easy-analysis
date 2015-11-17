@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\LevenshteinDistance.cs" />
     <Compile Include="BuildThreadProfiles.cs" />
+    <Compile Include="CleanUpData.cs" />
     <Compile Include="DefaultActionFactory.cs" />
     <Compile Include="DetectDuplicates.cs" />
     <Compile Include="ExtractAskerActivies.cs" />
