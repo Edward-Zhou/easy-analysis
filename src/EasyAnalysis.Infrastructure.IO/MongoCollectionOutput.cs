@@ -14,7 +14,7 @@ namespace EasyAnalysis.Infrastructure.IO
 
         public MongoCollectionOutput(string name)
         {
-            var temp = name.Split(':');
+            var temp = name.Split('.');
 
             var dbName = temp[0];
 

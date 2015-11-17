@@ -1,4 +1,5 @@
 ﻿using EasyAnalysis.Framework.Analysis;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace EasyAnalysis.Modules
                                 {
                                     { "id", msg.Attribute("id").Value },
                                     { "authorId", msg.Attribute("authorId").Value },
-                                    { "createdOn", msg.Element("createdOn").Value },
+                                    { "createdOn", DateTime.Parse(msg.Element("createdOn").Value) },
                                     { "body", msg.Element("body").Value },
                                     { "is_answer", msg.Element("answer") == null ? "false" : msg.Element("answer").Value},
                                     { "histories", histories }
@@ -76,7 +77,7 @@ namespace EasyAnalysis.Modules
                     { "authorId", xThread.Attribute("authorId") == null ? string.Empty : xThread.Attribute("authorId").Value },
                     { "title", xThread.Element("topic") == null ? string.Empty : xThread.Element("topic").Value },
                     { "url", xThread.Element("url") == null ? string.Empty : xThread.Element("url").Value},
-                    { "createdOn", xThread.Element("createdOn") == null ? string.Empty : xThread.Element("createdOn").Value},
+                    { "createdOn", DateTime.Parse(xThread.Element("createdOn").Value)},
                     { "answered", xThread.Attribute("answered") == null ? "false" : xThread.Attribute("answered").Value},
                     { "views", int.Parse(xThread.Attribute("views") == null ? string.Empty : xThread.Attribute("views").Value) },
                     { "forumId", xThread.Attribute("discussionGroupId") == null ? string.Empty : xThread.Attribute("discussionGroupId").Value},

@@ -19,105 +19,34 @@ namespace EasyAnalysis.Backend
 {
     class Program
     {
+        /// <summary>
+        /// e.g:
+        /// 1) run a monitor dataflow 
+        /// EasyAnalysis.Backend.exe type:dataflow name:general parameters:init|D:\forum_cache|landing.test
+        /// 2) run a action
+        /// EasyAnalysis.Backend.exe type:action name:correct-datatype parameters:landing.threads
+        /// </summary>
+        /// <param name="args">type:[dataflow|action] name:[e.g. general] parameters:[]</param>
         static void Main(string[] args)
         {
-            RunDataFollow();
-            // var steps = new List<Step>();
+            var arguments = Arguments.Parse(args);
 
-            //steps.Add(new Step {
-            //    Action = "import-new-users",
-            //    Parameters = new string[] {
-            //        "uwp",
-            //        "aug_threads",
-            //        "users"
-            //    }
-            // });
-
-            //steps.Add(new Step
-            //{
-            //    Action = "extract-user-activies",
-            //    Parameters = new string[] {
-            //        "uwp",
-            //        "aug_threads"
-            //    }
-            //});
-
-            //steps.Add(new Step
-            //{
-            //    Action = "build-thread-profiles",
-            //    Parameters = new string[] {
-            //        "uwp", // [repository]
-            //        "2015-10-1", // [start date]
-            //        "2015-10-31", // [end date]
-            //        "uwp_latest", // [thread collection name]
-            //        "uwp_oct_thread_profiles" // [target collection name]
-            //    }
-            //});
-
-            //var factory = new DefaultActionFactory();
-
-            //var action = factory.CreateInstance("extract-user-activies");
-
-            //var task = action.RunAsync(new string[] { "landing", "threads" });
-
-            //task.Wait();
-        }
-
-        static void RunDataFollow()
-        {
-            var cacheFolder = @"D:\forum_cache";
-
-            var generalDataFlowConfigration = new GeneralDataFlowConfigration
+            if(arguments.Type == ExecutionType.Dataflow)
             {
-                ModuleConfigurations = new List<ModuleConfiguration>
-                {
-                    new ModuleConfiguration
-                    {
-                        Name = "msdn-metadata-module"
-                    }
-                },
-                UseCache = false
-            };
+                var exec = new DataflowExec();
 
-            var paginationDiscoveryConfigration = new PaginationDiscoveryConfigration
+                exec.RunDataFlow(arguments.Parameters);
+            }
+            else if(arguments.Type == ExecutionType.Action)
             {
-                UrlFormat = "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}",
-                Start = 1,
-                Length = 1,
-                Encoding = "utf-8",
-                LookUp = new XPathAttributeLookUp
-                {
-                    XPath = "//*[@id=\"threadList\"]/li/div/a",
-                    Attribute = "href"
-                },
-                Transform = new RegexTransform
-                {
-                    Pattern = "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
-                    Expression = "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
-                },
-                Filter = "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})"
-            };
+                var factory = new DefaultActionFactory();
 
-            PeriodicPaginationDiscovery discovery = new PeriodicPaginationDiscovery(paginationDiscoveryConfigration);
+                var action = factory.CreateInstance(arguments.Name);
 
-            var moduleFactory = new DefaultModuleFactory();
+                var task = action.RunAsync(arguments.Parameters);
 
-            var cacheService = new LocalFileCacheServcie();
-
-            cacheService.Configure(cacheFolder);
-
-            var output = new MongoCollectionOutput("landing:threads");
-
-            var dataflow = new GeneralDataFlow(
-                config:generalDataFlowConfigration, 
-                uriDiscovery:discovery,
-                moduleFactory: moduleFactory,
-                cacheServcie: cacheService,
-                output: output);
-
-            dataflow.Init();
-
-            dataflow.Run();
+                task.Wait();
+            }
         }
     }
 }
