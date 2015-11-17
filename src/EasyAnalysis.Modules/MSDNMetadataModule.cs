@@ -21,7 +21,11 @@ namespace EasyAnalysis.Modules
 
         private static void FillMetadata(IDictionary<string, object> metadata, Stream stream)
         {
-            using (XmlReader reader = XmlReader.Create(stream))
+            XmlReaderSettings settings = new XmlReaderSettings();
+
+            settings.DtdProcessing = DtdProcessing.Ignore;
+
+            using (XmlReader reader = XmlReader.Create(stream, settings))
             {
                 var xDoc = XDocument.Load(reader);
 
