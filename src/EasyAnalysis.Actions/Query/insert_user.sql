@@ -1,0 +1,19 @@
+﻿INSERT INTO [dbo].[Users]
+           ([Id]
+           ,[DisplayName]
+           ,[Msft]
+           ,[Mscs]
+           ,[Mvp]
+		   ,[Partner]
+		   ,[Mcc]
+		   ,[Timestamp]
+		   )
+     VALUES
+           (@Id
+           ,@DisplayName
+           ,@Msft
+           ,@Mscs
+           ,@Mvp
+		   ,@Partner
+		   ,@Mcc
+		   ,@Timestamp)

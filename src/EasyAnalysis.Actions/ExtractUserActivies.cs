@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using EasyAnalysis.Framework;
 
 namespace EasyAnalysis.Actions
 {
@@ -41,7 +42,8 @@ namespace EasyAnalysis.Actions
                             UserId = userId,
                             Action = action,
                             Time = time,
-                            EffectOn = effectOn
+                            EffectOn = effectOn,
+                            Timestamp = DateTime.Now
                         });
                 }
 
@@ -75,21 +77,42 @@ namespace EasyAnalysis.Actions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="args">[repository] [user collection name] [thread collection name] [target collection name]</param>
+        /// <param name="args">
+        /// [0-datasource (required), e.g. landing.threads]
+        /// [1-timeframe  (optional), e.g. 2015-11-16T00:00:00&2015-11-18T00:00:00]
+        /// </param>
         /// <returns></returns>
         public async Task RunAsync(string[] args)
         {
-            var repository = args[0];
+            Logger.Current.Info(Description);
 
-            var threadCollectionName = args[1];
+            var ds = MongoDatasource.Parse(args[0]);
 
-            var client = new MongoClient(_connectionStringProvider.GetConnectionString(string.Format("mongo:{0}", repository)));
+            TimeFrameRange timeFrameRange = null;
 
-            var database = client.GetDatabase(repository);
+            if (args.Length > 1)
+            {
+                timeFrameRange = TimeFrameRange.Parse(args[1]);
+            }
 
-            var threadCollection = database.GetCollection<BsonDocument>(threadCollectionName);
+            var client = new MongoClient(_connectionStringProvider.GetConnectionString(string.Format("mongo:{0}", ds.DatabaseName)));
 
-            var list = await threadCollection.Find("{}").ToListAsync();
+            var database = client.GetDatabase(ds.DatabaseName);
+
+            var threadCollection = database.GetCollection<BsonDocument>(ds.CollectionName);
+
+            FilterDefinition<BsonDocument> filter = "{}";
+
+            var filterBuilder = Builders<BsonDocument>.Filter;
+
+            if (timeFrameRange != null)
+            {
+                filter = filter &
+                         filterBuilder.Gte("timestamp", timeFrameRange.Start) &
+                         filterBuilder.Lte("timestamp", timeFrameRange.End);
+            }
+
+            var list = await threadCollection.Find(filter).ToListAsync();
 
             using (var scope = new EmitScope(new SqlConnection(_connectionStringProvider.GetConnectionString("EasIndexConnection"))))
             {
@@ -106,9 +129,9 @@ namespace EasyAnalysis.Actions
 
             var authorId = item.GetValue("authorId").AsString;
 
-            var createdOn = item.GetValue("createdOn").AsString;
+            var createdOn = item.GetValue("createdOn").ToUniversalTime();
 
-            scope.Emit(authorId, "Ask", DateTime.Parse(createdOn), threadId);
+            scope.Emit(authorId, "Ask", createdOn, threadId);
 
             var messages = item.GetElement("messages").Value.AsBsonArray;
 

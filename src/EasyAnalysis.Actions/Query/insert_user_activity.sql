@@ -3,10 +3,12 @@
            ,[UserId]
            ,[Action]
            ,[Time]
-           ,[EffectOn])
+           ,[EffectOn]
+		   ,[Timestamp])
      VALUES
            (@Hash
            ,@UserId
            ,@Action
            ,@Time
-           ,@EffectOn)
+           ,@EffectOn
+		   ,@Timestamp)

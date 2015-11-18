@@ -32,7 +32,11 @@ namespace EasyAnalysis.Actions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="args">[repository] [start date] [end date] [thread collection name] [target collection name]</param>
+        /// <param name="args">
+        /// [0-datasource-in  (required), e.g. landing.threads]
+        /// [2-datasource-out (required), e.g. uwp.thread_profiles]
+        /// [3-timeframe      (optional), e.g. 2015-11-16T00:00:00&2015-11-18T00:00:00]
+        /// </param>
         /// <returns></returns>
         public async Task RunAsync(string[] args)
         {
@@ -77,8 +81,7 @@ namespace EasyAnalysis.Actions
             IMongoCollection<BsonDocument> threadCollection,
             IMongoCollection<BsonDocument> threadProfiles)
         {
-            var tags = connection.Query<string>(SqlQueryFactory.Instance.Get("get_thread_tags"), new { ThreadId = profile.Id });
-
+            
             var key = Builders<BsonDocument>.Filter.Eq("id", (profile.Id as string).Trim());
 
             var match = await threadCollection.Find(key).Project("{url: 1, messages: 1, answered: 1, _id: 0}").SingleOrDefaultAsync();
@@ -109,6 +112,9 @@ namespace EasyAnalysis.Actions
                                            .Set("answered", bool.Parse(match.GetValue("answered").AsString) )
                                            .Set("excerpt", excerpt);
             }
+
+
+            var tags = connection.Query<string>(SqlQueryFactory.Instance.Get("get_thread_tags"), new { ThreadId = profile.Id });
 
             if (tags != null)
             {

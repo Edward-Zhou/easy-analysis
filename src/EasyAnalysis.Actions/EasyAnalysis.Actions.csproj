@@ -62,11 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\LevenshteinDistance.cs" />
-    <Compile Include="BuildThreadProfiles.cs" />
+    <Compile Include="BuildBasicThreadProfiles.cs" />
     <Compile Include="CleanUpData.cs" />
     <Compile Include="DefaultActionFactory.cs" />
     <Compile Include="DetectDuplicates.cs" />
-    <Compile Include="ExtractAskerActivies.cs" />
+    <Compile Include="ExtractUserActivies.cs" />
     <Compile Include="ImportNewUsers.cs" />
     <Compile Include="MongoDatasource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +85,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Query\find_user_by_id.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Query\find_user_activity_by_hash.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -92,6 +95,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Query\get_thread_tags.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\insert_user.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Query\insert_user_activity.sql">

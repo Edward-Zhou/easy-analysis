@@ -1,8 +1,13 @@
-﻿using EasyAnalysis.Framework.Analysis;
+﻿using EasyAnalysis.Framework;
+using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework.ConnectionStringProviders;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Linq;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Dapper;
+using System;
 
 namespace EasyAnalysis.Actions
 {
@@ -30,37 +35,81 @@ namespace EasyAnalysis.Actions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="args">[repository] [source collection name] [target collection name]</param>
+        /// <param name="args">
+        /// [0-datasource (required), e.g. landing.threads] 
+        /// [1-timeframe  (optional), e.g. 2015-11-16T00:00:00&2015-11-18T00:00:00]</param>
         /// <returns></returns>
         public async Task RunAsync(string[] args)
         {
-            var repository = args[0];
+            var ds = MongoDatasource.Parse(args[0]);
 
-            var sourceCollectionName = args[1];
+            TimeFrameRange timeFrameRange = null;
 
-            var targetCollectionName = args[2];
+            if(args.Length > 1)
+            {
+                timeFrameRange = TimeFrameRange.Parse(args[1]);
+            }
 
-            var client = new MongoClient(_connectionStringProvider.GetConnectionString(repository));
+            var client = new MongoClient(_connectionStringProvider.GetConnectionString("mongo:" + ds.DatabaseName));
 
-            IMongoDatabase _database = client.GetDatabase(repository);
+            IMongoDatabase database = client.GetDatabase(ds.DatabaseName);
 
-            IMongoCollection<BsonDocument> targetCollection = _database.GetCollection<BsonDocument>(targetCollectionName);
+            IMongoCollection<BsonDocument> sourceCollection = database.GetCollection<BsonDocument>(ds.CollectionName);
 
-            IMongoCollection<BsonDocument> sourceCollection = _database.GetCollection<BsonDocument>(sourceCollectionName);
+            FilterDefinition<BsonDocument> filter = "{}";
 
-            await sourceCollection.Find(new BsonDocument()).ForEachAsync(async (thread) => {
-                foreach (var user in thread.GetElement(targetCollectionName).Value.AsBsonArray)
-                {
-                    var filter = Builders<BsonDocument>.Filter.Eq("id", user.ToBsonDocument().GetElement("id").Value);
+            var filterBuilder = Builders<BsonDocument>.Filter;
 
-                    var count = await targetCollection.Find(filter).CountAsync();
+            if (timeFrameRange != null)
+            {
+                filter = filter &
+                         filterBuilder.Gte("timestamp", timeFrameRange.Start) &
+                         filterBuilder.Lte("timestamp", timeFrameRange.End);
+            }
 
-                    if (count == 0)
-                    {
-                        await targetCollection.InsertOneAsync(user.ToBsonDocument());
-                    }
-                }
-            });
+            using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("EasIndexConnection")))
+            {
+                await sourceCollection
+                      .Find(filter)
+                      .ForEachAsync((thread) =>
+                      {
+                          foreach (BsonDocument user in thread.GetElement("users").Value.AsBsonArray)
+                          {
+                              Logger.Current.Info(user.GetValue("display_name").AsString);
+
+                              var id = user.GetValue("id").AsString;
+
+                              var displayName = user.GetValue("display_name").AsString;
+
+                              var msft = bool.Parse(user.GetValue("msft").AsString);
+
+                              var mscs = bool.Parse(user.GetValue("mscs").AsString);
+
+                              var mvp =  bool.Parse(user.GetValue("mvp").AsString);
+
+                              var partner = bool.Parse(user.GetValue("partner").AsString);
+
+                              var mcc = bool.Parse(user.GetValue("mcc").AsString);
+
+                              var match = connection.Query(SqlQueryFactory.Instance.Get("find_user_by_id"), new { Id = id });
+
+                              if(match.Count() == 0)
+                              {
+                                  connection.Execute(SqlQueryFactory.Instance.Get("insert_user"), new
+                                  {
+                                      Id = id,
+                                      DisplayName = displayName,
+                                      Msft = msft,
+                                      Mscs = mscs,
+                                      Mvp = mvp,
+                                      Partner = partner,
+                                      Mcc = mcc,
+                                      Timestamp = DateTime.Now
+                                  });
+                              }
+                          }
+                      });
+            }
         }
     }
 }

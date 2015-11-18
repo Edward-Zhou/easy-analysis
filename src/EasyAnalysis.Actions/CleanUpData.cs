@@ -51,7 +51,7 @@ namespace EasyAnalysis.Actions
 
             var filter = filterBuilder.Type("createdOn", BsonType.String);
 
-            if(timeFrameRange != null)
+            if (timeFrameRange != null)
             {
                 filter = filter &
                          filterBuilder.Gte("timestamp", timeFrameRange.Start) &
@@ -59,7 +59,7 @@ namespace EasyAnalysis.Actions
             }
 
             await collection
-                    .Find("{ createdOn: { $type: 2 } }")
+                    .Find(filter)
                     .ForEachAsync((item) => {
                         var id = item.GetValue("_id").AsString;
 

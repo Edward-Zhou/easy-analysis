@@ -11,16 +11,14 @@ namespace EasyAnalysis.Backend
         {
             switch(name.ToLower())
             {
-                case "build-thread-profiles":
-                    return new BuildThreadProfiles
-                        (new SqlServerConnectionStringProvider(),
-                         new MongoDBConnectionStringProvider() );
+                case "build-basic-threadprofiles":
+                    return new BuildBasicThreadProfiles(new UniversalConnectionStringProvider());
 
                 case "extract-user-activies":
                     return new ExtractUserActivies(new UniversalConnectionStringProvider());
 
                 case "import-new-users":
-                    return new ImportNewUsers(new MongoDBConnectionStringProvider());
+                    return new ImportNewUsers(new UniversalConnectionStringProvider());
 
                 case "clean-up-data":
                     return new CleanUpData();
