@@ -1,19 +1,5 @@
-﻿using EasyAnalysis.Repository;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
-using System.Configuration;
-using EasyAnalysis.Framework.Analysis;
+﻿using System;
 using EasyAnalysis.Framework;
-using EasyAnalysis.Infrastructure.Discovery;
-using EasyAnalysis.Infrastructure.Cache;
-using EasyAnalysis.Modules;
-using EasyAnalysis.Infrastructure.IO;
 
 namespace EasyAnalysis.Backend
 {

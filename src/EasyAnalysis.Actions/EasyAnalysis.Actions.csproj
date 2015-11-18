@@ -68,8 +68,10 @@
     <Compile Include="DetectDuplicates.cs" />
     <Compile Include="ExtractAskerActivies.cs" />
     <Compile Include="ImportNewUsers.cs" />
+    <Compile Include="MongoDatasource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlQueryFactory.cs" />
+    <Compile Include="TimeFrameRange.cs" />
     <Compile Include="UniversalConnectionStringProvider.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

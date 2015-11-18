@@ -27,17 +27,36 @@ namespace EasyAnalysis.Actions
 
         public async Task RunAsync(string[] args)
         {
-            var temp = args[0].Split('.');
+            if(args == null || args.Length == 0)
+            {
+                throw new ArgumentException("Invalid action auguments for clean up data");
+            }
 
-            var databaseName = temp[0];
+            var datasource = MongoDatasource.Parse(args[0]);
 
-            var collectionName = temp[1];
+            TimeFrameRange timeFrameRange = null;
 
-            var mongoClient = new MongoClient(_mongoconnectionStringProvider.GetConnectionString(databaseName));
+            if (args.Length > 1)
+            {
+                timeFrameRange = TimeFrameRange.Parse(args[1]);
+            }
 
-            var database = mongoClient.GetDatabase(databaseName);
+            var mongoClient = new MongoClient(_mongoconnectionStringProvider.GetConnectionString(datasource.DatabaseName));
 
-            var collection = database.GetCollection<BsonDocument>(collectionName);
+            var database = mongoClient.GetDatabase(datasource.DatabaseName);
+
+            var collection = database.GetCollection<BsonDocument>(datasource.CollectionName);
+
+            var filterBuilder = Builders<BsonDocument>.Filter;
+
+            var filter = filterBuilder.Type("createdOn", BsonType.String);
+
+            if(timeFrameRange != null)
+            {
+                filter = filter &
+                         filterBuilder.Gte("timestamp", timeFrameRange.Start) &
+                         filterBuilder.Lte("timestamp", timeFrameRange.End);
+            }
 
             await collection
                     .Find("{ createdOn: { $type: 2 } }")
@@ -46,11 +65,11 @@ namespace EasyAnalysis.Actions
 
                         var dateText = item.GetValue("createdOn").AsString;
 
-                        var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+                        var idFilter = Builders<BsonDocument>.Filter.Eq("_id", id);
 
                         var update = Builders<BsonDocument>.Update.Set("createdOn", DateTime.Parse(dateText));
 
-                        collection.UpdateOneAsync(filter, update);
+                        collection.UpdateOneAsync(idFilter, update);
                     });
         }
     }
