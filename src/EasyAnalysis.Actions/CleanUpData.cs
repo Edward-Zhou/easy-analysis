@@ -60,7 +60,7 @@ namespace EasyAnalysis.Actions
 
             await collection
                     .Find(filter)
-                    .ForEachAsync((item) => {
+                    .ForEachAsync(async (item) => {
                         var id = item.GetValue("_id").AsString;
 
                         var dateText = item.GetValue("createdOn").AsString;
@@ -69,7 +69,7 @@ namespace EasyAnalysis.Actions
 
                         var update = Builders<BsonDocument>.Update.Set("createdOn", DateTime.Parse(dateText));
 
-                        collection.UpdateOneAsync(idFilter, update);
+                        await collection.UpdateOneAsync(idFilter, update);
                     });
         }
     }

@@ -75,40 +75,52 @@ namespace EasyAnalysis.Actions
                       {
                           foreach (BsonDocument user in thread.GetElement("users").Value.AsBsonArray)
                           {
-                              Logger.Current.Info(user.GetValue("display_name").AsString);
-
-                              var id = user.GetValue("id").AsString;
-
-                              var displayName = user.GetValue("display_name").AsString;
-
-                              var msft = bool.Parse(user.GetValue("msft").AsString);
-
-                              var mscs = bool.Parse(user.GetValue("mscs").AsString);
-
-                              var mvp =  bool.Parse(user.GetValue("mvp").AsString);
-
-                              var partner = bool.Parse(user.GetValue("partner").AsString);
-
-                              var mcc = bool.Parse(user.GetValue("mcc").AsString);
-
-                              var match = connection.Query(SqlQueryFactory.Instance.Get("find_user_by_id"), new { Id = id });
-
-                              if(match.Count() == 0)
-                              {
-                                  connection.Execute(SqlQueryFactory.Instance.Get("insert_user"), new
-                                  {
-                                      Id = id,
-                                      DisplayName = displayName,
-                                      Msft = msft,
-                                      Mscs = mscs,
-                                      Mvp = mvp,
-                                      Partner = partner,
-                                      Mcc = mcc,
-                                      Timestamp = DateTime.Now
-                                  });
-                              }
+                              ImportNewUser(connection, user);
                           }
                       });
+            }
+        }
+
+        private static void ImportNewUser(SqlConnection connection, BsonDocument user)
+        {
+            try
+            {
+                var id = user.GetValue("id").AsString;
+
+                var displayName = user.GetValue("display_name").AsString;
+
+                var msft = bool.Parse(user.GetValue("msft").AsString);
+
+                var mscs = bool.Parse(user.GetValue("mscs").AsString);
+
+                var mvp = bool.Parse(user.GetValue("mvp").AsString);
+
+                var partner = bool.Parse(user.GetValue("partner").AsString);
+
+                var mcc = bool.Parse(user.GetValue("mcc").AsString);
+
+                var match = connection.Query(SqlQueryFactory.Instance.Get("find_user_by_id"), new { Id = id });
+
+                if (match.Count() == 0)
+                {
+                    connection.Execute(SqlQueryFactory.Instance.Get("insert_user"), new
+                    {
+                        Id = id,
+                        DisplayName = displayName,
+                        Msft = msft,
+                        Mscs = mscs,
+                        Mvp = mvp,
+                        Partner = partner,
+                        Mcc = mcc,
+                        Timestamp = DateTime.Now
+                    });
+
+                    Logger.Current.Info("Add new user [" + displayName + "]");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Current.Error(ex.Message);
             }
         }
     }

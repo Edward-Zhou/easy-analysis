@@ -26,28 +26,33 @@ namespace EasyAnalysis.Actions
 
             public void Emit(string userId, string action, DateTime time, string effectOn)
             {
-                var signature = string.Format("{0}-{1}-{2:MM/dd/yy H:mm:ss}-{3}", userId, action.ToLower(), time, effectOn);
-
-                var md5Hash = Utils.ComputeStringMD5Hash(signature);
-
-                var match = _sqlConnection.Query(SqlQueryFactory.Instance.Get("find_user_activity_by_hash"), new { Hash = md5Hash });
-
-                if(match.Count() == 0)
+                try
                 {
-                    _sqlConnection.Execute(
-                        SqlQueryFactory.Instance.Get("insert_user_activity"),
-                        new
-                        {
-                            Hash = md5Hash,
-                            UserId = userId,
-                            Action = action,
-                            Time = time,
-                            EffectOn = effectOn,
-                            Timestamp = DateTime.Now
-                        });
-                }
+                    var signature = string.Format("{0}-{1}-{2:MM/dd/yy H:mm:ss}-{3}", userId, action.ToLower(), time, effectOn);
 
-                PrintProgress();
+                    var md5Hash = Utils.ComputeStringMD5Hash(signature);
+
+                    var match = _sqlConnection.Query(SqlQueryFactory.Instance.Get("find_user_activity_by_hash"), new { Hash = md5Hash });
+
+                    if (match.Count() == 0)
+                    {
+                        _sqlConnection.Execute(
+                            SqlQueryFactory.Instance.Get("insert_user_activity"),
+                            new
+                            {
+                                Hash = md5Hash,
+                                UserId = userId,
+                                Action = action,
+                                Time = time,
+                                EffectOn = effectOn,
+                                Timestamp = DateTime.Now
+                            });
+                    }
+
+                    PrintProgress();
+                } catch (Exception ex) {
+                    Logger.Current.Error(ex.Message);
+                }
             }
 
             public void Dispose()
@@ -125,47 +130,67 @@ namespace EasyAnalysis.Actions
 
         private static void ExtractInThread(BsonDocument item, EmitScope scope)
         {
-            var threadId = item.GetValue("_id").AsString;
-
-            var authorId = item.GetValue("authorId").AsString;
-
-            var createdOn = item.GetValue("createdOn").ToUniversalTime();
-
-            scope.Emit(authorId, "Ask", createdOn, threadId);
-
-            var messages = item.GetElement("messages").Value.AsBsonArray;
-
-            foreach (BsonDocument message in messages)
+            try
             {
-                ExtractInMessage(scope, threadId, message);
+                var threadId = item.GetValue("_id").AsString;
+
+                var authorId = item.GetValue("authorId").AsString;
+
+                var createdOn = item.GetValue("createdOn").ToUniversalTime();
+
+                scope.Emit(authorId, "Ask", createdOn, threadId);
+
+                var messages = item.GetElement("messages").Value.AsBsonArray;
+
+                foreach (BsonDocument message in messages)
+                {
+                    ExtractInMessage(scope, threadId, message);
+                }
+            }catch(Exception ex)
+            {
+                Logger.Current.Error(ex.Message);
             }
         }
 
         private static void ExtractInMessage(EmitScope scope, string threadId, BsonDocument message)
         {
-            var replyAuthorId = message.GetElement("authorId").Value.AsString;
-
-            var replyOn = message.GetElement("createdOn").Value.AsString;
-
-            scope.Emit(replyAuthorId, "Reply", DateTime.Parse(replyOn), threadId);
-
-            BsonArray histories = message.GetElement("histories").Value.AsBsonArray;
-
-            foreach (BsonDocument hisotry in histories)
+            try
             {
-                ExtractInHistory(scope, threadId, hisotry);
+                var replyAuthorId = message.GetElement("authorId").Value.AsString;
+
+                var replyOn = message.GetElement("createdOn").Value.AsString;
+
+                scope.Emit(replyAuthorId, "Reply", DateTime.Parse(replyOn), threadId);
+
+                BsonArray histories = message.GetElement("histories").Value.AsBsonArray;
+
+                foreach (BsonDocument hisotry in histories)
+                {
+                    ExtractInHistory(scope, threadId, hisotry);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Current.Error(ex.Message);
             }
         }
 
         private static void ExtractInHistory(EmitScope insert, string threadId, BsonDocument hisotry)
         {
-            var user = hisotry.GetValue("user").AsString;
+            try
+            {
+                var user = hisotry.GetValue("user").AsString;
 
-            var date = hisotry.GetValue("date").AsString;
+                var date = hisotry.GetValue("date").AsString;
 
-            var type = hisotry.GetValue("type").AsString;
+                var type = hisotry.GetValue("type").AsString;
 
-            insert.Emit(user, type, DateTime.Parse(date), threadId);
+                insert.Emit(user, type, DateTime.Parse(date), threadId);
+            }
+            catch (Exception ex) {
+                Logger.Current.Error(ex.Message);
+            }
+
         }
     }
 }

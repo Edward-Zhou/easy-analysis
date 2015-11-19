@@ -71,34 +71,46 @@ namespace EasyAnalysis.Actions
                       .Find(filter)
                       .ForEachAsync(async (item) =>
                       {
-                          var html = item.GetValue("messages")
-                                            .AsBsonArray
-                                            .FirstOrDefault()
-                                            .AsBsonDocument
-                                            .GetValue("body").AsString;
-
-                          var document = new HtmlAgilityPack.HtmlDocument();
-
-                          document.LoadHtml(html);
-
-                          var text = document.DocumentNode.InnerText;
-
-                          var excerpt = text.Substring(0, Math.Min(256, text.Length));
-
-                          var updateAction = Builders<BsonDocument>.Update
-                                              .Set("createdOn", item.GetValue("createdOn").ToUniversalTime())
-                                              .Set("title", item.GetValue("title").AsString)
-                                              .Set("url", item.GetValue("url").AsString)
-                                              .Set("answered", bool.Parse(item.GetValue("answered").AsString))
-                                              .Set("excerpt", excerpt);
-
-                          var identity = Builders<BsonDocument>.Filter.Eq("_id", item.GetValue("_id").AsString);
-
-                          await outputCollection.UpdateOneAsync(
-                                identity,
-                                updateAction,
-                                new UpdateOptions { IsUpsert = true });
+                          await ParseAndOutput(item, outputCollection);
                       });
+        }
+
+        private static async Task ParseAndOutput(BsonDocument item, IMongoCollection<BsonDocument> outputCollection)
+        {
+            try
+            {
+                var html = item.GetValue("messages")
+                  .AsBsonArray
+                  .FirstOrDefault()
+                  .AsBsonDocument
+                  .GetValue("body").AsString;
+
+                var document = new HtmlAgilityPack.HtmlDocument();
+
+                document.LoadHtml(html);
+
+                var text = document.DocumentNode.InnerText;
+
+                var excerpt = text.Substring(0, Math.Min(256, text.Length));
+
+                var updateAction = Builders<BsonDocument>.Update
+                                    .Set("createdOn", item.GetValue("createdOn").ToUniversalTime())
+                                    .Set("title", item.GetValue("title").AsString)
+                                    .Set("url", item.GetValue("url").AsString)
+                                    .Set("answered", bool.Parse(item.GetValue("answered").AsString))
+                                    .Set("excerpt", excerpt);
+
+                var identity = Builders<BsonDocument>.Filter.Eq("_id", item.GetValue("_id").AsString);
+
+                await outputCollection.UpdateOneAsync(
+                      identity,
+                      updateAction,
+                      new UpdateOptions { IsUpsert = true });
+            }
+            catch (Exception ex)
+            {
+                Logger.Current.Error(ex.Message);
+            }
         }
 
         private IMongoCollection<BsonDocument> GetCollection(MongoDatasource ds)
