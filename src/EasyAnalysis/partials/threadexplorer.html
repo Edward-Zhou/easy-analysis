@@ -72,6 +72,11 @@
             <div ng-repeat="profile in threadProfiles">
                 <div class="summary">
                     <h3>
+                        <a ng-href="http://analyzeit.azurewebsites.net/#/detail/{{repository}}/{{profile._id}}" target="_blank">
+                            <span class="glyphicon mdi-content-create"
+                                  style="cursor:pointer;"
+                                  aria-hidden="true"></span>
+                        </a>
                         <a ng-href="{{profile.url}}" target="_blank">{{profile.title}}</a>
                     </h3>
                     <div class="form-horizontal">
