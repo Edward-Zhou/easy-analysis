@@ -22,7 +22,17 @@
                     tags.push($scope.filter.tag.selected[i]);
                 }
 
-                var start = '2015-10-1', end = '2015-10-31';
+                var start = '2015-11-1', end = '2015-11-30';
+
+                if ($scope.filter.range === 'lm')
+                {
+                    start = '2015-10-1';
+                    end = '2015-10-31';
+                } else if ($scope.filter.range === 'l3m')
+                {
+                    start = '2015-9-1';
+                    end = '2015-11-30';
+                }
 
                 threadProfileService.relatedTags(start, end, tags, $scope.filter.answered)
                                            .then(function (response) {
@@ -60,8 +70,9 @@
                         }
                     ],
                     selected: [],
-                    related: []
-                }
+                    related: [],
+                },
+                answered: ''
             };
 
             $scope.selection_value_changed = function (name, selection) {

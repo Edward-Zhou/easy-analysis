@@ -1,6 +1,5 @@
 ﻿using EasyAnalysis.Actions;
 using EasyAnalysis.Framework.Analysis;
-using EasyAnalysis.Framework.ConnectionStringProviders;
 using System;
 
 namespace EasyAnalysis.Backend
@@ -22,6 +21,9 @@ namespace EasyAnalysis.Backend
 
                 case "clean-up-data":
                     return new CleanUpData();
+
+                case "add-metadata-to-threadprofile":
+                    return new AddMetadataToThreadProfile(new UniversalConnectionStringProvider());
 
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }

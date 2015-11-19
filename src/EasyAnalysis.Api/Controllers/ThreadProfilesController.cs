@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using EasyAnalysis.Framework.ConnectionStringProviders;
+using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Driver;
 using System;
@@ -16,7 +17,7 @@ namespace EasyAnalysis.Api.Controllers
     [EnableCors("*", "*", "*")]
     public class ThreadProfilesController : ApiController
     {
-        private const string THREAD_PROFILE_COLLECTION = "uwp_oct_thread_profiles";
+        private const string THREAD_PROFILE_COLLECTION = "thread_profiles";
 
         [Route("api/ThreadProfiles/relatedtags")]
         public async Task<HttpResponseMessage> GetRelatedTags(
@@ -26,13 +27,7 @@ namespace EasyAnalysis.Api.Controllers
             [FromUri] bool? answered,
             [FromUri] string tags)
         {
-            EasyAnalysis.Framework.ConnectionStringProviders.IConnectionStringProvider mongoDBCSProvider =
-                EasyAnalysis.Framework.ConnectionStringProviders.ConnectionStringProvider.CreateConnectionStringProvider(EasyAnalysis.Framework.ConnectionStringProviders.ConnectionStringProvider.ConnectionStringProviderType.MongoDBConnectionStringProvider);
-            var client = new MongoClient(mongoDBCSProvider.GetConnectionString(repository));//"mongodb://app-svr.cloudapp.net:27017/" + repository);
-
-            var database = client.GetDatabase(repository);
-
-            var threadProfiles = database.GetCollection<BsonDocument>(THREAD_PROFILE_COLLECTION);
+            IMongoCollection<BsonDocument> threadProfiles = GetCollection(repository);
 
             var builder = Builders<BsonDocument>.Filter;
 
@@ -52,10 +47,10 @@ namespace EasyAnalysis.Api.Controllers
 
             if (start.HasValue && end.HasValue)
             {
-                filter = filter & builder.Gte("create_on", start) & builder.Lt("create_on", end);
+                filter = filter & builder.Gte("createdOn", start) & builder.Lt("createdOn", end);
             }
 
-            if(answered.HasValue)
+            if (answered.HasValue)
             {
                 filter = filter & builder.Eq("answered", answered);
             }
@@ -82,15 +77,15 @@ namespace EasyAnalysis.Api.Controllers
 
             IList<BsonDocument> resultToRemove = new List<BsonDocument>();
 
-            foreach(var item in result)
+            foreach (var item in result)
             {
-                if(wellKnownTags.Contains(item.GetValue("name").AsString))
+                if (wellKnownTags.Contains(item.GetValue("name").AsString))
                 {
                     resultToRemove.Add(item);
                 }
             }
 
-            foreach(var itemToRemove in resultToRemove)
+            foreach (var itemToRemove in resultToRemove)
             {
                 result.Remove(itemToRemove);
             }
@@ -118,13 +113,7 @@ namespace EasyAnalysis.Api.Controllers
             [FromUri] bool? answered,
             [FromUri] string tags)
         {
-            EasyAnalysis.Framework.ConnectionStringProviders.IConnectionStringProvider mongoDBCSProvider =
-                   EasyAnalysis.Framework.ConnectionStringProviders.ConnectionStringProvider.CreateConnectionStringProvider(EasyAnalysis.Framework.ConnectionStringProviders.ConnectionStringProvider.ConnectionStringProviderType.MongoDBConnectionStringProvider);
-            var client = new MongoClient(mongoDBCSProvider.GetConnectionString(repository));//"mongodb://app-svr.cloudapp.net:27017/" + repository);
-
-            var database = client.GetDatabase(repository);
-
-            var threadProfiles = database.GetCollection<BsonDocument>(THREAD_PROFILE_COLLECTION);
+            var threadProfiles = GetCollection(repository);
 
             var builder = Builders<BsonDocument>.Filter;
 
@@ -132,7 +121,7 @@ namespace EasyAnalysis.Api.Controllers
 
             if (start.HasValue && end.HasValue)
             {
-                filter = filter & builder.Gte("create_on", start) & builder.Lt("create_on", end);
+                filter = filter & builder.Gte("createdOn", start) & builder.Lt("createdOn", end);
             }
 
             if (answered.HasValue)
@@ -149,7 +138,7 @@ namespace EasyAnalysis.Api.Controllers
 
             var result = await threadProfiles
                 .Find(filter)
-                .Sort("{create_on: -1}")
+                .Sort("{createdOn: -1}")
                 .Skip((page - 1) * length)
                 .Limit(length)
                 .ToListAsync();
@@ -185,5 +174,19 @@ namespace EasyAnalysis.Api.Controllers
         public void Delete(int id)
         {
         }
+
+        #region helper methods
+        private static IMongoCollection<BsonDocument> GetCollection(string repository)
+        {
+            IConnectionStringProvider mongoDBCSProvider = new MongoDBConnectionStringProvider();
+
+            var client = new MongoClient(mongoDBCSProvider.GetConnectionString(repository));
+
+            var database = client.GetDatabase(repository);
+
+            var threadProfiles = database.GetCollection<BsonDocument>(THREAD_PROFILE_COLLECTION);
+            return threadProfiles;
+        }
+        #endregion
     }
 }

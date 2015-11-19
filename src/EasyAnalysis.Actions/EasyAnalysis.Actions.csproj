@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddMetadataToThreadProfile.cs" />
     <Compile Include="Algorithm\LevenshteinDistance.cs" />
     <Compile Include="BuildBasicThreadProfiles.cs" />
     <Compile Include="CleanUpData.cs" />
