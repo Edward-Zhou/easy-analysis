@@ -18,7 +18,7 @@ namespace EasyAnalysis.Backend
 
             string outputCollectionName = parameters[2];
 
-            var generalDataFlowConfigration = new GeneralDataFlowConfigration
+            var generalDataFlowConfigration = new GeneralStreamFlowConfigration
             {
                 ModuleConfigurations = new List<ModuleConfiguration>
                 {
@@ -76,7 +76,7 @@ namespace EasyAnalysis.Backend
 
             var output = new MongoCollectionOutput(outputCollectionName);
 
-            var dataflow = new GeneralDataFlow(
+            var dataflow = new GeneralStreamFlow(
                 config: generalDataFlowConfigration,
                 uriDiscovery: discovery,
                 moduleFactory: moduleFactory,

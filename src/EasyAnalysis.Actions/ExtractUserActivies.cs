@@ -142,7 +142,7 @@ namespace EasyAnalysis.Actions
 
                 var messages = item.GetElement("messages").Value.AsBsonArray;
 
-                foreach (BsonDocument message in messages)
+                foreach (BsonDocument message in messages.Skip(1))
                 {
                     ExtractInMessage(scope, threadId, message);
                 }

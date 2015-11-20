@@ -25,6 +25,9 @@ namespace EasyAnalysis.Backend
                 case "add-metadata-to-threadprofile":
                     return new AddMetadataToThreadProfile(new UniversalConnectionStringProvider());
 
+                case "sync-with-web-database":
+                    return new SyncWithWebDatabase();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }

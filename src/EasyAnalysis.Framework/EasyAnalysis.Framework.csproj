@@ -57,7 +57,7 @@
     <Compile Include="ConnectionStringProviders\IConnectionStringProvider.cs" />
     <Compile Include="ConnectionStringProviders\MongoDBConnectionStringProvider.cs" />
     <Compile Include="ConnectionStringProviders\SqlServerConnectionStringProvider.cs" />
-    <Compile Include="GeneralDataFlow.cs" />
+    <Compile Include="GeneralStreamFlow.cs" />
     <Compile Include="Discover\IURIDiscovery.cs" />
     <Compile Include="IO\IOutput.cs" />
     <Compile Include="Logger.cs" />

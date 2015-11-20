@@ -7,9 +7,9 @@ using System.Net.Http;
 
 namespace EasyAnalysis.Framework
 {
-    public class GeneralDataFlowConfigration
+    public class GeneralStreamFlowConfigration
     {
-        public GeneralDataFlowConfigration()
+        public GeneralStreamFlowConfigration()
         {
             // set default values
             UseCache = true;
@@ -20,7 +20,7 @@ namespace EasyAnalysis.Framework
         public bool UseCache { get; set; }
     }
 
-    public class GeneralDataFlow
+    public class GeneralStreamFlow
     {
         ICacheService _cacheService;
 
@@ -32,10 +32,10 @@ namespace EasyAnalysis.Framework
 
         IEnumerable<IModule> _modules;
 
-        private readonly GeneralDataFlowConfigration _config;
+        private readonly GeneralStreamFlowConfigration _config;
 
-        public GeneralDataFlow(
-            GeneralDataFlowConfigration config,
+        public GeneralStreamFlow(
+            GeneralStreamFlowConfigration config,
             IURIDiscovery uriDiscovery, 
             IModuleFactory moduleFactory,
             ICacheService cacheServcie, 
