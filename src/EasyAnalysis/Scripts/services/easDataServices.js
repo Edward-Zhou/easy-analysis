@@ -16,8 +16,8 @@ app.factory('threadProfileService', ['$http', function ($http) {
                 '&tags=' + encodeURIComponent(tags.join('|')))
         },
 
-        list: function (start, end, tags, answered) {
-            return $http.get('http://' + web_api_config.host + '/api/ThreadProfiles?repository=uwp&page=1&length=10&start=' + start +
+        list: function (start, end, tags, answered, page) {
+            return $http.get('http://' + web_api_config.host + '/api/ThreadProfiles?repository=uwp&page=' + page + '&length=10&start=' + start +
                 '&end=' + end +
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')));

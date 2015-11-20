@@ -8,39 +8,42 @@
                 <form class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-lg-2 control-label">Range</label>
-                            <div class="col-lg-10">
-                                <select ng-model="filter.range"
-                                        ng-change="selection_value_changed('range', selection)"
-                                        class="form-control">
-                                    <option value="">This month</option>
-                                    <option value="lm">Last month</option>
-                                    <option value="l3m">Last 3 months</option>
-                                </select>
+                            <div>
+                                <label class="col-lg-2 control-label">Range</label>
+                                <div class="col-lg-4">
+                                    <select ng-model="filter.range"
+                                            ng-change="selection_value_changed('range', selection)"
+                                            class="form-control">
+                                        <option value="">This month</option>
+                                        <option value="lm">Last month</option>
+                                        <option value="l3m">Last 3 months</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="form-group" ng-repeat="group in filter.tag.groups">
-                            <label class="col-lg-2 control-label">{{group.name}}</label>
-                            <div class="col-lg-10">
-                                <select ng-model="selection[group.name]"
-                                        ng-change="selection_value_changed(group.name, selection)"
-                                        class="form-control">
-                                    <option ng-repeat="tag in group.tags" value="{{tag.value}}">{{tag.name}}</option>
-                                </select>
+                            <div>
+                                <label class="col-lg-2 control-label">Is Answered</label>
+                                <div class="col-lg-4">
+                                    <select ng-model="filter.answered"
+                                            ng-change="selection_value_changed('answered', selection)"
+                                            class="form-control">
+                                        <option value="">All</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-2 control-label">Is Answered</label>
-                            <div class="col-lg-10">
-                                <select ng-model="filter.answered"
-                                        ng-change="selection_value_changed('answered', selection)"
-                                        class="form-control">
-                                    <option value="">All</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
-                                </select>
+                            <div ng-repeat="group in filter.tag.groups">
+                                <label class="col-lg-2 control-label">{{group.name}}</label>
+                                <div class="col-lg-4">
+                                    <select ng-model="selection[group.name]"
+                                            ng-change="selection_value_changed(group.name, selection)"
+                                            class="form-control">
+                                        <option ng-repeat="tag in group.tags" value="{{tag.value}}">{{tag.name}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -68,6 +71,12 @@
         </div>
     </div>
     <div>
+        <div>
+            <ul class="pager">
+                <li class="previous disabled"><a href="javascript:void(0)">← Prev</a></li>
+                <li class="next"><a class="withripple" href="javascript:void(0)" ng-click="next_page()">Next →</a></li>
+            </ul>
+        </div>
         <div>
             <div ng-repeat="profile in threadProfiles">
                 <div class="summary">

@@ -2,44 +2,50 @@
         function ($scope, $location, $routeParams, threadProfileService) {
             $scope.repository = $routeParams.repository;
 
+            function getDateRange()
+            {
+                var start = '2015-11-1', end = '2015-11-30';
+
+                if ($scope.filter.range === 'lm') {
+                    start = '2015-10-1';
+                    end = '2015-10-31';
+                } else if ($scope.filter.range === 'l3m') {
+                    start = '2015-9-1';
+                    end = '2015-11-30';
+                }
+
+                return [start, end];
+            }
+
             function applyFilterChange(selection)
             {
+                // reset the page index
+                $scope.page = 1;
+
                 var tags = [];
 
-                if(selection !== undefined)
-                {
-                    for(var ele in selection)
-                    {
-                        if (selection[ele] !== '')
-                        {
+                if (selection !== undefined) {
+                    for (var ele in selection) {
+                        if (selection[ele] !== '') {
                             tags.push(selection[ele]);
                         }
                     }
                 }
 
-                for (var i = 0; i < $scope.filter.tag.selected.length; i++)
-                {
+                for (var i = 0; i < $scope.filter.tag.selected.length; i++) {
                     tags.push($scope.filter.tag.selected[i]);
                 }
 
-                var start = '2015-11-1', end = '2015-11-30';
+                var range = getDateRange();
 
-                if ($scope.filter.range === 'lm')
-                {
-                    start = '2015-10-1';
-                    end = '2015-10-31';
-                } else if ($scope.filter.range === 'l3m')
-                {
-                    start = '2015-9-1';
-                    end = '2015-11-30';
-                }
+                $scope.filter.allTags = tags;
 
-                threadProfileService.relatedTags(start, end, tags, $scope.filter.answered)
+                threadProfileService.relatedTags(range[0], range[1], $scope.filter.allTags, $scope.filter.answered)
                                            .then(function (response) {
                                                $scope.filter.tag.related = response.data;
                                            });
 
-                threadProfileService.list(start, end, tags, $scope.filter.answered).then(function (response) {
+                threadProfileService.list(range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page).then(function (response) {
                     $scope.threadProfiles = response.data;
                 });
             }
@@ -47,6 +53,8 @@
             $scope.selection = {};
 
             $scope.threadProfiles = [];
+
+            $scope.page = 1;
 
             $scope.filter = {
                 tag: {
@@ -98,5 +106,17 @@
                 $scope.filter.tag.selected = newSelected;
 
                 applyFilterChange($scope.selection);
+            }
+
+            $scope.next_page = function () {
+                $scope.page = $scope.page + 1;
+
+                var range = getDateRange();
+
+                threadProfileService
+                    .list(range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page)
+                    .then(function (response) {
+                    $scope.threadProfiles = response.data;
+                });
             }
         }]);

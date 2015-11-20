@@ -92,15 +92,7 @@ namespace EasyAnalysis.Api.Controllers
 
             result = result.Take(20).ToList();
 
-            var response = Request.CreateResponse();
-
-            response.StatusCode = HttpStatusCode.OK;
-
-            var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
-
-            response.Content = new StringContent(result.ToJson(jsonWriterSettings), Encoding.UTF8, "application/json");
-
-            return response;
+            return WrapperReponse(result);
         }
 
         // GET: api/ThreadProfiles
@@ -143,6 +135,11 @@ namespace EasyAnalysis.Api.Controllers
                 .Limit(length)
                 .ToListAsync();
 
+            return WrapperReponse(result);
+        }
+
+        private HttpResponseMessage WrapperReponse(List<BsonDocument> result)
+        {
             var response = Request.CreateResponse();
 
             response.StatusCode = HttpStatusCode.OK;
@@ -150,7 +147,6 @@ namespace EasyAnalysis.Api.Controllers
             var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
 
             response.Content = new StringContent(result.ToJson(jsonWriterSettings), Encoding.UTF8, "application/json");
-
             return response;
         }
 
