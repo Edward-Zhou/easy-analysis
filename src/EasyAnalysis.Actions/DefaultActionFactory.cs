@@ -28,6 +28,9 @@ namespace EasyAnalysis.Backend
                 case "sync-with-web-database":
                     return new SyncWithWebDatabase();
 
+                case "sync-with-stackoverflow":
+                    return new SyncWithStackoverflow();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }

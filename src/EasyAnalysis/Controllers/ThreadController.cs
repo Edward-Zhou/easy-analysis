@@ -46,6 +46,11 @@ namespace EasyAnalysis.Controllers
         [Route("api/thread/{repository}/types"), HttpGet]
         public CategoryResult GetTypes(string repository)
         {
+            if (repository == "SOUWP")
+            {
+                repository = "UWP";
+            }
+
             var provider = new TypeProvider();
 
             var types = provider.GetTypesByRepository(repository);
@@ -101,7 +106,8 @@ namespace EasyAnalysis.Controllers
         [Route("api/thread/{id}/classify/{typeId}"), HttpPost]
         public void Classify(string id, int typeId)
         {
-            _threadRepository.Change(id, (model) => {
+            _threadRepository.Change(id, (model) =>
+            {
                 if (model != null)
                 {
                     model.TypeId = typeId;
@@ -160,7 +166,8 @@ namespace EasyAnalysis.Controllers
         [Route("api/thread/{id}/tag"), HttpPost]
         public string AddTagToThread(string id, [FromBody]string value)
         {
-            _threadRepository.Change(id, (model) => {
+            _threadRepository.Change(id, (model) =>
+            {
                 if (model != null && !model.Tags
                          .Select(m => m.Name.ToLower())
                          .Contains(value.ToLower()))
@@ -183,7 +190,7 @@ namespace EasyAnalysis.Controllers
 
                 var info = await parser.ReadThreadInfoAsync();
 
-                if(info == null)
+                if (info == null)
                 {
                     return false;
                 }
@@ -210,7 +217,8 @@ namespace EasyAnalysis.Controllers
                 _threadRepository.Create(model);
 
                 return true;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return false;
             }
