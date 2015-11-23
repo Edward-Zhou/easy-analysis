@@ -7,7 +7,7 @@ using Dapper;
 using EasyAnalysis.Framework.ConnectionStringProviders;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using EasyAnalysis.Actions.Algorithm;
+using EasyAnalysis.Algorithm;
 
 namespace EasyAnalysis.Actions
 {

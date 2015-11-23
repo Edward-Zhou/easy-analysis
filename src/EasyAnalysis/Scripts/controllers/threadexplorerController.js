@@ -119,4 +119,6 @@
                     $scope.threadProfiles = response.data;
                 });
             }
+
+            applyFilterChange($scope.selection);
         }]);

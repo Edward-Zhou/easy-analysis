@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EasyAnalysis.Actions.Algorithm
+namespace EasyAnalysis.Algorithm
 {
     /// <summary>
     /// code copy from http://www.cnblogs.com/ivanyb/archive/2011/11/25/2263356.html

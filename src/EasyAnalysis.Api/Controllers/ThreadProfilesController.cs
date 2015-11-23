@@ -73,6 +73,7 @@ namespace EasyAnalysis.Api.Controllers
                 .Group("{ _id: '$tags', freq: { $sum: 1 } }")
                 .Project("{ _id: 0, name: '$_id', freq: 1 }")
                 .Sort("{ freq: -1 }")
+                .Limit(20)
                 .ToListAsync();
 
             IList<BsonDocument> resultToRemove = new List<BsonDocument>();
@@ -90,7 +91,7 @@ namespace EasyAnalysis.Api.Controllers
                 result.Remove(itemToRemove);
             }
 
-            result = result.Take(20).ToList();
+            result = result.ToList();
 
             return WrapperReponse(result);
         }
