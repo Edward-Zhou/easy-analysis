@@ -177,7 +177,7 @@ namespace EasyAnalysis.Controllers
                     model.Tags.Add(newTag);
                 }
             });
-
+            
             return value;
         }
 

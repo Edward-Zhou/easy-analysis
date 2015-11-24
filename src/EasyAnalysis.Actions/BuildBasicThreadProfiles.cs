@@ -33,7 +33,7 @@ namespace EasyAnalysis.Actions
         /// </summary>
         /// <param name="args">
         /// [0-datasource-in  (required), e.g. landing.threads]
-        /// [1-datasource-out (required), e.g. landing.threads]
+        /// [1-datasource-out (required), e.g. uwp.thread_profiles]
         /// [2-timeframe      (optional), e.g. 2015-11-16T00:00:00&2015-11-18T00:00:00]
         /// </param>
         /// <returns></returns>

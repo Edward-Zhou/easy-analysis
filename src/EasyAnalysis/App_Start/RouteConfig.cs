@@ -13,6 +13,9 @@ namespace EasyAnalysis
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // ignore the site root
+            routes.IgnoreRoute("");
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
