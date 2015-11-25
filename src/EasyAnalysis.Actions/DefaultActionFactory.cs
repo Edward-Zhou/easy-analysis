@@ -31,6 +31,9 @@ namespace EasyAnalysis.Backend
                 case "sync-with-stackoverflow":
                     return new SyncWithStackoverflow();
 
+                case "sync-with-stackoverflow-tags":
+                    return new SyncWithStackoverflowTags();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }

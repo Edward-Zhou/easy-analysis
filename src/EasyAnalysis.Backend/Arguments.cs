@@ -23,7 +23,7 @@ namespace EasyAnalysis.Backend
 
         public static Arguments Parse(string[] args)
         {
-            if(args.Length != 3)
+            if(args.Length < 2)
             {
                 throw new ArgumentException(Messages.ARG_ERROR);
             }
@@ -73,6 +73,11 @@ namespace EasyAnalysis.Backend
                 }
 
                 arguments.Name = name;
+
+                if (!dict.ContainsKey("parameters"))
+                {
+                    return arguments;
+                }
 
                 var temp = dict["parameters"];
 
