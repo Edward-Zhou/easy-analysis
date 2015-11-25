@@ -59,11 +59,18 @@ namespace EasyAnalysis.Backend
             }
             else
             {
+                var temp = parameters[0].ToLower().Replace("init:", "").Split('&');
+
+                var start = int.Parse(temp[0]);
+                var length = int.Parse(temp[1]);
+
                 Logger.Current.Info("Run general dataflow in init mode");
 
                 paginationDiscoveryConfigration.UrlFormat = "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}";
 
-                paginationDiscoveryConfigration.Length = 100;
+                paginationDiscoveryConfigration.Start = start;
+
+                paginationDiscoveryConfigration.Length = length;
 
                 discovery = new PaginationDiscovery(paginationDiscoveryConfigration);
             }

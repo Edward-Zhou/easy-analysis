@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="AddMetadataToThreadProfile.cs" />
     <Compile Include="BuildBasicThreadProfiles.cs" />
+    <Compile Include="BuildStackoverflowQuestionProfile.cs" />
     <Compile Include="CleanUpData.cs" />
     <Compile Include="DefaultActionFactory.cs" />
     <Compile Include="DetectDuplicates.cs" />

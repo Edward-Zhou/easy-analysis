@@ -3,22 +3,22 @@
 
 var web_api_config = {
     //host: 'eas-api.azurewebsites.net'
-    host: 'app-svr.cloudapp.net'
-    // host: 'localhost:58116'
+    // host: 'app-svr.cloudapp.net'
+    host: 'localhost:58116'
 }
 
 app.factory('threadProfileService', ['$http', function ($http) {
     return {
-        relatedTags: function (start, end, tags, answered) {
+        relatedTags: function (resp, start, end, tags, answered) {
             return $http.get(
-                'http://' + web_api_config.host + '/api/ThreadProfiles/relatedtags?repository=uwp&start=' + start +
+                'http://' + web_api_config.host + '/api/ThreadProfiles/relatedtags?repository=' + resp + '&start=' + start +
                 '&end=' + end +
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')))
         },
 
-        list: function (start, end, tags, answered, page) {
-            return $http.get('http://' + web_api_config.host + '/api/ThreadProfiles?repository=uwp&page=' + page + '&length=10&start=' + start +
+        list: function (resp, start, end, tags, answered, page) {
+            return $http.get('http://' + web_api_config.host + '/api/ThreadProfiles?repository=' + resp + '&page=' + page + '&length=10&start=' + start +
                 '&end=' + end +
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')));

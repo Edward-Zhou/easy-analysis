@@ -4,6 +4,7 @@ using Dapper;
 using EasyAnalysis.Algorithm;
 using System;
 using System.Linq;
+using System.IO;
 
 namespace EasyAnalysis
 {
@@ -11,9 +12,32 @@ namespace EasyAnalysis
     {
         static void Main(string[] args)
         {
-            MergeTags(from: "build10581", to: "build-10581");
+            ParseLog(@"D:\Test\logs");
+
+            // MergeTags(from: "build10581", to: "build-10581");
 
             // OutputSimilarTags();
+        }
+
+        static void ParseLog(string folderPath)
+        {
+            var dir = new DirectoryInfo(folderPath);
+
+            foreach(var subDir in dir.GetDirectories())
+            {
+                foreach(var file in subDir.GetFiles())
+                {
+                    var lines = File.ReadLines(file.FullName).ToList();
+
+                    foreach(var line in lines)
+                    {
+                        if(line.Contains("itemtype"))
+                        {
+                            Console.WriteLine(line);
+                        }
+                    }
+                }
+            }
         }
 
         static void MergeTags(string from, string to)

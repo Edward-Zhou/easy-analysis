@@ -34,6 +34,9 @@ namespace EasyAnalysis.Backend
                 case "sync-with-stackoverflow-tags":
                     return new SyncWithStackoverflowTags();
 
+                case "build-so-question-profile":
+                    return new BuildStackoverflowQuestionProfile();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }

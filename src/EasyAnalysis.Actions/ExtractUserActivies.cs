@@ -117,15 +117,25 @@ namespace EasyAnalysis.Actions
                          filterBuilder.Lte("timestamp", timeFrameRange.End);
             }
 
-            var list = await threadCollection.Find(filter).ToListAsync();
-
-            using (var scope = new EmitScope(new SqlConnection(_connectionStringProvider.GetConnectionString("EasIndexConnection"))))
+            try
             {
-                list.ForEach(item =>
+                var list = threadCollection.Find(filter);
+
+                var count = await list.CountAsync();
+
+                using (var scope = new EmitScope(new SqlConnection(_connectionStringProvider.GetConnectionString("EasIndexConnection"))))
                 {
-                    ExtractInThread(item, scope);
-                });
+                    await list.ForEachAsync(item =>
+                    {
+                        ExtractInThread(item, scope);
+                    });
+                }
             }
+            catch (Exception ex)
+            {
+                Logger.Current.Error(ex.Message);
+            }
+
         }
 
         private static void ExtractInThread(BsonDocument item, EmitScope scope)

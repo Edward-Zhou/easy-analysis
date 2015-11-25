@@ -1,6 +1,6 @@
 ﻿SELECT RTRIM([Id]) AS [Id]
       ,[Title]
-      ,[CreateOn]
+      ,[CreateOn] as [CreatedOn]
       ,[Category]
       ,[Type]
       ,[Repository]

@@ -52,6 +52,8 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
                 navigation.NavigateTo(i);
 
+                Logger.Current.Info(string.Format("Navigate to page {0}\r\n", i));
+
                 string text = string.Empty;
 
                 using (var content = await navigation.GetAsync())

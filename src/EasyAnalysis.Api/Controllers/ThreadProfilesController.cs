@@ -27,7 +27,7 @@ namespace EasyAnalysis.Api.Controllers
             [FromUri] bool? answered,
             [FromUri] string tags)
         {
-            IMongoCollection<BsonDocument> threadProfiles = GetCollection(repository);
+            IMongoCollection<BsonDocument> threadProfiles = GetCollection(repository.ToLower());
 
             var builder = Builders<BsonDocument>.Filter;
 
@@ -73,7 +73,7 @@ namespace EasyAnalysis.Api.Controllers
                 .Group("{ _id: '$tags', freq: { $sum: 1 } }")
                 .Project("{ _id: 0, name: '$_id', freq: 1 }")
                 .Sort("{ freq: -1 }")
-                .Limit(20)
+                .Limit(30)
                 .ToListAsync();
 
             IList<BsonDocument> resultToRemove = new List<BsonDocument>();
@@ -106,7 +106,7 @@ namespace EasyAnalysis.Api.Controllers
             [FromUri] bool? answered,
             [FromUri] string tags)
         {
-            var threadProfiles = GetCollection(repository);
+            var threadProfiles = GetCollection(repository.ToLower());
 
             var builder = Builders<BsonDocument>.Filter;
 

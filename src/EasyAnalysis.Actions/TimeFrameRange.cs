@@ -20,6 +20,7 @@ namespace EasyAnalysis.Actions
 
             var end = temp[1];
 
+
             return new TimeFrameRange
             {
                 Start = DateTime.Parse(start),

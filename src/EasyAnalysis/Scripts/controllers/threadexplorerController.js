@@ -40,12 +40,12 @@
 
                 $scope.filter.allTags = tags;
 
-                threadProfileService.relatedTags(range[0], range[1], $scope.filter.allTags, $scope.filter.answered)
+                threadProfileService.relatedTags($scope.repository, range[0], range[1], $scope.filter.allTags, $scope.filter.answered)
                                            .then(function (response) {
                                                $scope.filter.tag.related = response.data;
                                            });
 
-                threadProfileService.list(range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page).then(function (response) {
+                threadProfileService.list($scope.repository, range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page).then(function (response) {
                     $scope.threadProfiles = response.data;
                 });
             }
@@ -108,16 +108,28 @@
                 applyFilterChange($scope.selection);
             }
 
-            $scope.next_page = function () {
-                $scope.page = $scope.page + 1;
 
+            function reload()
+            {
                 var range = getDateRange();
 
                 threadProfileService
-                    .list(range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page)
+                    .list($scope.repository, range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page)
                     .then(function (response) {
-                    $scope.threadProfiles = response.data;
-                });
+                        $scope.threadProfiles = response.data;
+                    });
+            }
+
+            $scope.next_page = function () {
+                $scope.page = $scope.page + 1;
+
+                reload();
+            }
+
+            $scope.prev_page = function () {
+                $scope.page = $scope.page - 1;
+
+                reload();
             }
 
             applyFilterChange($scope.selection);
