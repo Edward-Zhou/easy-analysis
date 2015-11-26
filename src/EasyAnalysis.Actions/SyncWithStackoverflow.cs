@@ -47,7 +47,7 @@ namespace EasyAnalysis.Actions
         {
             TimeFrameRange timeFrameRange = null;
 
-            if (args.Length > 0)
+            if (args != null && args.Length > 0)
             {
                 timeFrameRange = TimeFrameRange.Parse(args[0]);
             }
