@@ -1,8 +1,8 @@
 ## Tag Guidance  
 #### **Naming Conventions**
- * Use Dash(-) to concatenate words(Tags), for example: Mobile**-**Build**-**10586
+ * Use Dash(-) to concatenate words(Tags), for example: mobile**-**build**-**10586
  * Use **lowercase** letters
- * 
+ 
 ##### **1. Platform**
  * **[uwp]**                 
 Post is specific to Windows apps targeting the Windows 10 universal app platform.
@@ -20,7 +20,7 @@ Post is specific to Windows Phone Silverlight 8 and 8.1 apps.
 Post is about the specified Device
 
 ##### **3. OS Version**
-* **[nuild-10124]**                
+* **[build-10124]**                
 Post is about the Windows PC OS version.
 * **[mobile-build-10586]**                
 Post is about the Windows Phone OS version.
