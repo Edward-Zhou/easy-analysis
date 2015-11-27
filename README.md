@@ -17,3 +17,8 @@ Easy Analysis is analysis platform used for analysing the technical forum data t
 [eas-dataflow]: ./img/eas-dataflow.PNG "Easy Analysis Dataflow"
 
 [eas-dataflow-ex]: ./img/eas-dataflow-external-data.PNG "Easy Analysis Dataflow (External Data Source)"
+
+## TODO LIST
+- [ ] Create a user activity dashboard to monitor the user actives within last 24 hours
+- [ ] Create a task scheduler to run actions 
+- [ ] Repository specific fileds support
