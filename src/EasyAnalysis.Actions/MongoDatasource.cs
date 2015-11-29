@@ -1,4 +1,7 @@
-﻿using System;
+﻿using EasyAnalysis.Framework.ConnectionStringProviders;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +14,13 @@ namespace EasyAnalysis.Actions
         public string DatabaseName { get; set; }
 
         public string CollectionName { get; set; }
+
+        private IConnectionStringProvider _connectionStringProvider;
+
+        public MongoDatasource()
+        {
+            _connectionStringProvider = new UniversalConnectionStringProvider();
+        }
 
         public static MongoDatasource Parse(string text)
         {
@@ -25,6 +35,17 @@ namespace EasyAnalysis.Actions
                 DatabaseName = databaseName,
                 CollectionName = collectionName
             };
+        }
+
+        public IMongoCollection<BsonDocument> GetCollection()
+        {
+            var client = new MongoClient(_connectionStringProvider.GetConnectionString("mongo:" + DatabaseName));
+
+            var database = client.GetDatabase(DatabaseName);
+
+            var collection = database.GetCollection<BsonDocument>(CollectionName);
+
+            return collection;
         }
     }
 }

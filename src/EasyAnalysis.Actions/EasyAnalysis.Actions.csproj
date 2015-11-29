@@ -79,9 +79,11 @@
     <Compile Include="ExtractUserActivies.cs" />
     <Compile Include="ImportNewUsers.cs" />
     <Compile Include="MongoDatasource.cs" />
+    <Compile Include="MongoHelper.cs" />
     <Compile Include="MSSQLDatasource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlQueryFactory.cs" />
+    <Compile Include="SuggestTags.cs" />
     <Compile Include="SyncWithStackoverflow.cs" />
     <Compile Include="SyncWithStackoverflowTags.cs" />
     <Compile Include="SyncWithWebDatabase.cs" />

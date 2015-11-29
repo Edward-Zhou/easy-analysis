@@ -100,11 +100,7 @@ namespace EasyAnalysis.Actions
                 timeFrameRange = TimeFrameRange.Parse(args[1]);
             }
 
-            var client = new MongoClient(_connectionStringProvider.GetConnectionString(string.Format("mongo:{0}", ds.DatabaseName)));
-
-            var database = client.GetDatabase(ds.DatabaseName);
-
-            var threadCollection = database.GetCollection<BsonDocument>(ds.CollectionName);
+            var threadCollection = ds.GetCollection();
 
             FilterDefinition<BsonDocument> filter = "{}";
 
@@ -112,9 +108,7 @@ namespace EasyAnalysis.Actions
 
             if (timeFrameRange != null)
             {
-                filter = filter &
-                         filterBuilder.Gte("timestamp", timeFrameRange.Start) &
-                         filterBuilder.Lte("timestamp", timeFrameRange.End);
+                filter = filter & MongoHelper.CreateTimeFrameFilter(timeFrameRange);
             }
 
             try

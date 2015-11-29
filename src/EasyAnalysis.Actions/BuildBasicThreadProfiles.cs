@@ -58,13 +58,9 @@ namespace EasyAnalysis.Actions
 
             FilterDefinition<BsonDocument> filter = "{}";
 
-            var filterBuilder = Builders<BsonDocument>.Filter;
-
             if (timeFrameRange != null)
             {
-                filter = filter &
-                         filterBuilder.Gte("timestamp", timeFrameRange.Start) &
-                         filterBuilder.Lte("timestamp", timeFrameRange.End);
+                filter = filter & MongoHelper.CreateTimeFrameFilter(timeFrameRange);
             }
 
             await inputCollection

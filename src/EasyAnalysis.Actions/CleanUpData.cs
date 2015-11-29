@@ -41,11 +41,7 @@ namespace EasyAnalysis.Actions
                 timeFrameRange = TimeFrameRange.Parse(args[1]);
             }
 
-            var mongoClient = new MongoClient(_mongoconnectionStringProvider.GetConnectionString(datasource.DatabaseName));
-
-            var database = mongoClient.GetDatabase(datasource.DatabaseName);
-
-            var collection = database.GetCollection<BsonDocument>(datasource.CollectionName);
+            var collection = datasource.GetCollection();
 
             var filterBuilder = Builders<BsonDocument>.Filter;
 
@@ -53,9 +49,7 @@ namespace EasyAnalysis.Actions
 
             if (timeFrameRange != null)
             {
-                filter = filter &
-                         filterBuilder.Gte("timestamp", timeFrameRange.Start) &
-                         filterBuilder.Lte("timestamp", timeFrameRange.End);
+                filter = filter & MongoHelper.CreateTimeFrameFilter(timeFrameRange);
             }
 
             await collection

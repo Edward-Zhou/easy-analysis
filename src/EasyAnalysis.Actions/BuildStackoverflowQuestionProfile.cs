@@ -47,11 +47,7 @@ namespace EasyAnalysis.Actions
 
             using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString()))
             {
-                var mongoClient = new MongoClient(_connectionStringProvider.GetConnectionString("mongo:" + outputDs.DatabaseName));
-
-                var database = mongoClient.GetDatabase(outputDs.DatabaseName);
-
-                var collection = database.GetCollection<BsonDocument>(outputDs.CollectionName);
+                var collection = outputDs.GetCollection();
 
                 var prifiles = connection.Query(SqlQueryFactory.Instance.Get("get_thread_profile"),
                     new
