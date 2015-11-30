@@ -2,18 +2,47 @@
         function ($scope, $location, $routeParams, threadProfileService) {
             $scope.repository = $routeParams.repository;
 
+            //function getToday()
+            //{
+            //    var today = new Date();
+            //    var dd = today.getDate();
+            //    var mm = today.getMonth() + 1;
+            //    var yyyy = today.getFullYear();
+
+            //    if (dd < 10) {
+            //        dd = '0' + dd
+            //    }
+
+            //    if (mm < 10) {
+            //        mm = '0' + mm
+            //    }
+
+            //    today = yyyy + '-' + mm + '-' + dd;
+            //}
+
+            var date = new Date();
+            var firstDayThisMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+            var lastDayThisMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+            var firstDayLastMonth = new Date(date.getFullYear(), date.getMonth()-1, 1);
+            var lastDayLastMonth = new Date(date.getFullYear(), date.getMonth(), 0);
+
+            var firstDayLastThreeMonth = new Date(date.getFullYear(), date.getMonth() - 2, 1);
+
             function getDateRange()
             {
-                var start = '2015-11-1', end = '2015-11-30';
+                var today = new Date();
+                var dd = today.getDate();
+                var start = firstDayThisMonth, end = lastDayThisMonth;
 
                 if ($scope.filter.range === 'lm') {
-                    start = '2015-10-1';
-                    end = '2015-10-31';
+                    start = firstDayLastMonth;
+                    end = lastDayLastMonth;
                 } else if ($scope.filter.range === 'l3m') {
-                    start = '2015-9-1';
-                    end = '2015-11-30';
+                    start = firstDayLastThreeMonth;
+                    end = lastDayThisMonth;
                 }
-
+                
                 return [start, end];
             }
 
