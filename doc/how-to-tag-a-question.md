@@ -43,3 +43,20 @@ Post is specific to C++ language
  * **[javascript]**                
 Post is specific to Javascript language
 
+##### **6. VOC Related**
+ * **[voc-featurerequest]**                
+Post is specific to the feature request or suggestion from customers.
+
+ e.g. Some API or feature does not supported or implemented.
+ * **[voc-bug]**                
+Post is specific to the bug.
+
+ e.g. Suppose currently the reorder feature of the ListView should work, but it does not work in the latest release of the Win10.
+ * **[voc-sample]**                
+Post is specific to request for code sample from customers.
+
+ e.g. Suppose currently we do not have the official code sample about how to implement the pull to refresh function for the ListView in microsoft website
+ * **[voc-doc]**                
+Post is specific to request for document from customers.
+
+ e.g. Suppose currently we do not have the microsoft official document about how to use the Bluetooth in WinRT.
