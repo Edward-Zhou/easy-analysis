@@ -2,37 +2,37 @@
         function ($scope, $location, $routeParams, threadProfileService) {
             $scope.repository = $routeParams.repository;
 
-            //function getToday()
-            //{
-            //    var today = new Date();
-            //    var dd = today.getDate();
-            //    var mm = today.getMonth() + 1;
-            //    var yyyy = today.getFullYear();
+            function formatDate(originalDate)
+            {
+                var dd = originalDate.getDate();
+                var mm = originalDate.getMonth() + 1;
+                var yyyy = originalDate.getFullYear();
 
-            //    if (dd < 10) {
-            //        dd = '0' + dd
-            //    }
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
 
-            //    if (mm < 10) {
-            //        mm = '0' + mm
-            //    }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
 
-            //    today = yyyy + '-' + mm + '-' + dd;
-            //}
+                return yyyy + '-' + mm + '-' + dd;
+            }
 
             var date = new Date();
-            var firstDayThisMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-            var lastDayThisMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            //Use universal time instead of the local time
+            var nowUtc = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
+            
+            var firstDayThisMonth = formatDate(new Date(nowUtc.getFullYear(), nowUtc.getMonth(), 1));
+            var lastDayThisMonth = formatDate(new Date(nowUtc.getFullYear(), nowUtc.getMonth() + 1, 0));
 
-            var firstDayLastMonth = new Date(date.getFullYear(), date.getMonth()-1, 1);
-            var lastDayLastMonth = new Date(date.getFullYear(), date.getMonth(), 0);
+            var firstDayLastMonth = formatDate(new Date(nowUtc.getFullYear(), nowUtc.getMonth() - 1, 1));
+            var lastDayLastMonth = formatDate(new Date(nowUtc.getFullYear(), nowUtc.getMonth(), 0));
 
-            var firstDayLastThreeMonth = new Date(date.getFullYear(), date.getMonth() - 2, 1);
+            var firstDayLastThreeMonth = formatDate(new Date(nowUtc.getFullYear(), nowUtc.getMonth() - 2, 1));
 
             function getDateRange()
             {
-                var today = new Date();
-                var dd = today.getDate();
                 var start = firstDayThisMonth, end = lastDayThisMonth;
 
                 if ($scope.filter.range === 'lm') {
