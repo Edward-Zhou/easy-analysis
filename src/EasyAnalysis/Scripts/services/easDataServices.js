@@ -2,10 +2,58 @@
 // [dev]: localhost:58116
 
 var web_api_config = {
-    //host: 'eas-api.azurewebsites.net'
-    // host: 'app-svr.cloudapp.net'
-    host: 'localhost:58116'
+    host: 'app-svr.cloudapp.net'
+    //host: 'localhost:58116' //Local Test
 }
+
+app.factory('threadService', ['$http', function ($http) {
+    return {
+        query: function (uri) {
+            // TODO: CODE_REFACTOR
+            var req = {
+                method: 'POST',
+                url: '/api/thread',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: '=' + uri
+            }
+
+            return $http(req);
+        },
+        get: function (id) {
+            return $http.get('api/thread/' + id);
+        },
+        classify: function (threadId, typeId) {
+            return $http.post('api/thread/' + threadId + '/classify/' + typeId);
+        },
+        types: function (id) {
+            return $http.get('api/thread/' + id + '/types');
+        },
+        todo: function (repository) {
+            return $http.get('api/thread/' + repository + '/todo');
+        },
+        detail: function (id) {
+            return $http.get('api/thread/' + id + '/detail');
+        },
+        addTag: function (id, tag) {
+            // TODO: CODE_REFACTOR
+            var req = {
+                method: 'POST',
+                url: 'api/thread/' + id + '/tag/',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: '=' + encodeURIComponent(tag)
+            }
+
+            return $http(req);
+        },
+        getTags: function (id) {
+            return $http.get('api/thread/' + id + '/tags');
+        }
+    }
+}]);
 
 app.factory('threadProfileService', ['$http', function ($http) {
     return {
@@ -28,6 +76,23 @@ app.factory('threadProfileService', ['$http', function ($http) {
 
 app.factory('userProfileService', ['$http', function ($http) {
     return {
+        query: function (uri) {
+            // TODO: CODE_REFACTOR
+            var req = {
+                method: 'POST',
+                url: '/api/UserProfile',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: '=' + uri
+            }
+
+            return $http(req);
+        },
+        details: function (repository, display_name) {
+            return $http.get('api/UserProfile/' + repository + '/todo');
+        },
+
         search: function (resp, name) {
             return $http.get('http://' + web_api_config.host
                                + '/api/UserProfile?repository=' + encodeURIComponent(resp)

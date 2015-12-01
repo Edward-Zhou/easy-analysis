@@ -245,8 +245,11 @@
     <None Include="Properties\PublishProfiles\easyanalysis - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\easyanalysis - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\controllers\detailController.js" />
+    <Content Include="Scripts\controllers\discoveryController.js" />
     <Content Include="Scripts\controllers\askersController.js" />
     <Content Include="Scripts\controllers\dupdetectionController.js" />
+    <Content Include="Scripts\controllers\homeController.js" />
     <Content Include="Scripts\controllers\threadexplorerController.js" />
     <Content Include="Scripts\controllers\userProfileController.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
