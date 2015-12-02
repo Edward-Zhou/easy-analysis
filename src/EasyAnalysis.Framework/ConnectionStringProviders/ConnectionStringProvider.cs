@@ -13,7 +13,8 @@ namespace EasyAnalysis.Framework.ConnectionStringProviders
         /// </summary>
         public enum ConnectionStringProviderType
         {
-            MongoDBConnectionStringProvider = 0
+            MongoDBConnectionStringProvider = 0,
+            MSSQLConnectionStringProvider = 1
         }
 
         /// <summary>
@@ -27,6 +28,8 @@ namespace EasyAnalysis.Framework.ConnectionStringProviders
             {
                 case ConnectionStringProviderType.MongoDBConnectionStringProvider:
                     return new MongoDBConnectionStringProvider();
+                case ConnectionStringProviderType.MSSQLConnectionStringProvider:
+                    return new SqlServerConnectionStringProvider();
                 default:
                     return null;
             }

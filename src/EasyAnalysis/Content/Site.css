@@ -56,3 +56,7 @@
 .summary:hover .hover-panel {
     display: block;
 }
+
+.warning-data{
+    color : red;
+}

@@ -2,6 +2,12 @@
         function ($scope, $location, threadService, $routeParams) {
             $scope.state = 'init';
 
+            $scope.tagCoverage = {
+                daily: 0.0,
+                weekly: 0.0,
+                monthly: 0.0
+            };
+
             $scope.repository = $routeParams.repository;
 
             $scope.URIText_keypress = function (e) {
@@ -26,4 +32,9 @@
             threadService.todo($scope.repository).success(function (data) {
                 $scope.todo = data;
             });
+
+            threadService.getTagCoverage($scope.repository).success(function (data) {
+                $scope.tagCoverage = data;
+            });
+
         }]);

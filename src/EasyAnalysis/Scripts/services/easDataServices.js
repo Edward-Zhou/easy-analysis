@@ -2,8 +2,8 @@
 // [dev]: localhost:58116
 
 var web_api_config = {
-    host: 'app-svr.cloudapp.net'
-    //host: 'localhost:58116' //Local Test
+   host: 'app-svr.cloudapp.net'
+   //host: 'localhost:58116' //Local Test
 }
 
 app.factory('threadService', ['$http', function ($http) {
@@ -51,6 +51,10 @@ app.factory('threadService', ['$http', function ($http) {
         },
         getTags: function (id) {
             return $http.get('api/thread/' + id + '/tags');
+        },
+        getTagCoverage: function (resp) {
+            return $http.get(
+                'http://' + web_api_config.host + '/api/Thread?repository=' + resp)
         }
     }
 }]);
