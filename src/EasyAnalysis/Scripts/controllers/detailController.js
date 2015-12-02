@@ -11,6 +11,27 @@
             typeSelect: '-1'
         };
 
+        // dynamic fields
+        $scope.groups = [
+                        //{
+                        //    name: 'Platform', options: [
+                        //      { value: '', name: 'All' },
+                        //      { value: 'uwp', name: 'uwp' },
+                        //      { value: 'wp8.1', name: 'wp8.1' },
+                        //      { value: 'w8.1', name: 'w8.1' },
+                        //      { value: 'u8.1', name: 'u8.1' },
+                        //      { value: 'wpsl', name: 'wpsl' }]
+                        //},
+                        //{
+                        //    name: 'Language', options:
+                        //      [{ value: '', name: 'All' },
+                        //       { value: 'c#', name: 'c#' },
+                        //       { value: 'c++', name: 'c++' },
+                        //       { value: 'vb', name: 'vb' },
+                        //       { value: 'javascript', name: 'javascript' }]
+                        //}
+        ];
+
         threadService.types($scope.repository)
             .success(function (data) {
                 $scope.data = data;
