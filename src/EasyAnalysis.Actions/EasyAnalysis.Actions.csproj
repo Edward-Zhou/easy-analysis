@@ -81,6 +81,7 @@
     <Compile Include="MongoDatasource.cs" />
     <Compile Include="MongoHelper.cs" />
     <Compile Include="MSSQLDatasource.cs" />
+    <Compile Include="NamedQueryDatasource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlQueryFactory.cs" />
     <Compile Include="SuggestTags.cs" />
