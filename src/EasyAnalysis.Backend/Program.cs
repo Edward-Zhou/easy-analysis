@@ -10,7 +10,7 @@ namespace EasyAnalysis.Backend
         /// <summary>
         /// e.g:
         /// 1) run a init dataflow 
-        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:init|D:\\forum_cache|landing.threads"
+        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:init:1&10|D:\\forum_cache|landing.threads"
         /// 1) run a monitor dataflow 
         /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:monitor|D:\\forum_cache|landing.threads"
         /// 2) run a action

@@ -87,30 +87,35 @@
 
             $scope.filter = {
                 tag: {
-                    groups: [
-                        {
-                            name: 'Platform', tags: [
-                              { value: '', name: 'All'}, 
-                              { value: 'uwp', name: 'uwp'}, 
-                              { value: 'wp8.1', name:'wp8.1'}, 
-                              { value: 'w8.1', name: 'w8.1' },
-                              { value: 'u8.1', name: 'u8.1' },
-                              { value: 'wpsl', name: 'wpsl' }]
-                        },
-                        {
-                            name: 'Language', tags:
-                              [{ value: '', name: 'All'},
-                               { value: 'c#', name: 'c#' },
-                               { value: 'c++', name: 'c++' },
-                               { value: 'vb', name: 'vb' },
-                               { value: 'javascript', name: 'javascript' }]
-                        }
-                    ],
+                    groups: [],
                     selected: [],
                     related: [],
                 },
                 answered: ''
             };
+
+            // bug fix - issue#10
+            // CODE REFACTOR
+            if ($scope.repository === 'UWP')
+            {
+                $scope.filter.tag.groups = [{
+                    name: 'Platform', tags: [
+                      { value: '', name: 'All' },
+                      { value: 'uwp', name: 'uwp' },
+                      { value: 'wp8.1', name: 'wp8.1' },
+                      { value: 'w8.1', name: 'w8.1' },
+                      { value: 'u8.1', name: 'u8.1' },
+                      { value: 'wpsl', name: 'wpsl' }]
+                },
+                {
+                    name: 'Language', tags:
+                        [{ value: '', name: 'All' },
+                        { value: 'c#', name: 'c#' },
+                        { value: 'c++', name: 'c++' },
+                        { value: 'vb', name: 'vb' },
+                        { value: 'javascript', name: 'javascript' }]
+                }];
+            }
 
             $scope.selection_value_changed = function (name, selection) {
                 applyFilterChange(selection);

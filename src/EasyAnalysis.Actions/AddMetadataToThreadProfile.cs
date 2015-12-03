@@ -35,7 +35,7 @@ namespace EasyAnalysis.Actions
         /// <param name="args"></param>
         /// [0-repository     (required), e.g. uwp]
         /// [1-datasource-out (required), e.g. uwp.thread_profiles]
-        /// [2-timeframe      (optional), e.g. 2015-10-01T00:00:00&2015-11-30T00:00:00]
+        /// [2-timeframe      (required), e.g. 2015-10-01T00:00:00&2015-11-30T00:00:00]
         /// </param>
         /// <returns></returns>
         public async Task RunAsync(string[] args)
