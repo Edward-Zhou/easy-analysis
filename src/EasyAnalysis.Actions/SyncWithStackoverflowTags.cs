@@ -42,70 +42,55 @@ namespace EasyAnalysis.Actions
         /// 
         /// </summary>
         /// <param name="args">
-        /// [0-timeframe      (optional), e.g. 2015-10-01T00:00:00&2015-11-30T00:00:00]
+        /// [0-repository (required), e.g. SOUWP]
+        /// [1-timeframe(required), e.g. 2015-10-01T00:00:00Z&2015-11-30T00:00:00Z]
+        /// 
         /// </param>
         /// <returns></returns>
         public async Task RunAsync(string[] args)
         {
-            TimeFrameRange timeFrameRange = null;
-
-            if (args != null && args.Length > 0)
+            var repository = args[0].ToLower();
+            if (repository == null || !repository.StartsWith("so"))
             {
-                timeFrameRange = TimeFrameRange.Parse(args[0]);
+                throw new Exception("The first parameter: repository, e.g. SOUWP, should start with so prefix");
+            }
+
+            var timeFrameRange = TimeFrameRange.Parse(args[1]);
+
+            if (timeFrameRange == null)
+            {
+                throw new Exception("The second parameter: timeframe, e.g. 2015-10-01T00:00:00Z&2015-11-30T00:00:00Z");
             }
 
             try
             {
-                // query the exteranl database
-                DataTable soTable = new DataTable();
-
-                // Creates a SQL connection
-                using (var conn = new SqlConnection(_connectionStringProvider.GetConnectionString("SoDBConnection")))
+                dynamic soThreads = null;
+                using (var inputDs = new NamedQueryDatasource("SoDBConnection.import_thread_tags_" + repository))
                 {
-                    conn.Open();
-
-                    if (timeFrameRange != null)
+                    soThreads = inputDs.Query(new
                     {
-                        // Creates a SQL command
-                        using (var command = new SqlCommand("SELECT [question_id], [tags] FROM [vSOUWPAnalysis] v LEFT JOIN [Question] q ON v.Id = q.question_id WHERE [CreatedOn] >= @start AND [CreatedOn] < DateAdd(Day, 1, @end)", conn))
-                        {
-                            command.Parameters.AddWithValue("start", timeFrameRange.Start);
-                            command.Parameters.AddWithValue("end", timeFrameRange.End);
-                            // Loads the query results into the table
-                            soTable.Load(command.ExecuteReader());
-                        }
-                    }
-                    else
-                    {
-                        // Creates a SQL command
-                        using (var command = new SqlCommand("SELECT [question_id], [tags] FROM [vSOUWPAnalysis] v LEFT JOIN [Question] q ON v.Id = q.question_id", conn))
-                        {
-                            // Loads the query results into the table
-                            soTable.Load(command.ExecuteReader());
-                        }
-                    }
-
-                    conn.Close();
+                        start = timeFrameRange.Start,
+                        end = timeFrameRange.End
+                    });
                 }
-
-
+                
                 var host = "analyzeit.azurewebsites.net";
-                //var host = "localhost:58277"; //For Debug
+                //var host = "localhost:58277"; //For Debugging
 
-                // IF NOT EXISTS
-                // import Tags into EAS web database
-                // ELSE SKIP
-                using (var conn = new SqlConnection(_connectionStringProvider.GetConnectionString()))
+                using (var tpDs = new NamedQueryDatasource("DefaultConnection.query_thread_existence"))
                 {
-                    foreach (DataRow dr in soTable.Rows)
+                    foreach (dynamic row in soThreads)
                     {
-                        dynamic q = conn.Query("SELECT COUNT(*) AS [Total] FROM [Threads] WHERE ([Id] = @id)", new { id = "SO_" + dr[0] }).First();
+                        dynamic q = tpDs.Query(new
+                        {
+                            id = "SO_" + row.question_id
+                        }).First();
 
                         int recordExist = q.Total;
 
                         if (recordExist > 0)
                         {
-                            String[] tags = dr[1].ToString().Split(';');
+                            String[] tags = row.tags.ToString().Split(';');
                             foreach (string tag in tags)
                             {
                                 string apiUrl = "http://{0}/api/thread/{1}/tag/";
@@ -115,13 +100,13 @@ namespace EasyAnalysis.Actions
                                     {
                                         Headers = { ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded") }
                                     };
-                                    var response = await client.PostAsync(string.Format(apiUrl, host, "SO_" + dr[0]), request);
-                                    response.EnsureSuccessStatusCode();
+                                    var response = await client.PostAsync(string.Format(apiUrl, host, "SO_" + row.question_id), request);
+                                    //response.EnsureSuccessStatusCode();
                                 }
                             }
                         }
-                    }
 
+                    }
                 }
             }
             catch (Exception ex)
