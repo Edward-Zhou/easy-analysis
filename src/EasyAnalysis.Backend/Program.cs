@@ -1,5 +1,7 @@
 ﻿using System;
 using EasyAnalysis.Framework;
+using System.IO;
+using System.Collections.Generic;
 
 namespace EasyAnalysis.Backend
 {
@@ -19,8 +21,32 @@ namespace EasyAnalysis.Backend
         {
             try
             {
-                var arguments = Arguments.Parse(args);
+                if (args.Length == 1)
+                {
+                    var config = File.ReadAllText(args[0]);
 
+                    var sequence = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Options>>(config);
+
+                    foreach (var options in sequence)
+                    {
+                        Run(options);
+                    }
+
+                    return;
+                }
+
+                Run(Options.Parse(args));
+            }
+            catch (Exception ex)
+            {
+                Logger.Current.Error(ex.Message);
+            }
+        }
+
+        static void Run(Options arguments)
+        {
+            try
+            {
                 if (arguments.Type == ExecutionType.Dataflow)
                 {
                     var exec = new DataflowExec();
@@ -42,11 +68,11 @@ namespace EasyAnalysis.Backend
                     Logger.Current.Info(string.Format("End of running action[{0}]", arguments.Name));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Current.Error(ex.Message);
 
-                return;
+                throw ex;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,15 +14,18 @@ namespace EasyAnalysis.Backend
         Action = 2
     }
 
-    public class Arguments
+    public class Options
     {
+        [JsonProperty("type")]
         public ExecutionType Type { get; set; }
 
+        [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("parameters")]
         public string[] Parameters { get; set; }
 
-        public static Arguments Parse(string[] args)
+        public static Options Parse(string[] args)
         {
             if(args.Length < 2)
             {
@@ -43,7 +47,7 @@ namespace EasyAnalysis.Backend
 
             try
             {
-                var arguments = new Arguments();
+                var arguments = new Options();
 
                 var type = dict["type"].ToLower();
 

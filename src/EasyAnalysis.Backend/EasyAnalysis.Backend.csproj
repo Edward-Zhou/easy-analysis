@@ -90,7 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arguments.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="DataflowExec.cs" />
     <Compile Include="JsonConfigrationManager.cs" />
     <Compile Include="Messages.Designer.cs">
