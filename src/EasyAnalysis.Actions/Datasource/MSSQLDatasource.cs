@@ -10,7 +10,7 @@ namespace EasyAnalysis.Actions
     {
         public string DatabaseName { get; set; }
 
-        public string ViewName { get; set; }
+        public string ObjectName { get; set; }
 
         public static MSSQLDatasource Parse(string text)
         {
@@ -18,12 +18,12 @@ namespace EasyAnalysis.Actions
 
             var databaseName = temp[0];
 
-            var viewName = temp[1];
+            var objectName = temp[1];
 
             return new MSSQLDatasource
             {
                 DatabaseName = databaseName,
-                ViewName = viewName
+                ObjectName = objectName
             };
         }
     }
