@@ -1,6 +1,7 @@
 ﻿using EasyAnalysis.Framework;
 using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework.ConnectionStringProviders;
+using EasyAnalysis.Framework.Data;
 using EasyAnalysis.Repository;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -42,7 +43,7 @@ namespace EasyAnalysis.Actions
         /// <returns></returns>
         public async Task RunAsync(string[] args)
         {
-            var ds = MongoDatasource.Parse(args[0]);
+            IReadOnlyCollection ds = MongoDataCollection.Parse(args[0]);
 
             TimeFrameRange timeFrameRange = null;
 
@@ -51,7 +52,7 @@ namespace EasyAnalysis.Actions
                 timeFrameRange = TimeFrameRange.Parse(args[1]);
             }
 
-            IMongoCollection<BsonDocument> sourceCollection = ds.GetCollection();
+            IMongoCollection<BsonDocument> sourceCollection = ds.GetData() as IMongoCollection<BsonDocument>;
 
             FilterDefinition<BsonDocument> filter = "{}";
 

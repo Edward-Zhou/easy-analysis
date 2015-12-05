@@ -78,10 +78,10 @@
     <Compile Include="DetectDuplicates.cs" />
     <Compile Include="ExtractUserActivies.cs" />
     <Compile Include="ImportNewUsers.cs" />
-    <Compile Include="Datasource\MongoDatasource.cs" />
+    <Compile Include="Data\MongoDataCollection.cs" />
     <Compile Include="MongoHelper.cs" />
-    <Compile Include="Datasource\MSSQLDatasource.cs" />
-    <Compile Include="Datasource\NamedQueryDatasource.cs" />
+    <Compile Include="Data\MSSQLDatasource.cs" />
+    <Compile Include="Data\NamedQueryReadOnlyCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlQueryFactory.cs" />
     <Compile Include="SuggestTags.cs" />

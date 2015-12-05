@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyAnalysis.Actions
+namespace EasyAnalysis.Framework.Data
 {
-    public class NamedQueryDatasource
+    public interface IReadOnlyCollection
     {
+        Object GetData();
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using EasyAnalysis.Framework;
+using EasyAnalysis.Framework.Data;
 
 namespace EasyAnalysis.Actions
 {
@@ -91,7 +92,7 @@ namespace EasyAnalysis.Actions
         {
             Logger.Current.Info(Description);
 
-            var ds = MongoDatasource.Parse(args[0]);
+            IReadOnlyCollection ds = MongoDataCollection.Parse(args[0]);
 
             TimeFrameRange timeFrameRange = null;
 
@@ -100,7 +101,7 @@ namespace EasyAnalysis.Actions
                 timeFrameRange = TimeFrameRange.Parse(args[1]);
             }
 
-            var threadCollection = ds.GetCollection();
+            var threadCollection = ds.GetData() as IMongoCollection<BsonDocument>;
 
             FilterDefinition<BsonDocument> filter = "{}";
 

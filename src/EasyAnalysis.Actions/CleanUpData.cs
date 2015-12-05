@@ -1,6 +1,7 @@
 ﻿using EasyAnalysis.Framework;
 using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework.ConnectionStringProviders;
+using EasyAnalysis.Framework.Data;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -32,7 +33,7 @@ namespace EasyAnalysis.Actions
                 throw new ArgumentException("Invalid action auguments for clean up data");
             }
 
-            var datasource = MongoDatasource.Parse(args[0]);
+            IReadOnlyCollection datasource = MongoDataCollection.Parse(args[0]);
 
             TimeFrameRange timeFrameRange = null;
 
@@ -41,7 +42,7 @@ namespace EasyAnalysis.Actions
                 timeFrameRange = TimeFrameRange.Parse(args[1]);
             }
 
-            var collection = datasource.GetCollection();
+            var collection = datasource.GetData() as IMongoCollection<BsonDocument>;
 
             var filterBuilder = Builders<BsonDocument>.Filter;
 

@@ -65,32 +65,42 @@ namespace EasyAnalysis.Actions
             try
             {
                 dynamic soThreads = null;
-                using (var inputDs = new NamedQueryDatasource("SoDBConnection.import_thread_tags_" + repository))
+
+                using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("SoDBConnection")))
                 {
-                    soThreads = inputDs.Query(new
+                    var inputDs = new NamedQueryReadOnlyCollection("import_thread_tags_" + repository, connection);
+
+                    inputDs.SetParameters(new
                     {
                         start = timeFrameRange.Start,
                         end = timeFrameRange.End
                     });
+
+                    soThreads = inputDs.GetData();
                 }
                 
                 var host = "analyzeit.azurewebsites.net";
                 //var host = "localhost:58277"; //For Debugging
 
-                using (var tpDs = new NamedQueryDatasource("DefaultConnection.query_thread_existence"))
+                using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString()))
                 {
+                    var tpDs = new NamedQueryReadOnlyCollection("query_thread_existence", connection);
+
                     foreach (dynamic row in soThreads)
                     {
-                        dynamic q = tpDs.Query(new
+                        tpDs.SetParameters(new
                         {
                             id = "SO_" + row.question_id
-                        }).First();
+                        });
+
+                        dynamic q = (tpDs.GetData() as IEnumerable<dynamic>).First();
 
                         int recordExist = q.Total;
 
                         if (recordExist > 0)
                         {
                             String[] tags = row.tags.ToString().Split(';');
+
                             foreach (string tag in tags)
                             {
                                 string apiUrl = "http://{0}/api/thread/{1}/tag/";

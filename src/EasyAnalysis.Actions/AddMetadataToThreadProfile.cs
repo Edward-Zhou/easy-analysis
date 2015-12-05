@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using EasyAnalysis.Framework.Data;
 
 namespace EasyAnalysis.Actions
 {
@@ -47,17 +48,13 @@ namespace EasyAnalysis.Actions
 
             var repository = args[0];
 
-            var outputDs = MongoDatasource.Parse(args[1]);
+            IReadOnlyCollection outputDs = MongoDataCollection.Parse(args[1]);
 
             var timeFrameRange = TimeFrameRange.Parse(args[2]);
 
             using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString()))
             {
-                var mongoClient = new MongoClient(_connectionStringProvider.GetConnectionString("mongo:" + outputDs.DatabaseName));
-
-                var database = mongoClient.GetDatabase(outputDs.DatabaseName);
-
-                var collection = database.GetCollection<BsonDocument>(outputDs.CollectionName);
+                var collection = outputDs.GetData() as IMongoCollection<BsonDocument>;
 
                 var prifiles = connection.Query(SqlQueryFactory.Instance.Get("get_thread_profile"),
                     new

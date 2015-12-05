@@ -1,6 +1,7 @@
 ﻿using EasyAnalysis.Framework;
 using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework.ConnectionStringProviders;
+using EasyAnalysis.Framework.Data;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -41,9 +42,9 @@ namespace EasyAnalysis.Actions
         {
             Logger.Current.Info(Description);
 
-            var dsInput = MongoDatasource.Parse(args[0]);
+            IReadOnlyCollection dsInput = MongoDataCollection.Parse(args[0]);
 
-            var dsOutput = MongoDatasource.Parse(args[1]);
+            IReadOnlyCollection dsOutput = MongoDataCollection.Parse(args[1]);
 
             TimeFrameRange timeFrameRange = null;
 
@@ -52,9 +53,9 @@ namespace EasyAnalysis.Actions
                 timeFrameRange = TimeFrameRange.Parse(args[2]);
             }
 
-            IMongoCollection<BsonDocument> inputCollection = GetCollection(dsInput);
+            IMongoCollection<BsonDocument> inputCollection = dsInput.GetData() as IMongoCollection<BsonDocument>;
 
-            IMongoCollection<BsonDocument> outputCollection = GetCollection(dsOutput);
+            IMongoCollection<BsonDocument> outputCollection = dsOutput.GetData() as IMongoCollection<BsonDocument>;
 
             FilterDefinition<BsonDocument> filter = "{}";
 
@@ -107,17 +108,6 @@ namespace EasyAnalysis.Actions
             {
                 Logger.Current.Error(ex.Message);
             }
-        }
-
-        private IMongoCollection<BsonDocument> GetCollection(MongoDatasource ds)
-        {
-            var client = new MongoClient(_connectionStringProvider.GetConnectionString("mongo:" + ds.DatabaseName));
-
-            var database = client.GetDatabase(ds.DatabaseName);
-
-            var collection = database.GetCollection<BsonDocument>(ds.CollectionName);
-
-            return collection;
         }
     }
 }

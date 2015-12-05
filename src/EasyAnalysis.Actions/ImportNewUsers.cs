@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
 using System;
+using EasyAnalysis.Framework.Data;
 
 namespace EasyAnalysis.Actions
 {
@@ -41,7 +42,7 @@ namespace EasyAnalysis.Actions
         /// <returns></returns>
         public async Task RunAsync(string[] args)
         {
-            var ds = MongoDatasource.Parse(args[0]);
+            IReadOnlyCollection ds = MongoDataCollection.Parse(args[0]);
 
             TimeFrameRange timeFrameRange = null;
 
@@ -50,7 +51,7 @@ namespace EasyAnalysis.Actions
                 timeFrameRange = TimeFrameRange.Parse(args[1]);
             }
 
-            IMongoCollection<BsonDocument> sourceCollection = ds.GetCollection();
+            IMongoCollection<BsonDocument> sourceCollection = ds.GetData() as IMongoCollection<BsonDocument>;
 
             FilterDefinition<BsonDocument> filter = "{}";
 

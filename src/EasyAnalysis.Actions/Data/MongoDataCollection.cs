@@ -1,15 +1,12 @@
 ﻿using EasyAnalysis.Framework.ConnectionStringProviders;
+using EasyAnalysis.Framework.Data;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyAnalysis.Actions
 {
-    public class MongoDatasource
+    public class MongoDataCollection : IReadOnlyCollection
     {
         public string DatabaseName { get; set; }
 
@@ -17,12 +14,12 @@ namespace EasyAnalysis.Actions
 
         private IConnectionStringProvider _connectionStringProvider;
 
-        public MongoDatasource()
+        public MongoDataCollection()
         {
             _connectionStringProvider = new UniversalConnectionStringProvider();
         }
 
-        public static MongoDatasource Parse(string text)
+        public static MongoDataCollection Parse(string text)
         {
             var temp = text.Split('.');
 
@@ -30,14 +27,14 @@ namespace EasyAnalysis.Actions
 
             var collectionName = temp[1];
 
-            return new MongoDatasource
+            return new MongoDataCollection
             {
                 DatabaseName = databaseName,
                 CollectionName = collectionName
             };
         }
 
-        public IMongoCollection<BsonDocument> GetCollection()
+        public Object GetData()
         {
             var client = new MongoClient(_connectionStringProvider.GetConnectionString("mongo:" + DatabaseName));
 

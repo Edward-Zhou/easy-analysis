@@ -64,43 +64,54 @@ namespace EasyAnalysis.Actions
                 try
                 {
                     dynamic soThreads = null;
-                    using (var inputDs = new NamedQueryDatasource("SoDBConnection.import_thread_" + repository))
+
+                    using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("SoDBConnection")))
                     {
-                        soThreads = inputDs.Query(new
+                        var inputDs = new NamedQueryReadOnlyCollection("import_thread_" + repository, connection);
+
+                        inputDs.SetParameters(new
                         {
                             start = timeFrameRange.Start,
                             end = timeFrameRange.End
                         });
+
+                        soThreads = inputDs.GetData();
                     }
 
-                    using (var tpDs = new NamedQueryDatasource("DefaultConnection.query_thread_existence"))
+                    using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString()))
                     {
+                        var tpDs = new NamedQueryReadOnlyCollection("query_thread_existence", connection);
+
+                        var outputDs = new NamedQueryReadOnlyCollection("insert_new_thread", connection);
+
                         foreach (dynamic row in soThreads)
                         {
-                            dynamic q = tpDs.Query(new
+                            tpDs.SetParameters(new
                             {
                                 id = "SO_" + row.Id
-                            }).First();
+                            });
+
+                            dynamic q = (tpDs.GetData() as IEnumerable<dynamic>).First();
 
                             int recordExist = q.Total;
 
                             if (recordExist == 0)
                             {
                                 string tp_repo = repository.Substring(2); //remove "so" prefix
-                                using (var outputDs = new NamedQueryDatasource("DefaultConnection.insert_new_thread"))
-                                {
-                                    outputDs.Query(new
-                                    {
-                                        id = "SO_" + row.Id,
-                                        title = row.title,
-                                        createOn = row.CreatedOn,
-                                        forumId = "stackoverflow." + tp_repo,
-                                        authorId = "SO_" + row.AuthorId
-                                    });
-                                }
-                            }
 
+                                outputDs.SetParameters(new
+                                {
+                                    id = "SO_" + row.Id,
+                                    title = row.title,
+                                    createOn = row.CreatedOn,
+                                    forumId = "stackoverflow." + tp_repo,
+                                    authorId = "SO_" + row.AuthorId
+                                });
+
+                                outputDs.GetData();
+                            }
                         }
+
                     }
                 }
                 catch (Exception ex)
