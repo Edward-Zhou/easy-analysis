@@ -76,6 +76,7 @@
     <Compile Include="CleanUpData.cs" />
     <Compile Include="DefaultActionFactory.cs" />
     <Compile Include="DetectDuplicates.cs" />
+    <Compile Include="DetectTagsForMSDNForum.cs" />
     <Compile Include="ExtractUserActivies.cs" />
     <Compile Include="ImportNewUsers.cs" />
     <Compile Include="Data\MongoDataCollection.cs" />
@@ -118,6 +119,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Query\find_user_activity_by_hash.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\get_tagmappings.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Query\get_thread_profile.sql">

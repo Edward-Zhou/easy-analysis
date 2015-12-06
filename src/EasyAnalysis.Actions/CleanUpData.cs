@@ -26,6 +26,14 @@ namespace EasyAnalysis.Actions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args">
+        /// [0-datasource-in  (required), e.g. landing.threads]
+        /// [1-timeframe      (optional), e.g. 2015-11-16T00:00:00&2015-11-18T00:00:00]
+        /// </param>
+        /// <returns></returns>
         public async Task RunAsync(string[] args)
         {
             if(args == null || args.Length == 0)

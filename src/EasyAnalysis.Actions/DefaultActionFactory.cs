@@ -37,6 +37,9 @@ namespace EasyAnalysis.Backend
                 case "build-so-question-profile":
                     return new BuildStackoverflowQuestionProfile();
 
+                case "detect-tags-for-msdn":
+                    return new DetectTagsForMSDNForum();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }
