@@ -45,13 +45,15 @@ namespace EasyAnalysis.Actions
 
         public async Task RunAsync(string[] args)
         {
-            IReadOnlyCollection datasource = MongoDataCollection.Parse(args[0]);
+            var repository = args[0];
+
+            IReadOnlyCollection datasource = MongoDataCollection.Parse(args[1]);
 
             TimeFrameRange timeFrameRange = null;
 
-            if (args.Length > 1)
+            if (args.Length > 2)
             {
-                timeFrameRange = TimeFrameRange.Parse(args[1]);
+                timeFrameRange = TimeFrameRange.Parse(args[2]);
             }
 
             using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString()))
@@ -60,7 +62,7 @@ namespace EasyAnalysis.Actions
 
                 var mappingsCollection = new NamedQueryReadOnlyCollection("get_tagmappings", connection);
 
-                mappingsCollection.SetParameters(new { Repository = "uwp" });
+                mappingsCollection.SetParameters(new { Repository = repository });
 
                 var list = (mappingsCollection.GetData() as IEnumerable<dynamic>).ToList();
 
