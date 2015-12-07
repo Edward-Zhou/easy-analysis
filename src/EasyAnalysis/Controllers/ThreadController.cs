@@ -118,34 +118,55 @@ namespace EasyAnalysis.Controllers
         // POST api/values
         public async Task<string> Post([FromBody]string value)
         {
-            bool success = false;
-
             string identifier = string.Empty;
 
-            Regex urlRegex = new Regex(@"(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})");
+            Regex msdnUrlRegex = new Regex(@"(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})");
 
-            var match = urlRegex.Match(value);
+            Regex soUrlRegex = new Regex(@"questions/(\d+)");
+
+            if(msdnUrlRegex.IsMatch(value))
+            {
+                identifier = HandleMSNDRequest(value);
+            }
+            else if(soUrlRegex.IsMatch(value))
+            {
+                identifier = HandleSORequest(value);
+            }
+
+            if(!_threadRepository.Exists(identifier))
+            {
+                identifier = string.Empty;
+            }
+
+            return identifier;
+        }
+
+        private string HandleSORequest(string value)
+        {
+            Regex soUrlRegex = new Regex(@"questions/(\d+)");
+
+            var match = soUrlRegex.Match(value);
 
             if (!match.Success)
             {
-                return null;
+                return string.Empty;
             }
 
-            identifier = match.Groups[0].ToString();
+            return string.Format("SO_{0}", match.Groups[1].Value);
+        }
 
-            if (!_threadRepository.Exists(identifier))
+        private string HandleMSNDRequest(string value)
+        {
+            Regex guidRegex = new Regex(@"(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})");
+
+            var match = guidRegex.Match(value);
+
+            if (!match.Success)
             {
-                success = await RegisterNewThreadAsync(identifier);
-            }
-            else
-            {
-                success = true;
+                return string.Empty;
             }
 
-            // HARD CODE, NEED TO REFACTOR
-            return success
-                ? identifier
-                : null;
+            return match.Groups[0].ToString();
         }
 
         [Route("api/thread/{repository}/todo"), HttpGet]
