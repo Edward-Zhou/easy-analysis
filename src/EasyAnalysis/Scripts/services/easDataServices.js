@@ -54,7 +54,11 @@ app.factory('threadService', ['$http', function ($http) {
         },
         getTagCoverage: function (resp) {
             return $http.get(
-                'http://' + web_api_config.host + '/api/Thread?repository=' + resp)
+                'http://' + web_api_config.host + '/api/Thread?repository=' + resp + '&datatype=0')
+        },
+        getCategoryCoverage: function (resp) {
+            return $http.get(
+                'http://' + web_api_config.host + '/api/Thread?repository=' + resp + '&datatype=1')
         }
     }
 }]);

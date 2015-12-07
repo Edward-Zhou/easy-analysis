@@ -8,6 +8,12 @@
                 monthly: 0.0
             };
 
+            $scope.categoryCoverage = {
+                daily: 0.0,
+                weekly: 0.0,
+                monthly: 0.0
+            };
+
             $scope.repository = $routeParams.repository;
 
             $scope.URIText_keypress = function (e) {
@@ -35,6 +41,10 @@
 
             threadService.getTagCoverage($scope.repository).success(function (data) {
                 $scope.tagCoverage = data;
+            });
+
+            threadService.getCategoryCoverage($scope.repository).success(function (data) {
+                $scope.categoryCoverage = data;
             });
 
         }]);

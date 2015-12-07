@@ -22,7 +22,7 @@
                             <h3 class="panel-title">Category Coverage</h3>
                         </div>
                         <div class="panel-body">
-                            Comming soon... :)
+                            <b>Today - </b><span ng-class="{'warning-data': categoryCoverage.daily<0.6 }">{{categoryCoverage.daily * 100| number: 2 }}%</span>   <b>This Week - </b><span ng-class="{'warning-data': categoryCoverage.weekly<0.6 }">{{categoryCoverage.weekly * 100| number: 2 }}%</span>   <b>This Month - </b><span ng-class="{'warning-data': categoryCoverage.monthly<0.6 }">{{categoryCoverage.monthly * 100| number : 2 }}%</span>
                         </div>
                     </div>
                 </div>

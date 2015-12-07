@@ -5,7 +5,7 @@ using System.Web;
 
 namespace EasyAnalysis.Api.Models
 {
-    public class TagCoverage
+    public class DataCoverage
     {
         public double daily { get; set; }
         public double weekly { get; set; }
