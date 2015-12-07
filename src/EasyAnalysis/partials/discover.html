@@ -12,19 +12,30 @@
             <div class="form-group" ng-show="state=='init'">
                 <input type="text" class="form-control" placeholder="Put URI here and then enter" ng-model="URIText" ng-keypress="URIText_keypress($event)">
             </div>
+
             <div ng-show="state=='search'">Querying..., please wait for a moment :)</div>
-            <div><b>Tag Coverage Rate: Today - </b><span ng-class="{'warning-data': tagCoverage.daily<0.6 }">{{tagCoverage.daily * 100| number: 2 }}%</span>   <b>This Week - </b><span ng-class="{'warning-data': tagCoverage.weekly<0.6 }">{{tagCoverage.weekly * 100| number: 2 }}%</span>   <b>This Month - </b><span ng-class="{'warning-data': tagCoverage.monthly<0.6 }">{{tagCoverage.monthly * 100| number : 2 }}%</span> </div>
-            <div class="container">
-                <!--<div class="row">
-                    <div class="col-xs-1"></div>
-                    <div class="col-xs-10">
-                        <div class="btn-group btn-group-justified">
-                            <a href="javascript:void(0)" class="btn btn-info">No Category</a>
-                            <a href="javascript:void(0)" class="btn btn-default">No Answer</a>
-                            <a href="javascript:void(0)" class="btn btn-default">Hot Threads</a>
+
+            <div class="container" style="padding-left: 0px;">
+                <div class="col-lg-6" style="padding-left: 0px;padding-right: 15px;">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Category Coverage</h3>
+                        </div>
+                        <div class="panel-body">
+                            Comming soon... :)
                         </div>
                     </div>
-                </div>-->
+                </div>
+                <div class="col-lg-6" style="padding-left: 0px;padding-right: 15px;">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Tag Coverage</h3>
+                        </div>
+                        <div class="panel-body">
+                            <b>Today - </b><span ng-class="{'warning-data': tagCoverage.daily<0.6 }">{{tagCoverage.daily * 100| number: 2 }}%</span>   <b>This Week - </b><span ng-class="{'warning-data': tagCoverage.weekly<0.6 }">{{tagCoverage.weekly * 100| number: 2 }}%</span>   <b>This Month - </b><span ng-class="{'warning-data': tagCoverage.monthly<0.6 }">{{tagCoverage.monthly * 100| number : 2 }}%</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <table class="table table-striped table-hover ">
                 <thead>
