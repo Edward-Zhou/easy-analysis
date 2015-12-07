@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis", "EasyAnalysis\EasyAnalysis.csproj", "{206942C1-B7EB-4D7E-AC40-0BB3FBC58C8B}"
 EndProject
@@ -46,6 +46,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.MessageHub", "EasyAnalysis.MessageHub\EasyAnalysis.MessageHub.csproj", "{1A667FFE-DD20-4567-8218-1BE60F67932E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Actions.UnitTests", "EasyAnalysis.Actions.UnitTests\EasyAnalysis.Actions.UnitTests.csproj", "{5C39E2A1-2C02-42C5-9ED3-1C6A2D410643}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.ScheduledTask", "EasyAnalysis.ScheduledTask\EasyAnalysis.ScheduledTask.csproj", "{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +123,10 @@ Global
 		{5C39E2A1-2C02-42C5-9ED3-1C6A2D410643}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C39E2A1-2C02-42C5-9ED3-1C6A2D410643}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C39E2A1-2C02-42C5-9ED3-1C6A2D410643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,5 +145,6 @@ Global
 		{A8DEA54C-217F-4EE3-B81B-AB356F02CB11} = {E6FE1F34-6BAD-42E9-8E7A-73C1A15A41C7}
 		{1A667FFE-DD20-4567-8218-1BE60F67932E} = {C2E13121-2C07-4C6D-9C47-3B60EAD14592}
 		{5C39E2A1-2C02-42C5-9ED3-1C6A2D410643} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
+		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F} = {36CF49AB-06E8-48ED-B046-84CDF7F46A0E}
 	EndGlobalSection
 EndGlobal

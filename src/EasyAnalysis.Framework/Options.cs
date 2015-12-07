@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyAnalysis.Backend
+namespace EasyAnalysis.Framework
 {
     public enum ExecutionType
     {
@@ -27,14 +27,14 @@ namespace EasyAnalysis.Backend
 
         public static Options Parse(string[] args)
         {
-            if(args.Length < 2)
+            if (args.Length < 2)
             {
-                throw new ArgumentException(Messages.ARG_ERROR);
+                throw new ArgumentException("The arguments are incorrect");
             }
 
             var dict = new Dictionary<string, string>();
 
-            foreach(var arg in args)
+            foreach (var arg in args)
             {
                 var indexOfFirstCharacter = arg.IndexOf(':');
 
@@ -51,7 +51,7 @@ namespace EasyAnalysis.Backend
 
                 var type = dict["type"].ToLower();
 
-                switch(type)
+                switch (type)
                 {
                     case "dataflow":
                         arguments.Type = ExecutionType.Dataflow;
@@ -64,16 +64,16 @@ namespace EasyAnalysis.Backend
                         break;
                 }
 
-                if(arguments.Type == ExecutionType.Unkown)
+                if (arguments.Type == ExecutionType.Unkown)
                 {
-                    throw new ArgumentException(Messages.ARG_ERROR);
+                    throw new ArgumentException("The arguments are incorrect");
                 }
 
                 var name = dict["name"];
 
-                if(string.IsNullOrWhiteSpace(name))
+                if (string.IsNullOrWhiteSpace(name))
                 {
-                    throw new ArgumentException(Messages.ARG_ERROR);
+                    throw new ArgumentException("The arguments are incorrect");
                 }
 
                 arguments.Name = name;
@@ -87,7 +87,7 @@ namespace EasyAnalysis.Backend
 
                 if (string.IsNullOrWhiteSpace(temp))
                 {
-                    throw new ArgumentException(Messages.ARG_ERROR);
+                    throw new ArgumentException("The arguments are incorrect");
                 }
 
                 var parameters = temp.Split('|');
@@ -98,7 +98,7 @@ namespace EasyAnalysis.Backend
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(Messages.ARG_ERROR);
+                throw new ArgumentException("The arguments are incorrect");
             }
         }
     }

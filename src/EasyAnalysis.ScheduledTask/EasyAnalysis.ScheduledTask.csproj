@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F0FCA46C-CED4-4FBB-B8C2-7E82C9EF5810}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyAnalysis.Framework</RootNamespace>
-    <AssemblyName>EasyAnalysis.Framework</AssemblyName>
+    <RootNamespace>EasyAnalysis.ScheduledTask</RootNamespace>
+    <AssemblyName>EasyAnalysis.ScheduledTask</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,16 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.4\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.1-beta3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,27 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\IAction.cs" />
-    <Compile Include="Analysis\IActionFactory.cs" />
-    <Compile Include="Analysis\IModule.cs" />
-    <Compile Include="Analysis\IModuleFactory.cs" />
-    <Compile Include="Analysis\ModuleConfiguration.cs" />
-    <Compile Include="Cache\ICacheClient.cs" />
-    <Compile Include="Cache\ICacheService.cs" />
-    <Compile Include="ConnectionStringProviders\ConnectionStringProvider.cs" />
-    <Compile Include="ConnectionStringProviders\IConnectionStringProvider.cs" />
-    <Compile Include="ConnectionStringProviders\MongoDBConnectionStringProvider.cs" />
-    <Compile Include="ConnectionStringProviders\SqlServerConnectionStringProvider.cs" />
-    <Compile Include="Data\IReadOnlyCollection.cs" />
-    <Compile Include="GeneralStreamFlow.cs" />
-    <Compile Include="Discover\IURIDiscovery.cs" />
-    <Compile Include="IO\IOutput.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Options.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EasyAnalysis.Actions\EasyAnalysis.Actions.csproj">
+      <Project>{007889cd-7df8-4ee3-af35-4cf5beac4877}</Project>
+      <Name>EasyAnalysis.Actions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyAnalysis.Framework\EasyAnalysis.Framework.csproj">
+      <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>
+      <Name>EasyAnalysis.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -27,5 +27,10 @@ namespace EasyAnalysis.Actions
                 End = DateTime.Parse(end)
             };
         }
+
+        public static string ParseBack(TimeFrameRange tfr)
+        {
+            return tfr.Start.ToString("yyyy-MM-ddT00:00:00Z") + "&" + tfr.End.ToString("yyyy-MM-ddT00:00:00Z");
+        }
     }
 }
