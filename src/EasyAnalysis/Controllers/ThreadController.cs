@@ -126,7 +126,7 @@ namespace EasyAnalysis.Controllers
 
             if(msdnUrlRegex.IsMatch(value))
             {
-                identifier = HandleMSNDRequest(value);
+                identifier = await HandleMSNDRequest(value);
             }
             else if(soUrlRegex.IsMatch(value))
             {
@@ -155,7 +155,7 @@ namespace EasyAnalysis.Controllers
             return string.Format("SO_{0}", match.Groups[1].Value);
         }
 
-        private string HandleMSNDRequest(string value)
+        private async Task<string> HandleMSNDRequest(string value)
         {
             Regex guidRegex = new Regex(@"(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})");
 
@@ -166,7 +166,14 @@ namespace EasyAnalysis.Controllers
                 return string.Empty;
             }
 
-            return match.Groups[0].ToString();
+            var identifier = match.Groups[0].ToString();
+
+            if (!_threadRepository.Exists(identifier))
+            {
+                await RegisterNewThreadAsync(identifier);
+            }
+
+            return identifier;
         }
 
         [Route("api/thread/{repository}/todo"), HttpGet]
