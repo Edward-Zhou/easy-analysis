@@ -1,5 +1,5 @@
-﻿controllers.controller('detailController', ['$scope', 'threadService', '$location', '$routeParams',
-    function ($scope, threadService, $location, $routeParams) {
+﻿controllers.controller('detailController', ['$scope', 'threadService', 'repositoryService', '$location', '$routeParams',
+    function ($scope, threadService, repositoryService, $location, $routeParams) {
         // model state init
         $scope.identifier = $routeParams.identifier;
         $scope.repository = $routeParams.repository;
@@ -12,7 +12,21 @@
         };
 
         // dynamic fields
-        $scope.groups = [];
+        repositoryService.getFields($scope.repository)
+                         .success(function (data) {
+
+                             $scope.groups = data;
+
+                             threadService.getFiledValues($scope.identifier)
+                                          .success(function (data) {
+                                              $scope.model_ex = data;
+                                          });
+                         });
+
+        $scope.fieldValueChange = function(name, value)
+        {
+            threadService.setField($scope.identifier, name, value);
+        }
 
         threadService.types($scope.repository)
             .success(function (data) {

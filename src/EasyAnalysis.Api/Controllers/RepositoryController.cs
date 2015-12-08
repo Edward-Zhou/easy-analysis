@@ -17,11 +17,16 @@ namespace EasyAnalysis.Api.Controllers
         [Route("api/repository/fields")]
         public HttpResponseMessage GetRepositoryFields([FromUri] string name)
         {
-            var groups = new List<DropDownField>
+            var groups = new List<DropDownField>();
+
+            name = name.ToLower();
+
+            if (name.Equals("uwp") || name.Equals("souwp"))
             {
+                groups = new List<DropDownField> {
                 new DropDownField
                 {
-                    Name = "Platform",
+                    Name = "platform",
                     DisplayName = "Platform",
                     Options = new List<Option>
                     {
@@ -34,7 +39,7 @@ namespace EasyAnalysis.Api.Controllers
                 },
                 new DropDownField
                 {
-                    Name = "Language",
+                    Name = "language",
                     DisplayName = "Language",
                     Options = new List<Option>
                     {
@@ -44,8 +49,84 @@ namespace EasyAnalysis.Api.Controllers
                         new Option { Value = "vb", Name = "VB.NET" },
                         new Option { Value = "javascript", Name = "Javascript" },
                     }
+                } };
+            }
+            else if (name.Equals("sotfs"))
+            {
+                groups = new List<DropDownField> {
+                new DropDownField
+                {
+                    Name = "tfs_version",
+                    DisplayName = "TFS Version",
+                    Options = new List<Option>
+                    {
+                        new Option { Value = "", Name = "Unknown" },
+                        new Option { Value = "tfs2008", Name = "TFS 2008" },
+                        new Option { Value = "tfs2010", Name = "TFS 2010" },
+                        new Option { Value = "tfs2012", Name = "TFS 2012" },
+                        new Option { Value = "tfs2013", Name = "TFS 2013" },
+                        new Option { Value = "tfs2015", Name = "TFS 2013" },
+                        new Option { Value = "tfs2015sp1", Name = "TFS 2015 SP1" }
+                    }
+                },
+                new DropDownField
+                {
+                    Name = "issue_type",
+                    DisplayName = "Issue Type",
+                    Options = new List<Option>
+                    {
+                        new Option { Value = "", Name = "Unknown" },
+                        new Option { Value = "how-to", Name = "How To" },
+                        new Option { Value = "troubleshooting", Name = "Troubleshooting" },
+                        new Option { Value = "general-discussion", Name = "General Discussion" },
+                        new Option { Value = "administrator-related", Name = "Administrator Related" },
+                    }
+                },
+                new DropDownField
+                {
+                    Name = "voc",
+                    DisplayName = "Voice of Customer",
+                    Options = new List<Option>
+                    {
+                        new Option { Value = "", Name = "Unknown" },
+                        new Option { Value = "content-request", Name = "Content Request" },
+                        new Option { Value = "sample-request", Name = "Sample Request" },
+                        new Option { Value = "feature-request", Name = "Feature Request" },
+                        new Option { Value = "potential-bug", Name = "Potential Bug" },
+                    }
                 }
-            };
+                };
+            } else if (name.Equals("sovso"))
+            {
+                groups = new List<DropDownField> {
+                new DropDownField
+                {
+                    Name = "issue_type",
+                    DisplayName = "Issue Type",
+                    Options = new List<Option>
+                    {
+                        new Option { Value = "", Name = "Unknown" },
+                        new Option { Value = "how-to", Name = "How To" },
+                        new Option { Value = "troubleshooting", Name = "Troubleshooting" },
+                        new Option { Value = "general-discussion", Name = "General Discussion" },
+                        new Option { Value = "administrator-related", Name = "Administrator Related" },
+                    }
+                },
+                new DropDownField
+                {
+                    Name = "voc",
+                    DisplayName = "Voice of Customer",
+                    Options = new List<Option>
+                    {
+                        new Option { Value = "", Name = "Unknown" },
+                        new Option { Value = "content-request", Name = "Content Request" },
+                        new Option { Value = "sample-request", Name = "Sample Request" },
+                        new Option { Value = "feature-request", Name = "Feature Request" },
+                        new Option { Value = "potential-bug", Name = "Potential Bug" },
+                    }
+                }
+                };
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK, groups, new JsonMediaTypeFormatter());
         }

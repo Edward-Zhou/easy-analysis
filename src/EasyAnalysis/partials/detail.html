@@ -43,9 +43,10 @@
 
                             <div class="form-group">
                                 <div ng-repeat="group in groups">
-                                    <label class="col-lg-2 control-label">{{group.name}}</label>
+                                    <label class="col-lg-2 control-label">{{group.displayName}}</label>
                                     <div class="col-lg-10">
-                                        <select ng-model="selection[group.name]"
+                                        <select ng-model="model_ex[group.name]"
+                                                ng-change="fieldValueChange(group.name, model_ex[group.name])"
                                                 class="form-control">
                                             <option ng-repeat="option in group.options" value="{{option.value}}">{{option.name}}</option>
                                         </select>
