@@ -65,7 +65,7 @@ namespace EasyAnalysis.Api.Controllers
                         new Option { Value = "tfs2010", Name = "TFS 2010" },
                         new Option { Value = "tfs2012", Name = "TFS 2012" },
                         new Option { Value = "tfs2013", Name = "TFS 2013" },
-                        new Option { Value = "tfs2015", Name = "TFS 2013" },
+                        new Option { Value = "tfs2015", Name = "TFS 2015" },
                         new Option { Value = "tfs2015sp1", Name = "TFS 2015 SP1" }
                     }
                 },

@@ -6,16 +6,27 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
+using EasyAnalysis.Repository;
+using System.Threading.Tasks;
+using Utility.MSDN;
+using EasyAnalysis.Models;
 
 namespace EasyAnalysis.Controllers
 {
     public class RedirectionController : Controller
     {
+        private readonly IThreadRepository _threadRepository;
+
+        public RedirectionController()
+        {
+            var context = new DefaultDbConext();
+            _threadRepository = new ThreadRepository(context);
+        }
+
         public ActionResult Index()
         {
             throw new NotImplementedException();
         }
-
 
         public ActionResult Goto(string id)
         {
@@ -35,7 +46,7 @@ namespace EasyAnalysis.Controllers
         /// <param name="id">guid | number</param>
         /// <param name="exteranl">tool name</param>
         /// <returns></returns>
-        public ActionResult Navigate(string id, string external)
+        public async Task<ActionResult> Navigate(string id, string external)
         {
             var identifier = string.Empty;
 
@@ -47,6 +58,12 @@ namespace EasyAnalysis.Controllers
             else if (external == "mt")
             {
                 identifier = id;
+
+                // create new If not exists
+                if (!_threadRepository.Exists(identifier))
+                {
+                    await RegisterNewThreadAsync(identifier);
+                }
             }
             else {
                 return Redirect("/#/");
@@ -68,6 +85,41 @@ namespace EasyAnalysis.Controllers
                 var url = UrlHelper.GenerateContentUrl(string.Format("~/#/detail/{0}/{1}", repository.Name, identifier), HttpContext);
 
                 return Redirect(url);
+            }
+        }
+
+
+        private async Task<bool> RegisterNewThreadAsync(string identifier)
+        {
+            // register a new thread item
+            try
+            {
+                var parser = new ThreadParser(Guid.Parse(identifier));
+
+                var info = await parser.ReadThreadInfoAsync();
+
+                if (info == null)
+                {
+                    return false;
+                }
+
+                // query the database by the identifer / create a new item if not exist
+                var model = new ThreadModel
+                {
+                    Id = info.Id,
+                    Title = info.Title,
+                    AuthorId = info.AuthorId,
+                    CreateOn = info.CreateOn,
+                    ForumId = info.ForumId
+                };
+
+                _threadRepository.Create(model);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
             }
         }
 
