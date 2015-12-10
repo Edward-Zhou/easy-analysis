@@ -194,6 +194,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\RedirectionController.cs" />
+    <Compile Include="Controllers\RepositoryController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="DefaultDbConext.cs" />
@@ -201,6 +202,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoryResult.cs" />
+    <Compile Include="Models\DropDownField.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\EFTypeConfigrations.cs" />
     <Compile Include="Models\TagSearchResult.cs" />
@@ -229,6 +231,8 @@
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
     <Content Include="partials\dupdetection.html" />
+    <Content Include="frame.html" />
+    <Content Include="partials\embed.html" />
     <Content Include="partials\threadexplorer.html" />
     <Content Include="partials\userprofiles.html" />
     <Content Include="partials\detail.html" />
@@ -252,6 +256,7 @@
     <Content Include="Scripts\controllers\homeController.js" />
     <Content Include="Scripts\controllers\threadexplorerController.js" />
     <Content Include="Scripts\controllers\userProfileController.js" />
+    <Content Include="Scripts\iframe.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -285,6 +290,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EasyAnalysis.Framework\EasyAnalysis.Framework.csproj">
+      <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>
+      <Name>EasyAnalysis.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

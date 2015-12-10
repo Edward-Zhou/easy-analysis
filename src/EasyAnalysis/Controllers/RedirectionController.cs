@@ -46,7 +46,7 @@ namespace EasyAnalysis.Controllers
         /// <param name="id">guid | number</param>
         /// <param name="exteranl">tool name</param>
         /// <returns></returns>
-        public async Task<ActionResult> Navigate(string id, string external)
+        public async Task<ActionResult> Navigate(string id, string external, string type)
         {
             var identifier = string.Empty;
 
@@ -83,6 +83,11 @@ namespace EasyAnalysis.Controllers
                 }
 
                 var url = UrlHelper.GenerateContentUrl(string.Format("~/#/detail/{0}/{1}", repository.Name, identifier), HttpContext);
+
+                if (type == "iframe")
+                {
+                    url = UrlHelper.GenerateContentUrl(string.Format("~/frame.html#/embed/{0}/{1}", repository.Name, identifier), HttpContext);
+                }
 
                 return Redirect(url);
             }

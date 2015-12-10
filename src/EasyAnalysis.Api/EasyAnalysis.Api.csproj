@@ -183,7 +183,6 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\DupDetectionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RepositoryController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\ThreadProfilesController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />

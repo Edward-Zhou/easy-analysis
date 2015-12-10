@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis", "EasyAnalysis\EasyAnalysis.csproj", "{206942C1-B7EB-4D7E-AC40-0BB3FBC58C8B}"
 EndProject
@@ -48,6 +48,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Actions.UnitTests", "EasyAnalysis.Actions.UnitTests\EasyAnalysis.Actions.UnitTests.csproj", "{5C39E2A1-2C02-42C5-9ED3-1C6A2D410643}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.ScheduledTask", "EasyAnalysis.ScheduledTask\EasyAnalysis.ScheduledTask.csproj", "{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Add-on", "Add-on", "{34283933-C119-459F-A8A0-DEA2BC334FE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEExtension", "IEExtension\IEExtension.csproj", "{71007B4E-F64F-4504-95E9-F9B36219855D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +131,10 @@ Global
 		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71007B4E-F64F-4504-95E9-F9B36219855D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71007B4E-F64F-4504-95E9-F9B36219855D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71007B4E-F64F-4504-95E9-F9B36219855D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71007B4E-F64F-4504-95E9-F9B36219855D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,5 +154,6 @@ Global
 		{1A667FFE-DD20-4567-8218-1BE60F67932E} = {C2E13121-2C07-4C6D-9C47-3B60EAD14592}
 		{5C39E2A1-2C02-42C5-9ED3-1C6A2D410643} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
 		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F} = {36CF49AB-06E8-48ED-B046-84CDF7F46A0E}
+		{71007B4E-F64F-4504-95E9-F9B36219855D} = {34283933-C119-459F-A8A0-DEA2BC334FE3}
 	EndGlobalSection
 EndGlobal

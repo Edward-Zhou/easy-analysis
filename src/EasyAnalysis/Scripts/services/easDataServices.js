@@ -1,9 +1,9 @@
 ﻿// [production]: eas-api.azurewebsites.net
 // [dev]: localhost:58116
 
-var web_api_config = {
-   host: 'app-svr.cloudapp.net'
-   // host: 'localhost:58116' //Local Test
+var service_config = {
+    web_api: 'app-svr.cloudapp.net'
+    // web_api: 'localhost:58116' //Local Test
 }
 
 app.factory('threadService', ['$http', function ($http) {
@@ -27,9 +27,6 @@ app.factory('threadService', ['$http', function ($http) {
         classify: function (threadId, typeId) {
             return $http.post('api/thread/' + threadId + '/classify/' + typeId);
         },
-        types: function (id) {
-            return $http.get('api/thread/' + id + '/types');
-        },
         todo: function (repository) {
             return $http.get('api/thread/' + repository + '/todo');
         },
@@ -52,18 +49,10 @@ app.factory('threadService', ['$http', function ($http) {
         getTags: function (id) {
             return $http.get('api/thread/' + id + '/tags');
         },
-        getTagCoverage: function (resp) {
-            return $http.get(
-                'http://' + web_api_config.host + '/api/Thread?repository=' + resp + '&datatype=0')
-        },
-        getCategoryCoverage: function (resp) {
-            return $http.get(
-                'http://' + web_api_config.host + '/api/Thread?repository=' + resp + '&datatype=1')
-        },
         setField: function (id, name, value) {
             var req = {
                 method: 'POST',
-                url: 'http://' + web_api_config.host + '/api/Thread/' + id + '/field/' + encodeURIComponent(name),
+                url: '/api/Thread/' + id + '/field/' + encodeURIComponent(name),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
@@ -73,8 +62,20 @@ app.factory('threadService', ['$http', function ($http) {
             return $http(req);
         },
         getFiledValues: function (id) {
-            return $http.get('http://' + web_api_config.host + '/api/Thread/' + id + '/field');
-        }
+            return $http.get('/api/Thread/' + id + '/field');
+        },
+        // TO BE REMOVE
+        types: function (id) {
+            return $http.get('api/thread/' + id + '/types');
+        },
+        getTagCoverage: function (resp) {
+            return $http.get(
+                'http://' + service_config.web_api + '/api/Thread?repository=' + resp + '&datatype=0')
+        },
+        getCategoryCoverage: function (resp) {
+            return $http.get(
+                'http://' + service_config.web_api + '/api/Thread?repository=' + resp + '&datatype=1')
+        },
     }
 }]);
 
@@ -82,14 +83,14 @@ app.factory('threadProfileService', ['$http', function ($http) {
     return {
         relatedTags: function (resp, start, end, tags, answered) {
             return $http.get(
-                'http://' + web_api_config.host + '/api/ThreadProfiles/relatedtags?repository=' + resp + '&start=' + start +
+                'http://' + service_config.web_api + '/api/ThreadProfiles/relatedtags?repository=' + resp + '&start=' + start +
                 '&end=' + end +
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')))
         },
 
         list: function (resp, start, end, tags, answered, page) {
-            return $http.get('http://' + web_api_config.host + '/api/ThreadProfiles?repository=' + resp + '&page=' + page + '&length=10&start=' + start +
+            return $http.get('http://' + service_config.web_api + '/api/ThreadProfiles?repository=' + resp + '&page=' + page + '&length=10&start=' + start +
                 '&end=' + end +
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')));
@@ -117,20 +118,20 @@ app.factory('userProfileService', ['$http', function ($http) {
         },
 
         search: function (resp, name) {
-            return $http.get('http://' + web_api_config.host
+            return $http.get('http://' + service_config.web_api
                                + '/api/UserProfile?repository=' + encodeURIComponent(resp)
                                + '&month=&display_name=' + encodeURIComponent(name));
         },
 
         list: function (resp, month, length) {
-            return $http.get('http://' + web_api_config.host
+            return $http.get('http://' + service_config.web_api
                                        + '/api/UserProfile?repository=' + encodeURIComponent(resp)
                                        + '&month=' + month
                                        + '&length=' + length);
         },
 
         newsearch: function (resp, name, months) {
-            var uri = 'http://' + web_api_config.host
+            var uri = 'http://' + service_config.web_api
                 + '/api/UserProfile?repository=' + encodeURIComponent(resp)
                 + '&display_name=' + encodeURIComponent(name);
             for (var i = 0; i < months.length; i++) {
@@ -141,7 +142,7 @@ app.factory('userProfileService', ['$http', function ($http) {
         },
 
         newlist: function (resp, length, months) {
-            var uri = 'http://' + web_api_config.host
+            var uri = 'http://' + service_config.web_api
                 + '/api/UserProfile?repository=' + encodeURIComponent(resp)
                 + '&length=' + encodeURIComponent(length);
             for (var i = 0; i < months.length; i++) {
@@ -157,8 +158,7 @@ app.factory('userProfileService', ['$http', function ($http) {
 app.factory('repositoryService', ['$http', function ($http) {
     return {
         getFields: function (resp) {
-            return $http.get('http://' + web_api_config.host
-                   + '/api/Repository/fields?name=' + encodeURIComponent(resp));
+            return $http.get('/api/Repository/fields?name=' + encodeURIComponent(resp));
         }
     }
 }]);

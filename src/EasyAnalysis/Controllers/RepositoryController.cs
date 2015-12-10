@@ -1,4 +1,4 @@
-﻿using EasyAnalysis.Api.Models;
+﻿using EasyAnalysis.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +7,9 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
-namespace EasyAnalysis.Api.Controllers
+namespace EasyAnalysis.Controllers
 {
-    [EnableCors("*", "*", "*")]
     public class RepositoryController : ApiController
     {
         [Route("api/repository/fields")]
