@@ -20,16 +20,14 @@ namespace EasyAnalysis.Controllers
         }
 
         [Route("api/tag/search"), HttpGet]
-        public TagSearchResult Search(string q)
+        public IEnumerable<dynamic> Search(string q)
         {
             var list = _tagRepositry.Search(q).Take(10).ToList();
 
-            var result = new TagSearchResult
-            {
-                Items = list
-            };
-
-            return result;
+            return 
+                list.Select(m => new { text = m.Name })
+                .Distinct()
+                .ToArray();
         }
 
 

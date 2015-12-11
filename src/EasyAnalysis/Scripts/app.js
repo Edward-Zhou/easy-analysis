@@ -1,6 +1,6 @@
 ﻿var controllers = angular.module('controllers', []);
 
-var app = angular.module('_app_', ['ngRoute', 'controllers', 'angucomplete-alt']);
+var app = angular.module('_app_', ['ngRoute', 'controllers', 'ngTagsInput']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {

@@ -281,6 +281,25 @@ namespace EasyAnalysis.Controllers
             return value;
         }
 
+        [Route("api/thread/{id}/tag"), HttpDelete]
+        public string RemoveTagFromThread(string id, [FromBody]string value)
+        {
+            _threadRepository.Change(id, (model) =>
+            {
+                if (model != null)
+                {
+                    var tagToRemove = model.Tags.Where(m => m.Name.ToLower().Equals(value.ToLower())).FirstOrDefault();
+
+                    if (tagToRemove != null)
+                    {
+                        model.Tags.Remove(tagToRemove);
+                    }
+                }
+            });
+
+            return value;
+        }
+
         private async Task<bool> RegisterNewThreadAsync(string identifier)
         {
             // register a new thread item

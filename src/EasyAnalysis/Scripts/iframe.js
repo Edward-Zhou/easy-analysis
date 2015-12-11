@@ -49,7 +49,7 @@
 
             var section = document.createElement('section');
 
-            var url = '//analyzeit.azurewebsites.net/Redirection/Navigate/' + myArray[1] + '?external=mt&type=iframe'
+            var url = 'https://analyzeit.azurewebsites.net/Redirection/Navigate/' + myArray[1] + '?external=mt&type=iframe'
 
             section.innerHTML = '<div id="eas-iframe" style="height:500px;"><iframe src="' + url + '" style="width:100%;height:100%;"></iframe></div>';
 

@@ -46,6 +46,18 @@ app.factory('threadService', ['$http', function ($http) {
 
             return $http(req);
         },
+        removeTag: function (id, tag) {
+            var req = {
+                method: 'DELETE',
+                url: 'api/thread/' + id + '/tag/',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: '=' + encodeURIComponent(tag)
+            }
+
+            return $http(req);
+        },
         getTags: function (id) {
             return $http.get('api/thread/' + id + '/tags');
         },

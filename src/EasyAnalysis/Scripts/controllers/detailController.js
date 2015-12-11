@@ -1,5 +1,5 @@
-﻿controllers.controller('detailController', ['$scope', 'threadService', 'repositoryService', '$location', '$routeParams',
-    function ($scope, threadService, repositoryService, $location, $routeParams) {
+﻿controllers.controller('detailController', ['$scope', '$http' ,'threadService', 'repositoryService', '$location', '$routeParams',
+    function ($scope, $http, threadService, repositoryService, $location, $routeParams) {
         // model state init
         $scope.identifier = $routeParams.identifier;
         $scope.repository = $routeParams.repository;
@@ -11,7 +11,7 @@
             typeSelect: '-1'
         };
 
-        // dynamic fields
+        // dynamic fields init
         repositoryService.getFields($scope.repository)
                          .success(function (data) {
 
@@ -55,36 +55,6 @@
                              });
             });
 
-        $scope.remoteUrlRequestFn = function (str) {
-            return { q: str };
-        };
-
-        $scope.$watch('selectedTag', function (newValue, oldValue) {
-            if (newValue === undefined) {
-                return;
-            }
-
-            var newTag = typeof newValue === 'string'
-                      ? newValue
-                      : newValue.originalObject.Name;
-
-            threadService
-                .addTag($scope.identifier, newTag)
-                .success(function (tag) {
-                    if (tag === '') {
-                        return;
-                    }
-
-                    var tags = $scope.item.Tags = $scope.item.Tags || [];
-
-                    tags.push(tag);
-                });
-        });
-
-
-        $scope.Tag_click = function () {
-            console.log("tag click");
-        }
 
         $scope.typeSelectChange = function () {
             threadService.classify($scope.identifier, $scope.model.typeSelect);
@@ -93,6 +63,24 @@
         $scope.back = function () {
             $location.url('/discover/' + $scope.repository);
         }
+
+
+        // region - tag related functions
+
+        $scope.loadTags = function (query) {
+            console.log('q = ' + query);
+            return $http.get('/api/tag/search?q=' + query);
+        }
+
+        $scope.onTagAdded = function (tag) {
+            threadService.addTag($scope.identifier, tag.text);
+        }
+
+        $scope.onTagRemoved = function (tag) {
+            threadService.removeTag($scope.identifier, tag.text);
+        }    
+
+        // endregion
 
         function calculateSelection(id) {
             var vm = {

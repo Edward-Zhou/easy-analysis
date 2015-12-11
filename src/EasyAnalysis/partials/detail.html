@@ -19,22 +19,9 @@
                             <div>
                                 <label class="col-lg-2 control-label">Tags</label>
                                 <div class="col-lg-10">
-                                    <div style="float:left;">
-                                        <span ng-repeat="tag in item.Tags" class="post-tag" ng-click="Tag_click()">{{tag}}</span>
-                                    </div>
-                                    <div angucomplete-alt
-                                         id="tags"
-                                         style="width:150px;display:inline-block;"
-                                         placeholder="NEW tag"
-                                         pause="500"
-                                         selected-object="selectedTag"
-                                         title-field="Name"
-                                         remote-url="api/tag/search"
-                                         remote-url-request-formatter="remoteUrlRequestFn"
-                                         remote-url-data-field="Items"
-                                         minlength="1"
-                                         input-class="form-control form-control-small"
-                                         match-class="highlight" clear-selected="true"></div>
+                                    <tags-input ng-model="item.Tags" on-tag-added="onTagAdded($tag)" on-tag-removed="onTagRemoved($tag)">
+                                        <auto-complete source="loadTags($query)"></auto-complete>
+                                    </tags-input>
                                 </div>
                             </div>
                         </div>
