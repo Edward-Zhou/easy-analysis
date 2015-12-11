@@ -12,16 +12,45 @@ namespace EasyAnalysis.ScheduledTask
 {
     class Program
     {
+        private static string filePath;
         private static System.Timers.Timer aTimer;
+        private static List<string> jsonList = new List<string>();
         static void Main(string[] args)
         {
             try
             {
+                if (args == null | args.Length <= 2)//At lease three parameters
+                {
+                    Console.WriteLine("Please enter the correct parameters"+Environment.NewLine+ "[Backend executable file path] [Refresh interval(seconds)] [json file1 path] [json file2 path]...");
+                }
+                else
+                {
+                    filePath = args[0];
+                    if(!File.Exists(filePath))
+                    {
+                        throw new Exception("The Backend file can not be found");
+                    }
+                    Int32 refreshInterval = Convert.ToInt32(args[1]) * 1000;
+                    
+                    for (int i = 2; i < args.Length; i++) // Loop through args
+                    {
+                        if (File.Exists(args[i]))
+                        {
+                            jsonList.Add(args[i]);
+                        }
+                        else
+                        {
+                            throw new Exception("The Backend file can not be found");
+                        }
+                    }
+
 #if DEBUG
-                SetTimer(1000);
+                    SetTimer(1000);
 #else
-                SetTimer(7200000);
+                    SetTimer(refreshInterval);
 #endif
+                }
+
 
                 Console.WriteLine("\nPress the Enter key to exit the application...\n");
                 Logger.Current.Info(string.Format("The ScheduledTask started at {0:HH:mm:ss.fff}", DateTime.Now));
@@ -50,8 +79,16 @@ namespace EasyAnalysis.ScheduledTask
         {
             Logger.Current.Info(string.Format("The ScheduledTask Elapsed event was raised at {0:HH:mm:ss.fff}",
                               e.SignalTime));
-            ExeCMD(@"D:\GitHubVisualStudio\easy-analysis\src\EasyAnalysis.Backend\bin\Release\EasyAnalysis.Backend.exe", @"D:\temp\sovso_import_actions.json", System.Diagnostics.ProcessWindowStyle.Normal);
-            ExeCMD(@"D:\GitHubVisualStudio\easy-analysis\src\EasyAnalysis.Backend\bin\Release\EasyAnalysis.Backend.exe", @"D:\temp\sotfs_import_actions.json", System.Diagnostics.ProcessWindowStyle.Normal);
+
+            foreach (var json in jsonList)
+            {
+#if DEBUG
+                var pws = System.Diagnostics.ProcessWindowStyle.Normal;
+#else
+                var pws = System.Diagnostics.ProcessWindowStyle.Hidden;
+#endif
+                ExeCMD(filePath, json, pws);
+            }
         }
 
         /// <summary>
