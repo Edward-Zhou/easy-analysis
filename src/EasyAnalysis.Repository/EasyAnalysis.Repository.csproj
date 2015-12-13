@@ -54,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultDbConext.cs" />
+    <Compile Include="DropDownFieldRepository.cs" />
     <Compile Include="EFTypeConfigrations.cs" />
+    <Compile Include="IDropDownFieldRepository.cs" />
     <Compile Include="ITagRepository.cs" />
     <Compile Include="IThreadRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

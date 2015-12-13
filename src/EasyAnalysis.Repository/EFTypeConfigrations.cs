@@ -43,4 +43,34 @@ namespace EasyAnalysis.Repository
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
         }
     }
+
+    public class DropDownFieldOptionTypeConfigration : EntityTypeConfiguration<Option>
+    {
+        public DropDownFieldOptionTypeConfigration()
+        {
+            ToTable("DropDownFieldOptions");
+
+            HasKey(m => m.Id);
+            Property(m => m.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+        }
+    }
+
+    public class DropDownFieldTypeConfigration : EntityTypeConfiguration<DropDownField>
+    {
+        public DropDownFieldTypeConfigration ()
+        {
+            ToTable("DropDownFields");
+
+            HasKey(m => m.Id);
+            Property(m => m.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            HasMany(m => m.Options)
+                .WithOptional()
+                .Map(m => m.MapKey("FieldId"));
+        }
+    }
+
+
 }

@@ -8,6 +8,8 @@ namespace EasyAnalysis.Models
 {
     public class Option
     {
+        public Int32 Id { get; set; }
+
         [JsonProperty("value")]
         public string Value { get; set; }
 
@@ -17,6 +19,10 @@ namespace EasyAnalysis.Models
 
     public class DropDownField
     {
+        public Int32 Id { get; set; }
+
+        public string Repository { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -24,6 +30,11 @@ namespace EasyAnalysis.Models
         public string DisplayName { get; set; }
 
         [JsonProperty("options")]
-        public IEnumerable<Option> Options { get; set; }
+        public ICollection<Option> Options { get; set; }
+
+        public DropDownField()
+        {
+            Options = new List<Option>();
+        }
     }
 }

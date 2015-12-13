@@ -17,12 +17,16 @@ namespace EasyAnalysis.Repository
 
         public DbSet<Tag> Tags { get; set; }
 
+        public DbSet<DropDownField> DropDownFields { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
                 .Configurations
                 .Add(new TagTypeConfigration())
-                .Add(new ThreadTypeConfigration());
+                .Add(new ThreadTypeConfigration())
+                .Add(new DropDownFieldOptionTypeConfigration())
+                .Add(new DropDownFieldTypeConfigration());
 
             base.OnModelCreating(modelBuilder);
         }
