@@ -40,6 +40,11 @@ namespace EasyAnalysis.Backend
             catch (Exception ex)
             {
                 Logger.Current.Error(ex.Message);
+
+                if(ex.InnerException != null)
+                {
+                    Logger.Current.Error("Inner Exception: " + ex.Message);
+                }
             }
         }
 

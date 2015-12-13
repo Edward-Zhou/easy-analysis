@@ -61,10 +61,10 @@ app.factory('threadService', ['$http', function ($http) {
         getTags: function (id) {
             return $http.get('api/thread/' + id + '/tags');
         },
-        setField: function (id, name, value) {
+        setField: function (repository, id, name, value) {
             var req = {
                 method: 'POST',
-                url: '/api/Thread/' + id + '/field/' + encodeURIComponent(name),
+                url: '/api/thread/' + repository + '/' + id + '/field/' + encodeURIComponent(name),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
@@ -73,8 +73,8 @@ app.factory('threadService', ['$http', function ($http) {
 
             return $http(req);
         },
-        getFiledValues: function (id) {
-            return $http.get('/api/Thread/' + id + '/field');
+        getFiledValues: function (repository, id) {
+            return $http.get('/api/thread/' + repository + '/' + id + '/field');
         },
         // TO BE REMOVE
         types: function (id) {

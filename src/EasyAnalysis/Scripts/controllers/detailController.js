@@ -17,7 +17,7 @@
 
                              $scope.groups = data;
 
-                             threadService.getFiledValues($scope.identifier)
+                             threadService.getFiledValues($scope.repository, $scope.identifier)
                                           .success(function (data) {
                                               $scope.model_ex = data;
                                           });
@@ -25,7 +25,7 @@
 
         $scope.fieldValueChange = function(name, value)
         {
-            threadService.setField($scope.identifier, name, value);
+            threadService.setField($scope.repository, $scope.identifier, name, value);
         }
 
         threadService.types($scope.repository)

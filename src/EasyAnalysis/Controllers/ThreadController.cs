@@ -120,8 +120,9 @@ namespace EasyAnalysis.Controllers
         }
 
 
-        [Route("api/thread/{id}/field/{name}"), HttpPost]
+        [Route("api/thread/{repository}/{id}/field/{name}"), HttpPost]
         public HttpResponseMessage SetField(
+            [FromUri]string repository,
             [FromUri]string id,
             [FromUri]string name,
             [FromBody]string value)
@@ -130,7 +131,7 @@ namespace EasyAnalysis.Controllers
                 .Update
                 .Set(name, value);
 
-            var collection = GetCollection();
+            var collection = GetCollection(repository);
 
             var identity = Builders<BsonDocument>.Filter.Eq("_id", id);
 
@@ -142,11 +143,12 @@ namespace EasyAnalysis.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        [Route("api/thread/{id}/field"), HttpGet]
+        [Route("api/thread/{repository}/{id}/field"), HttpGet]
         public async Task<HttpResponseMessage> GetFieldValues(
+             [FromUri]string repository,
              [FromUri]string id)
         {
-            var collection = GetCollection();
+            var collection = GetCollection(repository);
 
             var identity = Builders<BsonDocument>.Filter.Eq("_id", id);
 
@@ -169,11 +171,13 @@ namespace EasyAnalysis.Controllers
         }
 
         #region helper methods
-        private static IMongoCollection<BsonDocument> GetCollection()
+        private static IMongoCollection<BsonDocument> GetCollection(string repository)
         {
+            repository = repository.ToLower();
+
             var databaseName = "eas";
 
-            var collectionName = "ext_fields";
+            var collectionName = "ext_fields_" + repository;
 
             IConnectionStringProvider mongoDBCSProvider = new MongoDBConnectionStringProvider();
 
