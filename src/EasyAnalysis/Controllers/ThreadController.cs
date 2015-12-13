@@ -129,7 +129,8 @@ namespace EasyAnalysis.Controllers
         {
             var updateAction = Builders<BsonDocument>
                 .Update
-                .Set(name, value);
+                .Set(name, value)
+                .Set("timestamp", DateTime.UtcNow);
 
             var collection = GetCollection(repository);
 

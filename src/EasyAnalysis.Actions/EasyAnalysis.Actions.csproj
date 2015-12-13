@@ -80,6 +80,7 @@
     <Compile Include="ExtractUserActivies.cs" />
     <Compile Include="ImportNewUsers.cs" />
     <Compile Include="Data\MongoDataCollection.cs" />
+    <Compile Include="ExportMongoCollectionToMSSqlServerTable.cs" />
     <Compile Include="MongoHelper.cs" />
     <Compile Include="Data\MSSQLDatasource.cs" />
     <Compile Include="Data\NamedQueryReadOnlyCollection.cs" />

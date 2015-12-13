@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.Repository
 {
-    interface ITagRepository
+    public interface ITagRepository
     {
         Tag CreateTagIfNotExists(string name);
 

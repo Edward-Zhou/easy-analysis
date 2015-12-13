@@ -40,6 +40,9 @@ namespace EasyAnalysis.Backend
                 case "detect-tags-for-msdn":
                     return new DetectTagsForMSDNForum();
 
+                case "export-mongo-to-mssql":
+                    return new ExportMongoCollectionToMSSqlServerTable();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }
