@@ -84,6 +84,7 @@
     <Compile Include="MongoHelper.cs" />
     <Compile Include="Data\MSSQLDatasource.cs" />
     <Compile Include="Data\NamedQueryReadOnlyCollection.cs" />
+    <Compile Include="MSDNUWPTagToCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlQueryFactory.cs" />
     <Compile Include="SuggestTags.cs" />

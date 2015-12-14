@@ -43,6 +43,9 @@ namespace EasyAnalysis.Backend
                 case "export-mongo-to-mssql":
                     return new ExportMongoCollectionToMSSqlServerTable();
 
+                case "msdn-uwp-tag-to-category":
+                    return new MSDNUWPTagToCategory();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }
