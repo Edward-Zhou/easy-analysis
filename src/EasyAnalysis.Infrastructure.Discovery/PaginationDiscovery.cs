@@ -54,15 +54,24 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
                 Logger.Current.Info(string.Format("Navigate to page {0}\r\n", i));
 
-                string text = string.Empty;
-
-                using (var content = await navigation.GetAsync())
-                using (var sr = new StreamReader(content, encoding))
+                try
                 {
-                    text = await sr.ReadToEndAsync();
-                }
+                    string text = string.Empty;
 
-                Parse(text);
+                    using (var content = await navigation.GetAsync())
+                    using (var sr = new StreamReader(content, encoding))
+                    {
+                        text = await sr.ReadToEndAsync();
+                    }
+
+                    Parse(text);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Current.Error(ex.Message);
+
+                    continue;
+                }               
             }
         }
 

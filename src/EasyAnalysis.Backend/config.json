@@ -1,0 +1,36 @@
+﻿{
+   "uwp_sort_by_post": {
+    "name": "UWP threads sort by post",
+    "urlFormat": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.msdn.microsoft.com",
+    "start": 1,
+    "length": 100,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "uwp_sort_by_lastpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.msdn.microsoft.com",
+    "start": 1,
+    "length": 1,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  }
+}

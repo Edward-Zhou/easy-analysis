@@ -1,4 +1,6 @@
-﻿namespace EasyAnalysis.Infrastructure.Discovery
+﻿using System;
+
+namespace EasyAnalysis.Infrastructure.Discovery
 {
     public class RegexTransform
     {
@@ -15,6 +17,8 @@
 
     public class PaginationDiscoveryConfigration
     {
+        public string Name { get; set; }
+
         public string UrlFormat { get; set; }
 
         public string BaseUri { get; set; }
@@ -30,5 +34,6 @@
         public XPathAttributeLookUp LookUp { get; set; }
 
         public RegexTransform Transform { get; set; }
-    }
+
+   }
 }

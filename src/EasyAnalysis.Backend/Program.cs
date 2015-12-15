@@ -2,6 +2,9 @@
 using EasyAnalysis.Framework;
 using System.IO;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using EasyAnalysis.Infrastructure.Discovery;
 
 namespace EasyAnalysis.Backend
 {
@@ -10,9 +13,9 @@ namespace EasyAnalysis.Backend
         /// <summary>
         /// e.g:
         /// 1) run a init dataflow 
-        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:init:1&10|D:\\forum_cache|landing.threads"
+        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:uwp_sort_by_post|init|D:\\forum_cache|landing.threads"
         /// 1) run a monitor dataflow 
-        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:monitor|D:\\forum_cache|landing.threads"
+        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:uwp_sort_by_lastpost|monitor|D:\\forum_cache|landing.threads"
         /// 2) run a action
         /// EasyAnalysis.Backend.exe type:action name:correct-datatype parameters:landing.threads
         /// </summary>
@@ -39,12 +42,17 @@ namespace EasyAnalysis.Backend
             }
             catch (Exception ex)
             {
-                Logger.Current.Error(ex.Message);
+                LogWithInnerException(ex);
+            }
+        }
 
-                if(ex.InnerException != null)
-                {
-                    Logger.Current.Error("Inner Exception: " + ex.Message);
-                }
+        static void LogWithInnerException(Exception ex)
+        {
+            Logger.Current.Error("Exception: " + ex.Message);
+
+            if (ex.InnerException != null)
+            {                
+                LogWithInnerException(ex.InnerException);
             }
         }
 

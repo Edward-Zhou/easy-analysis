@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyAnalysis.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace EasyAnalysis.Infrastructure.Discovery
 {
     internal class PageNavigation
     {
+        private const int MAX_TRY_TIMES = 10;
+
         private readonly string _uriFormat;
 
         private HttpClient _httpClient;
@@ -41,8 +44,41 @@ namespace EasyAnalysis.Infrastructure.Discovery
 
             var uri = new Uri(uriString);
 
-            return _httpClient.GetStreamAsync(uri);
+            return RetryGetStreamAsync(uri);
         }
+
+        private Task<Stream> RetryGetStreamAsync(Uri uri)
+        {
+            Task<Stream> result = null;
+
+            int tryTimes = 0;
+
+            while(result == null && tryTimes <= MAX_TRY_TIMES)
+            {
+                try
+                {
+                    result = _httpClient.GetStreamAsync(uri);
+                }
+                catch (Exception ex)
+                {
+                    // wait for 1 second and retry
+                    Logger.Current.Error(ex.Message);
+                    Logger.Current.Info(string.Format("try to get stream again from [{0}]", uri.AbsoluteUri));
+
+                    tryTimes++;
+
+                    System.Threading.Thread.Sleep(1000);
+                }
+            }
+
+            if(tryTimes > MAX_TRY_TIMES)
+            {
+                throw new Exception("out of max try times");
+            }
+
+            return result;
+        }
+    
 
         public void NavigateTo(int pageIndex)
         {
