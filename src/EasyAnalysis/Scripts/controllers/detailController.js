@@ -6,6 +6,8 @@
 
         $scope.state = 'load';
 
+        $scope.show_legacy_category = $scope.repository !== 'OFFICE';
+
         $scope.model = {
             categorySelect: '-1',
             typeSelect: '-1'
