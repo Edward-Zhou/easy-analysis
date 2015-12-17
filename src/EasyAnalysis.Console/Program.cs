@@ -5,6 +5,7 @@ using EasyAnalysis.Algorithm;
 using System;
 using System.Linq;
 using System.IO;
+using System.Collections.Generic;
 
 namespace EasyAnalysis
 {
@@ -12,11 +13,38 @@ namespace EasyAnalysis
     {
         static void Main(string[] args)
         {
-            ParseLog(@"D:\Test\logs");
+            // ParseLog(@"D:\Test\logs");
 
             // MergeTags(from: "build10581", to: "build-10581");
 
             // OutputSimilarTags();
+        }
+
+        static void CreateCustomDropDownField()
+        {
+            var repository = new EasyAnalysis.Repository.DropDownFieldRepository();
+
+            repository.New(new Models.DropDownField
+            {
+                Name = "office_product",
+                DisplayName = "Product",
+                Repository = "office",
+                Options = new List<Models.Option>
+                {
+                    new Models.Option {  Value = "", Name = "Unknown"},
+                    new Models.Option {  Value = "outlook", Name = "Outlook"},
+                    new Models.Option {  Value = "excel", Name = "Excel"},
+                    new Models.Option {  Value = "word", Name = "Word"},
+                    new Models.Option {  Value = "ppt", Name = "PowerPoint"},
+                    new Models.Option {  Value = "visio", Name = "Visio"},
+                    new Models.Option {  Value = "onenote", Name = "OneNote"},
+                    new Models.Option {  Value = "onedrive", Name = "OneDrive"},
+                    new Models.Option {  Value = "sfb", Name = "SfB"},
+                    new Models.Option {  Value = "access", Name = "Access"},
+                    new Models.Option {  Value = "publisher", Name = "Publisher"},
+                    new Models.Option {  Value = "project", Name = "Project"}
+                }
+            });
         }
 
         static void ParseLog(string folderPath)

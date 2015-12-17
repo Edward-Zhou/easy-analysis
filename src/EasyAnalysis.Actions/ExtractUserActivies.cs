@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Dapper;
 using EasyAnalysis.Framework;
 using EasyAnalysis.Framework.Data;
+using EasyAnalysis.Data;
 
 namespace EasyAnalysis.Actions
 {

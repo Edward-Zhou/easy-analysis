@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E463EE55-1621-4A93-98DB-B96062835943}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{4D44FAB3-6F07-45F5-B75D-B62B763637DD}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyAnalysis.Console</RootNamespace>
-    <AssemblyName>EasyAnalysis.Console</AssemblyName>
+    <RootNamespace>EasyAnalysis.Data</RootNamespace>
+    <AssemblyName>EasyAnalysis.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,12 +33,6 @@
     <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=2.2.0.262, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.2.0\lib\net45\MongoDB.Bson.dll</HintPath>
@@ -65,34 +57,68 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="MongoDataCollection.cs" />
+    <Compile Include="MSSQLDatasource.cs" />
+    <Compile Include="NamedQueryReadOnlyCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlQueryFactory.cs" />
+    <Compile Include="UniversalConnectionStringProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EasyAnalysis.Algorithm\EasyAnalysis.Algorithm.csproj">
-      <Project>{a8dea54c-217f-4ee3-b81b-ab356f02cb11}</Project>
-      <Name>EasyAnalysis.Algorithm</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyAnalysis.Data\EasyAnalysis.Data.csproj">
-      <Project>{4d44fab3-6f07-45f5-b75d-b62b763637dd}</Project>
-      <Name>EasyAnalysis.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EasyAnalysis.Framework\EasyAnalysis.Framework.csproj">
       <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>
       <Name>EasyAnalysis.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EasyAnalysis.Models\EasyAnalysis.Models.csproj">
-      <Project>{2e1b9307-25e2-4df0-a209-7fcdd78b4046}</Project>
-      <Name>EasyAnalysis.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyAnalysis.Repository\EasyAnalysis.Repository.csproj">
-      <Project>{cb49d11b-8684-4158-967e-3a89fcc1b089}</Project>
-      <Name>EasyAnalysis.Repository</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Query\find_user_activity_by_hash.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\find_user_by_id.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\get_tagmappings.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\get_thread_profile.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\get_thread_tags.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\import_thread_sotfs.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\import_thread_souwp.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\import_thread_sovso.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\import_thread_tags_sotfs.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\import_thread_tags_souwp.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\import_thread_tags_sovso.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\insert_new_thread.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\insert_user.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\insert_user_activity.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Query\query_thread_existence.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

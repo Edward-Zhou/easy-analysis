@@ -1,4 +1,5 @@
-﻿using EasyAnalysis.Framework.Analysis;
+﻿using EasyAnalysis.Data;
+using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework.Data;
 using MongoDB.Bson;
 using MongoDB.Driver;

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EasyAnalysis.Data;
 using EasyAnalysis.Framework;
 using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework.ConnectionStringProviders;

@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEExtension", "IEExtension\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Repository.UnitTests", "EasyAnalysis.Repository.UnitTests\EasyAnalysis.Repository.UnitTests.csproj", "{BFDFC668-1E1B-4E98-9DED-2DF528ED8500}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Data", "EasyAnalysis.Data\EasyAnalysis.Data.csproj", "{4D44FAB3-6F07-45F5-B75D-B62B763637DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{BFDFC668-1E1B-4E98-9DED-2DF528ED8500}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFDFC668-1E1B-4E98-9DED-2DF528ED8500}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFDFC668-1E1B-4E98-9DED-2DF528ED8500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D44FAB3-6F07-45F5-B75D-B62B763637DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D44FAB3-6F07-45F5-B75D-B62B763637DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D44FAB3-6F07-45F5-B75D-B62B763637DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D44FAB3-6F07-45F5-B75D-B62B763637DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,5 +168,6 @@ Global
 		{07DB8BF5-7DCA-4F95-BB10-ABBA38A3627F} = {36CF49AB-06E8-48ED-B046-84CDF7F46A0E}
 		{71007B4E-F64F-4504-95E9-F9B36219855D} = {34283933-C119-459F-A8A0-DEA2BC334FE3}
 		{BFDFC668-1E1B-4E98-9DED-2DF528ED8500} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
+		{4D44FAB3-6F07-45F5-B75D-B62B763637DD} = {E6FE1F34-6BAD-42E9-8E7A-73C1A15A41C7}
 	EndGlobalSection
 EndGlobal

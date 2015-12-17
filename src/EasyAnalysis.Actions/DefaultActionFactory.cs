@@ -1,4 +1,5 @@
 ﻿using EasyAnalysis.Actions;
+using EasyAnalysis.Data;
 using EasyAnalysis.Framework.Analysis;
 using System;
 

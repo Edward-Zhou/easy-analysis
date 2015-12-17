@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using EasyAnalysis.Infrastructure.Discovery;
+using System.Text;
 
 namespace EasyAnalysis.Backend
 {
@@ -22,6 +23,20 @@ namespace EasyAnalysis.Backend
         /// <param name="args">type:[dataflow|action] name:[e.g. general] parameters:[]</param>
         static void Main(string[] args)
         {
+            var text = File.ReadAllText("config.json");
+
+            var keys = JsonConvert.DeserializeObject<Dictionary<string, PaginationDiscoveryConfigration>>(text, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+
+            var sb = new StringBuilder();
+
+            foreach(var key in keys)
+            {
+                sb.AppendLine(
+                    string.Format("EasyAnalysis.Backend.exe type:dataflow name:general \"parameters:{0}|init|D:\\forum_cache|landing.sql_threads\"", key.Key));
+            }
+
+            var cmd = sb.ToString();
+
             try
             {
                 if (args.Length == 1)
