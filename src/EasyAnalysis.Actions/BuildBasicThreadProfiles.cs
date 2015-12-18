@@ -77,24 +77,30 @@ namespace EasyAnalysis.Actions
         {
             try
             {
-                var html = item.GetValue("messages")
-                  .AsBsonArray
-                  .FirstOrDefault()
-                  .AsBsonDocument
-                  .GetValue("body").AsString;
+                var msgs = item.GetValue("messages").AsBsonArray;
 
-                var document = new HtmlAgilityPack.HtmlDocument();
+                var orignalPost = msgs.FirstOrDefault()
+                                      .AsBsonDocument
+                                      .GetValue("body").AsString;
 
-                document.LoadHtml(html);
+                string excerpt = HtmlToExcerpt(orignalPost);
 
-                var text = document.DocumentNode.InnerText;
+                int replies = msgs.Count - 1;
 
-                var excerpt = text.Substring(0, Math.Min(256, text.Length));
+                var uniqueUsers = item.GetValue("users")
+                                      .AsBsonArray.Select(m => m.AsBsonDocument
+                                      .GetValue("id")
+                                      .AsString)
+                                      .Distinct()
+                                      .Count();
 
                 var updateAction = Builders<BsonDocument>.Update
                                     .Set("createdOn", item.GetValue("createdOn").ToUniversalTime())
                                     .Set("title", item.GetValue("title").AsString)
                                     .Set("url", item.GetValue("url").AsString)
+                                    .Set("views", item.GetValue("views").AsInt32)
+                                    .Set("users", uniqueUsers)
+                                    .Set("replies", replies)
                                     .Set("answered", bool.Parse(item.GetValue("answered").AsString))
                                     .Set("excerpt", excerpt);
 
@@ -109,6 +115,18 @@ namespace EasyAnalysis.Actions
             {
                 Logger.Current.Error(ex.Message);
             }
+        }
+
+        private static string HtmlToExcerpt(string html)
+        {
+            var document = new HtmlAgilityPack.HtmlDocument();
+
+            document.LoadHtml(html);
+
+            var text = document.DocumentNode.InnerText;
+
+            var excerpt = text.Substring(0, Math.Min(256, text.Length));
+            return excerpt;
         }
     }
 }

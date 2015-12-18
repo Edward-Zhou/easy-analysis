@@ -6,6 +6,10 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using EasyAnalysis.Framework.Data;
+using EasyAnalysis.Data;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace EasyAnalysis
 {
@@ -13,11 +17,44 @@ namespace EasyAnalysis
     {
         static void Main(string[] args)
         {
+            SearchByKeyWord("vb");
             // ParseLog(@"D:\Test\logs");
 
             // MergeTags(from: "build10581", to: "build-10581");
 
             // OutputSimilarTags();
+        }
+
+        static void SearchByKeyWord(string keyWord)
+        {
+            keyWord = keyWord.ToLower();
+
+            IReadOnlyCollection dsInput = MongoDataCollection.Parse("landing.threads");
+
+            var fb = Builders<BsonDocument>.Filter;
+
+            var range = fb.Gte("createdOn", DateTime.Parse("12/01/2015"))
+                      & fb.Lte("createdOn", DateTime.Parse("12/30/2015"));
+
+            var collection = dsInput.GetData() as IMongoCollection<BsonDocument>;
+
+            var task = collection.Find(range)
+                      .Project("{title: 1, messages: 1}")
+                      .ForEachAsync((item) => {
+                          var title = item.GetValue("title").AsString.ToLower();
+                          var body = item.GetValue("messages")
+                                          .AsBsonArray
+                                          .FirstOrDefault()
+                                          .AsBsonDocument
+                                          .GetValue("body").AsString.ToLower();
+
+                          if (title.Contains(keyWord) || body.Contains(keyWord))
+                          {
+                              Console.WriteLine("{0}, {1}", item.GetValue("_id").AsString, title);
+                          }
+                      });
+
+            task.Wait();
         }
 
         static void CreateCustomDropDownField()
