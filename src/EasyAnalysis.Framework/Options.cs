@@ -11,7 +11,8 @@ namespace EasyAnalysis.Framework
     {
         Unkown = 0,
         Dataflow = 1,
-        Action = 2
+        Action = 2,
+        Package = 3
     }
 
     public class Options
@@ -59,6 +60,9 @@ namespace EasyAnalysis.Framework
                     case "action":
                         arguments.Type = ExecutionType.Action;
                         break;
+                    case "package":
+                        arguments.Type = ExecutionType.Package;
+                        break;
                     default:
                         arguments.Type = ExecutionType.Unkown;
                         break;
@@ -100,6 +104,11 @@ namespace EasyAnalysis.Framework
             {
                 throw new ArgumentException("The arguments are incorrect");
             }
+        }
+
+        public object FirstOrDefault()
+        {
+            throw new NotImplementedException();
         }
     }
 }

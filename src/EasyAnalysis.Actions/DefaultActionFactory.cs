@@ -47,6 +47,9 @@ namespace EasyAnalysis.Backend
                 case "msdn-uwp-tag-to-category":
                     return new MSDNUWPTagToCategory();
 
+                case "set-forum-attributes":
+                    return new SetForumAttributes();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }

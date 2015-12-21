@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using EasyAnalysis.Infrastructure.Discovery;
 using System.Text;
+using System.Linq;
 
 namespace EasyAnalysis.Backend
 {
@@ -15,44 +16,18 @@ namespace EasyAnalysis.Backend
         /// e.g:
         /// 1) run a init dataflow 
         /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:uwp_sort_by_post|init|D:\\forum_cache|landing.threads"
-        /// 1) run a monitor dataflow 
+        /// 2) run a monitor dataflow 
         /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:uwp_sort_by_lastpost|monitor|D:\\forum_cache|landing.threads"
-        /// 2) run a action
+        /// 3) run a action
         /// EasyAnalysis.Backend.exe type:action name:correct-datatype parameters:landing.threads
+        /// 4) run a package
+        /// EasyAnalysis.Backend.exe type:package name:{package_name} parameters:key1=value1&key2=value2
         /// </summary>
-        /// <param name="args">type:[dataflow|action] name:[e.g. general] parameters:[]</param>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
-            var text = File.ReadAllText("config.json");
-
-            var keys = JsonConvert.DeserializeObject<Dictionary<string, PaginationDiscoveryConfigration>>(text, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-
-            var sb = new StringBuilder();
-
-            foreach(var key in keys)
-            {
-                sb.AppendLine(
-                    string.Format("EasyAnalysis.Backend.exe type:dataflow name:general \"parameters:{0}|init|D:\\forum_cache|landing.sql_threads\"", key.Key));
-            }
-
-            var cmd = sb.ToString();
-
             try
             {
-                if (args.Length == 1)
-                {
-                    var config = File.ReadAllText(args[0]);
-
-                    var sequence = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Options>>(config);
-
-                    foreach (var options in sequence)
-                    {
-                        Run(options);
-                    }
-
-                    return;
-                }
-
                 Run(Options.Parse(args));
             }
             catch (Exception ex)
@@ -94,6 +69,42 @@ namespace EasyAnalysis.Backend
                     task.Wait();
 
                     Logger.Current.Info(string.Format("End of running action[{0}]", arguments.Name));
+                }
+                else if (arguments.Type == ExecutionType.Package)
+                {
+                    var text = File.ReadAllText(arguments.Name);
+
+                    if(arguments.Parameters != null && arguments.Parameters.Length > 0)
+                    {
+                        IDictionary<string, string> placeholders = new Dictionary<string, string>();
+
+                        var firstParameter = arguments.Parameters.FirstOrDefault();
+
+                        var pairs = firstParameter.Split('&');
+
+                        foreach(var pair in pairs)
+                        {
+                            var temp = pair.Split('=');
+
+                            placeholders.Add(temp[0], temp[1]);
+                        }
+
+                        foreach (var placeholder in placeholders)
+                        {
+                            var expression = "{{" + placeholder.Key + "}}";
+
+                            var replacement = placeholder.Value;
+
+                            text = text.Replace(expression, replacement);
+                        }
+
+                        var sequence = JsonConvert.DeserializeObject<List<Options>>(text);
+
+                        foreach (var options in sequence)
+                        {
+                            Run(options);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
