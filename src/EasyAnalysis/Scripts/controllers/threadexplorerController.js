@@ -69,14 +69,38 @@
 
                 $scope.filter.allTags = tags;
 
-                threadProfileService.relatedTags($scope.repository, range[0], range[1], $scope.filter.allTags, $scope.filter.answered)
-                                           .then(function (response) {
-                                               $scope.filter.tag.related = response.data;
-                                           });
+                var done1 = false;
 
-                threadProfileService.list($scope.repository, range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page).then(function (response) {
-                    $scope.threadProfiles = response.data;
-                });
+                var done2 = false;
+
+                $scope.done = false;
+
+                $scope.error = false;
+
+                threadProfileService
+                    .relatedTags($scope.repository, range[0], range[1], $scope.filter.allTags, $scope.filter.answered)
+                    .then(function (response) {
+                        done1 = true;
+
+                        $scope.done = done1 && done2;
+
+                        $scope.filter.tag.related = response.data;
+                    },
+                    function errorCallback(response) {
+                        $scope.error = true;
+                    });
+
+                threadProfileService
+                    .list($scope.repository, range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page)
+                    .then(function (response) {
+                        done2 = true;
+
+                        $scope.done = done1 && done2;
+
+                        $scope.threadProfiles = response.data;
+                    }, function errorCallback(response) {
+                        $scope.error = true;
+                    });
             }
 
             $scope.selection = {};
@@ -147,9 +171,13 @@
             {
                 var range = getDateRange();
 
+                $scope.done = false;
+
                 threadProfileService
                     .list($scope.repository, range[0], range[1], $scope.filter.allTags, $scope.filter.answered, $scope.page)
                     .then(function (response) {
+                        $scope.done = true;
+
                         $scope.threadProfiles = response.data;
                     });
             }
