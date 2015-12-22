@@ -12,146 +12,55 @@ namespace EasyAnalysis.ScheduledTask
 {
     class Program
     {
-        private static string filePath;
-        private static System.Timers.Timer aTimer;
-        private static List<string> jsonList = new List<string>();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args">
+        /// [0-interval seconds]: 60 = 1 minutes
+        /// [... additional parameters]: type:package name:c:\config\uwp-seq.json
+        /// </param>
         static void Main(string[] args)
         {
-            try
+            var intervalSeconds = int.Parse(args[0]);
+
+            var trigger = new IntervalTimeTrigger(intervalSeconds, (lastTriggerTime, thisTriggerTime) => {
+
+                var startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+                var endOfMonth = startOfMonth.AddMonths(1);
+
+
+                var parameters = string.Format(
+                    "parameters:start={0:yyyy-MM-ddThh:mm:ssZ}&end={1:yyyy-MM-ddThh:mm:ssZ}&this_month_start={2:yyyy-MM-ddThh:mm:ssZ}&this_month_end={3:yyyy-MM-ddThh:mm:ssZ}", lastTriggerTime, thisTriggerTime, startOfMonth, endOfMonth);
+
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+
+                var applicationExeFile = System.Configuration.ConfigurationManager.AppSettings.Get("application");
+
+                startInfo.FileName = applicationExeFile;
+
+                startInfo.WorkingDirectory = Path.GetDirectoryName(applicationExeFile);
+
+                var arguments = args.Skip(1).ToList();
+
+                arguments.Add(parameters);
+
+                startInfo.Arguments = string.Join(" ", arguments);
+
+                process.StartInfo = startInfo;
+
+                process.Start();
+            });
+
+
+            while (true)
             {
-                if (args == null | args.Length <= 2)//At lease three parameters
-                {
-                    Console.WriteLine("Please enter the correct parameters"+Environment.NewLine+ "[Backend executable file path] [Refresh interval(seconds)] [json file1 path] [json file2 path]...");
-                }
-                else
-                {
-                    filePath = args[0];
-                    if(!File.Exists(filePath))
-                    {
-                        throw new Exception("The Backend file can not be found");
-                    }
-                    Int32 refreshInterval = Convert.ToInt32(args[1]) * 1000;
-                    
-                    for (int i = 2; i < args.Length; i++) // Loop through args
-                    {
-                        if (File.Exists(args[i]))
-                        {
-                            jsonList.Add(args[i]);
-                        }
-                        else
-                        {
-                            throw new Exception("The Backend file can not be found");
-                        }
-                    }
-
-#if DEBUG
-                    SetTimer(1000);
-#else
-                    SetTimer(refreshInterval);
-#endif
-                }
-
-
-                Console.WriteLine("\nPress the Enter key to exit the application...\n");
-                Logger.Current.Info(string.Format("The ScheduledTask started at {0:HH:mm:ss.fff}", DateTime.Now));
-                Console.ReadLine();
-                aTimer.Stop();
-                aTimer.Dispose();
-
-                Console.WriteLine("Terminating the ScheduledTask...");
-
-            }
-            catch (Exception ex)
-            {
-                Logger.Current.Error(ex.Message);
+                System.Threading.Thread.Sleep(1000);
             }
         }
-        private static void SetTimer(Int32 interval)
-        {
-            aTimer = new System.Timers.Timer(interval);
-            // Hook up the Elapsed event for the timer. 
-            aTimer.Elapsed += OnTimedEvent;
-            aTimer.AutoReset = true;
-            aTimer.Enabled = true;
-        }
-
-        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            Logger.Current.Info(string.Format("The ScheduledTask Elapsed event was raised at {0:HH:mm:ss.fff}",
-                              e.SignalTime));
-
-            foreach (var json in jsonList)
-            {
-#if DEBUG
-                var pws = System.Diagnostics.ProcessWindowStyle.Normal;
-#else
-                var pws = System.Diagnostics.ProcessWindowStyle.Hidden;
-#endif
-                ExeCMD(filePath, json, pws);
-            }
-        }
-
-        /// <summary>
-        /// Execuate command
-        /// </summary>
-        /// <param name="fileName">FileName for ProcessStartInfo</param>
-        /// <param name="configPath">Arguments for ProcessStartInfo</param>
-        private static void ExeCMD(string fileName, string configPath, System.Diagnostics.ProcessWindowStyle pws)
-        {
-            UpdateJSONConfig(configPath);
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            startInfo.WindowStyle = pws;
-            startInfo.FileName = fileName;
-            startInfo.Arguments = configPath;
-            process.StartInfo = startInfo;
-            process.Start();
-            Console.WriteLine("The command execuated at {0:HH:mm:ss.fff}", DateTime.Now);
-#if DEBUG
-            aTimer.Stop();
-#endif
-        }
-
-        private static void UpdateJSONConfig(string configPath)
-        {
-            var config = File.ReadAllText(configPath);
-            var sequence = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Options>>(config);
-
-            foreach (var options in sequence)
-            {
-                Update(options);
-            }
-
-            string output = Newtonsoft.Json.JsonConvert.SerializeObject(sequence, Newtonsoft.Json.Formatting.Indented);
-
-            File.WriteAllText(configPath, output);
-        }
-
-        private static void Update(Options arguments)
-        {
-            try
-            {
-                DateTime dtUtcNow = DateTime.UtcNow;
-
-                for(int i=0; i< arguments.Parameters.Count(); i++)
-                {
-                    var para = arguments.Parameters[i];
-                    if (para.ToString().Split('&').Count() == 2)
-                    {
-                        var timeFrameRange = TimeFrameRange.Parse(para);
-                        timeFrameRange.Start = dtUtcNow.AddDays(-2); //-2 days
-                        timeFrameRange.End = dtUtcNow.AddDays(2); //+2 days
-                        arguments.Parameters[i] = TimeFrameRange.ParseBack(timeFrameRange);
-                    }
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                Logger.Current.Error(ex.Message);
-                //throw ex;
-            }
-        }
-
     }
 }
