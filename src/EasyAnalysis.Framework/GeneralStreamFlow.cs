@@ -84,44 +84,44 @@ namespace EasyAnalysis.Framework
 
         private void OnUriDiscovered(string url)
         {
-            Logger.Current.Info(string.Format("Discovered [{0}]", url));
-
-            var cacheClient = _cacheService.CreateClient();
-
-            var status = cacheClient.GetStatus(new Uri(url));
-
-            if(status != CacheStatus.Active || !_config.UseCache)
+            try
             {
-                var httpClient = new HttpClient();
+                Logger.Current.Info(string.Format("Discovered [{0}]", url));
 
-                var task = httpClient.GetStreamAsync(url);
+                var cacheClient = _cacheService.CreateClient();
 
-                task.Wait();
+                var status = cacheClient.GetStatus(new Uri(url));
 
-                cacheClient.SetCache(new Uri(url), task.Result);
-            }
-
-            using (var cache = cacheClient.GetCache(new Uri(url)))
-            {
-                var metadata = new Dictionary<string, object>();
-
-                foreach(var module in _modules)
+                if (status != CacheStatus.Active || !_config.UseCache)
                 {
-                    try
+                    var httpClient = new HttpClient();
+
+                    var task = httpClient.GetStreamAsync(url);
+
+                    task.Wait();
+
+                    cacheClient.SetCache(new Uri(url), task.Result);
+                }
+
+                using (var cache = cacheClient.GetCache(new Uri(url)))
+                {
+                    var metadata = new Dictionary<string, object>();
+
+                    foreach (var module in _modules)
                     {
                         module.OnProcess(metadata, cache);
                     }
-                    catch (Exception ex)
-                    {
-                        Logger.Current.Error(string.Format("URL[{0}], ERROR: {1}", url, ex.Message));
-                    }     
-                }
 
-                if(_output != null && metadata.Count > 0)
-                {
-                    _output.Output(metadata);
+                    if (_output != null && metadata.Count > 0)
+                    {
+                        _output.Output(metadata);
+                    }
                 }
-            }            
+            }
+            catch(Exception ex)
+            {
+                Logger.Current.Error(string.Format("URL[{0}], ERROR: {1}", url, ex.Message));
+            }
         }
     }
 }

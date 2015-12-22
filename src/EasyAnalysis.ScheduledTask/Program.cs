@@ -1,5 +1,7 @@
 ﻿using EasyAnalysis.Actions;
 using EasyAnalysis.Framework;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,45 +23,65 @@ namespace EasyAnalysis.ScheduledTask
         /// </param>
         static void Main(string[] args)
         {
-            var intervalSeconds = int.Parse(args[0]);
+            IList<IntervalTimeTrigger> triggers = new List<IntervalTimeTrigger>();
 
-            var trigger = new IntervalTimeTrigger(intervalSeconds, (lastTriggerTime, thisTriggerTime) => {
+            var text = File.ReadAllText("triggers.json");
 
-                var startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-
-                var endOfMonth = startOfMonth.AddMonths(1);
-
-
-                var parameters = string.Format(
-                    "parameters:start={0:yyyy-MM-ddThh:mm:ssZ}&end={1:yyyy-MM-ddThh:mm:ssZ}&this_month_start={2:yyyy-MM-ddThh:mm:ssZ}&this_month_end={3:yyyy-MM-ddThh:mm:ssZ}", lastTriggerTime, thisTriggerTime, startOfMonth, endOfMonth);
-
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
-
-                var applicationExeFile = System.Configuration.ConfigurationManager.AppSettings.Get("application");
-
-                startInfo.FileName = applicationExeFile;
-
-                startInfo.WorkingDirectory = Path.GetDirectoryName(applicationExeFile);
-
-                var arguments = args.Skip(1).ToList();
-
-                arguments.Add(parameters);
-
-                startInfo.Arguments = string.Join(" ", arguments);
-
-                process.StartInfo = startInfo;
-
-                process.Start();
+            var triggerDefinations = JsonConvert.DeserializeObject<List<TriggerDefinition>>(text, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
+            foreach (var triggerDefination in triggerDefinations)
+            {
+                var trigger = new IntervalTimeTrigger(
+                int.Parse(triggerDefination.Constructor[0]),
+                (lastTriggerTime, thisTriggerTime) =>
+                {
+                    var beginOfThisMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+                    var beginOfNextMonth = beginOfThisMonth.AddMonths(1);
+
+                    var palceholders = new Dictionary<string, string>
+                    {
+                        {"this_trigger_time", thisTriggerTime.ToString("yyyy-MM-ddThh:mm:ssZ") },
+                        {"last_trigger_time", lastTriggerTime.ToString("yyyy-MM-ddThh:mm:ssZ") },
+                        {"begin_of_this_month", beginOfThisMonth.ToString("yyyy-MM-ddThh:mm:ssZ") },
+                        {"begin_of_next_month", beginOfNextMonth.ToString("yyyy-MM-ddThh:mm:ssZ") }
+                    };
+
+                    var arguments = triggerDefination.Arguments;
+
+                    foreach (var placeholder in palceholders)
+                    {
+                        arguments = arguments.Replace("{{" + placeholder.Key + "}}", placeholder.Value);
+                    }
+
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+
+                    var applicationExeFile = triggerDefination.Application;
+
+                    startInfo.FileName = applicationExeFile;
+
+                    startInfo.WorkingDirectory = Path.GetDirectoryName(applicationExeFile);
+
+                    startInfo.Arguments = arguments;
+
+                    process.StartInfo = startInfo;
+
+                    // process.Start();
+                });
+
+                triggers.Add(trigger);
+            }
 
             while (true)
             {
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(10000);
             }
         }
     }

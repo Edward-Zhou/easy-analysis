@@ -1,0 +1,8 @@
+﻿[
+  {
+    "name": "uwp msdn trigger",
+    "constructor": ["5"],
+    "application": "applicaiton.exe",
+    "arguments": "type:package name:uwp.json parameters:start={{last_trigger_time}}&end={{this_trigger_time}}&this_month_start={{begin_of_this_month}}&this_month_end={{begin_of_next_month}}"
+  }
+]
