@@ -15,12 +15,14 @@ namespace EasyAnalysis.Backend
         /// <summary>
         /// e.g:
         /// 1) run a init dataflow 
-        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:uwp_sort_by_post|init|D:\\forum_cache|landing.threads"
+        /// EasyAnalysis.Backend.exe type:dataflow name:msdn-monitor "parameters:uwp_sort_by_post|D:\\forum_cache|landing.threads"
         /// 2) run a monitor dataflow 
-        /// EasyAnalysis.Backend.exe type:dataflow name:general "parameters:uwp_sort_by_lastpost|monitor|D:\\forum_cache|landing.threads"
-        /// 3) run a action
+        /// EasyAnalysis.Backend.exe type:dataflow name:msdn-init "parameters:uwp_sort_by_lastpost|D:\\forum_cache|landing.threads"
+        /// 3) run a refresh dataflow 
+        /// EasyAnalysis.Backend.exe type:dataflow name:msdn-refresh "parameters:D:\\forum_cache|uwp.thread_profiles|landing.threads|2015-12-01T00:00:00Z&2015-12-20T00:00:00Z"
+        /// 4) run a action
         /// EasyAnalysis.Backend.exe type:action name:correct-datatype parameters:landing.threads
-        /// 4) run a package
+        /// 5) run a package
         /// EasyAnalysis.Backend.exe type:package name:{package_name} parameters:key1=value1&key2=value2
         /// </summary>
         /// <param name="args"></param>
@@ -52,15 +54,19 @@ namespace EasyAnalysis.Backend
             {
                 if (arguments.Type == ExecutionType.Dataflow)
                 {
-                    var exec = new DataflowExec();
+                    var name = arguments.Name.ToLower();
 
-                    exec.RunDataFlow(arguments.Parameters);
+                    var webStreamFlowFactory = new DefaultWebStreamFlowFactory();
+
+                    var webStreamFlow = webStreamFlowFactory.Activate(name);
+
+                    webStreamFlow.Run(arguments.Parameters);
                 }
                 else if (arguments.Type == ExecutionType.Action)
                 {
-                    var factory = new DefaultActionFactory();
+                    var actionFactory = new DefaultActionFactory();
 
-                    var action = factory.CreateInstance(arguments.Name);
+                    var action = actionFactory.Activate(arguments.Name);
 
                     Logger.Current.Info(string.Format("Running action[{0}]", arguments.Name));
 

@@ -4,21 +4,23 @@ using EasyAnalysis.Infrastructure.Cache;
 using EasyAnalysis.Infrastructure.Discovery;
 using EasyAnalysis.Infrastructure.IO;
 using EasyAnalysis.Modules;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace EasyAnalysis.Backend
 {
-    internal class DataflowExec
+    public class MsdnMonitorWebStreamFlow : IWebStreamFlow
     {
-        public void RunDataFlow(string[] parameters)
+        public void Run(string[] parameters)
         {
             string settingName = parameters[0].ToLower();
 
-            string type = parameters[1].ToLower();
+            string cacheFolder = parameters[1];
 
-            string cacheFolder = parameters[2];
-
-            string outputCollectionName = parameters[3];
+            string outputCollectionName = parameters[2];
 
             var generalDataFlowConfigration = new GeneralStreamFlowConfigration
             {
@@ -30,29 +32,17 @@ namespace EasyAnalysis.Backend
                     }
                 },
                 UseCache = false
-            }; 
+            };
 
-            IURIDiscovery discovery;
 
             var paginationDiscoveryConfigration = JsonConfigrationManager.Current.GetSetting(settingName);
 
-            if(paginationDiscoveryConfigration == null)
+            if (paginationDiscoveryConfigration == null)
             {
                 throw new System.ArgumentException(string.Format("setting [{0}] not found", settingName));
             }
 
-            if (type.Equals("monitor"))
-            {
-                Logger.Current.Info("Run general dataflow in monitor mode");
-
-                discovery = new PeriodicPaginationDiscovery(paginationDiscoveryConfigration);
-            }
-            else
-            {
-                Logger.Current.Info("Run general dataflow in init mode");
-
-                discovery = new PaginationDiscovery(paginationDiscoveryConfigration);
-            }
+            IURIDiscovery discovery = new PeriodicPaginationDiscovery(paginationDiscoveryConfigration);
 
             var moduleFactory = new DefaultModuleFactory();
 

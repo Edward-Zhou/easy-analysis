@@ -7,7 +7,7 @@ namespace EasyAnalysis.Backend
 {
     public class DefaultActionFactory : IActionFactory
     {
-        public IAction CreateInstance(string name)
+        public IAction Activate(string name)
         {
             switch(name.ToLower())
             {

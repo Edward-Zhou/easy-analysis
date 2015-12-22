@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyAnalysis.Framework.Analysis
+namespace EasyAnalysis.Backend
 {
-    public interface IActionFactory
+    public interface IWebStreamFlow
     {
-        IAction Activate(string name);
+        void Run(string[] parameters);
     }
 }

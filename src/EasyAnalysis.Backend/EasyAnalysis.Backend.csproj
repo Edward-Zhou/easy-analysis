@@ -90,13 +90,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataflowExec.cs" />
+    <Compile Include="DefaultWebStreamFlowFactory.cs" />
+    <Compile Include="IWebStreamFlow.cs" />
+    <Compile Include="MsdnInitWebStreamFlow.cs" />
     <Compile Include="JsonConfigrationManager.cs" />
     <Compile Include="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Include="MsdnMonitorWebStreamFlow.cs" />
+    <Compile Include="MsdnRefreshWebStreamFlow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -111,6 +115,10 @@
     <ProjectReference Include="..\EasyAnalysis.Actions\EasyAnalysis.Actions.csproj">
       <Project>{007889cd-7df8-4ee3-af35-4cf5beac4877}</Project>
       <Name>EasyAnalysis.Actions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyAnalysis.Data\EasyAnalysis.Data.csproj">
+      <Project>{4d44fab3-6f07-45f5-b75d-b62b763637dd}</Project>
+      <Name>EasyAnalysis.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasyAnalysis.Framework\EasyAnalysis.Framework.csproj">
       <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>

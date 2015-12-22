@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExistingDataDiscovery.cs" />
     <Compile Include="HtmlAttributeParse.cs" />
     <Compile Include="PaginationDiscovery.cs" />
     <Compile Include="PageNavigation.cs" />
