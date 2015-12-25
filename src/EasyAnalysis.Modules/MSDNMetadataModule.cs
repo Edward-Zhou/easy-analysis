@@ -75,6 +75,7 @@ namespace EasyAnalysis.Modules
                 {
                     { "_id", xThread.Attribute("id") == null ? string.Empty : xThread.Attribute("id").Value},
                     { "authorId", xThread.Attribute("authorId") == null ? string.Empty : xThread.Attribute("authorId").Value },
+                    { "threadType", xThread.Attribute("threadType") == null ? string.Empty : xThread.Attribute("threadType").Value},
                     { "title", xThread.Element("topic") == null ? string.Empty : xThread.Element("topic").Value },
                     { "url", xThread.Element("url") == null ? string.Empty : xThread.Element("url").Value},
                     { "createdOn", DateTime.Parse(xThread.Element("createdOn").Value)},

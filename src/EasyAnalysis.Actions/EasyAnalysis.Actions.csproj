@@ -70,25 +70,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddMetadataToThreadProfile.cs" />
-    <Compile Include="BuildBasicThreadProfiles.cs" />
-    <Compile Include="BuildStackoverflowQuestionProfile.cs" />
-    <Compile Include="CleanUpData.cs" />
+    <Compile Include="msdn\AddMetadataToThreadProfile.cs" />
+    <Compile Include="msdn\BuildBasicThreadProfiles.cs" />
+    <Compile Include="stackoverflow\BuildStackoverflowQuestionProfile.cs" />
+    <Compile Include="common\CleanUpData.cs" />
     <Compile Include="DefaultActionFactory.cs" />
     <Compile Include="DetectDuplicates.cs" />
-    <Compile Include="DetectTagsForMSDNForum.cs" />
-    <Compile Include="ExtractUserActivies.cs" />
-    <Compile Include="ImportNewUsers.cs" />
-    <Compile Include="ExportMongoCollectionToMSSqlServerTable.cs" />
+    <Compile Include="msdn\DetectTagsForMSDNForum.cs" />
+    <Compile Include="msdn\ExtractUserActivies.cs" />
+    <Compile Include="msdn\ImportNewUsers.cs" />
+    <Compile Include="common\ExportMongoCollectionToMSSqlServerTable.cs" />
     <Compile Include="MongoHelper.cs" />
-    <Compile Include="MSDNUWPTagToCategory.cs" />
+    <Compile Include="msdn\MSDNUWPTagToCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetForumAttributes.cs" />
+    <Compile Include="msdn\SetForumAttributes.cs" />
     <Compile Include="SqlQueryFactory.cs" />
     <Compile Include="SuggestTags.cs" />
-    <Compile Include="SyncWithStackoverflow.cs" />
-    <Compile Include="SyncWithStackoverflowTags.cs" />
-    <Compile Include="SyncWithWebDatabase.cs" />
+    <Compile Include="stackoverflow\SyncWithStackoverflow.cs" />
+    <Compile Include="stackoverflow\SyncWithStackoverflowTags.cs" />
+    <Compile Include="msdn\SyncWithWebDatabase.cs" />
     <Compile Include="TimeFrameRange.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

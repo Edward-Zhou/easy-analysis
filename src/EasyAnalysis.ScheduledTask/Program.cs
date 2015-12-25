@@ -73,7 +73,7 @@ namespace EasyAnalysis.ScheduledTask
 
                     process.StartInfo = startInfo;
 
-                    // process.Start();
+                    process.Start();
                 });
 
                 triggers.Add(trigger);
