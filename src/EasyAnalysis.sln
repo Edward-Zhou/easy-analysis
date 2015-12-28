@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis", "EasyAnalysis\EasyAnalysis.csproj", "{206942C1-B7EB-4D7E-AC40-0BB3FBC58C8B}"
 EndProject
@@ -58,6 +58,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Data", "EasyAnalysis.Data\EasyAnalysis.Data.csproj", "{4D44FAB3-6F07-45F5-B75D-B62B763637DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.ServiceHost", "EasyAnalysis.ServiceHost\EasyAnalysis.ServiceHost.csproj", "{5D311840-9C83-48C0-870D-E59FA7AA8DF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Infrastructure.Data.UnitTests", "EasyAnalysis.Infrastructure.Data.UnitTests\EasyAnalysis.Infrastructure.Data.UnitTests.csproj", "{8B2A107F-E41D-46BE-890C-50627769FEE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,6 +155,10 @@ Global
 		{5D311840-9C83-48C0-870D-E59FA7AA8DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D311840-9C83-48C0-870D-E59FA7AA8DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D311840-9C83-48C0-870D-E59FA7AA8DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B2A107F-E41D-46BE-890C-50627769FEE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B2A107F-E41D-46BE-890C-50627769FEE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B2A107F-E41D-46BE-890C-50627769FEE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B2A107F-E41D-46BE-890C-50627769FEE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -175,5 +181,6 @@ Global
 		{71007B4E-F64F-4504-95E9-F9B36219855D} = {34283933-C119-459F-A8A0-DEA2BC334FE3}
 		{BFDFC668-1E1B-4E98-9DED-2DF528ED8500} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
 		{4D44FAB3-6F07-45F5-B75D-B62B763637DD} = {E6FE1F34-6BAD-42E9-8E7A-73C1A15A41C7}
+		{8B2A107F-E41D-46BE-890C-50627769FEE6} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
 	EndGlobalSection
 EndGlobal

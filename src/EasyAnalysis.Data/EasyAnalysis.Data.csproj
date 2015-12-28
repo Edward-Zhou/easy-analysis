@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BsonDocumentCollection.cs" />
+    <Compile Include="BsonToDictionaryConverter.cs" />
+    <Compile Include="DataProcessingPipeLine.cs" />
     <Compile Include="MongoDataCollection.cs" />
     <Compile Include="MSSQLDatasource.cs" />
     <Compile Include="NamedQueryReadOnlyCollection.cs" />
