@@ -1,11 +1,10 @@
 ﻿using EasyAnalysis.Data;
-using EasyAnalysis.Framework;
 using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Framework.ConnectionStringProviders;
-using EasyAnalysis.Framework.Data;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EasyAnalysis.Actions
@@ -42,39 +41,43 @@ namespace EasyAnalysis.Actions
                 throw new ArgumentException("Invalid action auguments for clean up data");
             }
 
-            IReadOnlyCollection datasource = MongoDataCollection.Parse(args[0]);
+            BsonDocumentCollection collection = new BsonDocumentCollection(args[0]);
 
-            TimeFrameRange timeFrameRange = null;
+            collection.Filter((fb) => {
+                var filter = fb.Type("createdOn", BsonType.String);
 
-            if (args.Length > 1)
+                if (args.Length > 1)
+                {
+                    filter = filter & MongoHelper.CreateTimeFrameFilter(TimeFrameRange.Parse(args[1]));
+                }
+
+                return filter;
+            });
+
+            var pipeline = new DataProcessingPipeLine<BsonDocument>
             {
-                timeFrameRange = TimeFrameRange.Parse(args[1]);
-            }
+                Source = collection
+            };
 
-            var collection = datasource.GetData() as IMongoCollection<BsonDocument>;
+            pipeline.OnOutput += async (outputRecord) => {
+                var idFilter = Builders<BsonDocument>.Filter.Eq("_id", outputRecord["_id"]);
 
-            var filterBuilder = Builders<BsonDocument>.Filter;
+                var update = Builders<BsonDocument>.Update.Set("createdOn", outputRecord["createdOn"]);
 
-            var filter = filterBuilder.Type("createdOn", BsonType.String);
+                await collection.Raw.UpdateOneAsync(idFilter, update);
+            };
 
-            if (timeFrameRange != null)
+            await pipeline.Process((context, item) =>
             {
-                filter = filter & MongoHelper.CreateTimeFrameFilter(timeFrameRange);
-            }
+                var id = item.GetValue("_id").AsString;
 
-            await collection
-                    .Find(filter)
-                    .ForEachAsync(async (item) => {
-                        var id = item.GetValue("_id").AsString;
+                var dateText = item.GetValue("createdOn").AsString;
 
-                        var dateText = item.GetValue("createdOn").AsString;
-
-                        var idFilter = Builders<BsonDocument>.Filter.Eq("_id", id);
-
-                        var update = Builders<BsonDocument>.Update.Set("createdOn", DateTime.Parse(dateText));
-
-                        await collection.UpdateOneAsync(idFilter, update);
-                    });
+                context.Output(new Dictionary<string, object> {
+                    { "_id", id},
+                    { "createdOn", DateTime.Parse(dateText)}
+                });
+            });
         }
     }
 }
