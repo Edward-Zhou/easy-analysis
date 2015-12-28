@@ -43,6 +43,13 @@ namespace EasyAnalysis.Data
             _connectionStringProvider = new UniversalConnectionStringProvider();
         }
 
+        public BsonDocumentCollection(IMongoCollection<BsonDocument> collection, FilterDefinition<BsonDocument> filter)
+        {
+            _collection = collection;
+
+            _filter = filter;
+        }
+
         public BsonDocumentCollection(string source)
         {
             var temp = source.Split('.');

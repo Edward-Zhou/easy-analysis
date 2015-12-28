@@ -70,6 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicDocumentAction.cs" />
+    <Compile Include="DocumentToDocumentProcess.cs" />
     <Compile Include="msdn\AddMetadataToThreadProfile.cs" />
     <Compile Include="msdn\BuildBasicThreadProfiles.cs" />
     <Compile Include="stackoverflow\BuildStackoverflowQuestionProfile.cs" />
