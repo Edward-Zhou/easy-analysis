@@ -50,6 +50,9 @@ namespace EasyAnalysis.Backend
                 case "set-forum-attributes":
                     return new SetForumAttributes();
 
+                case "attach-thread-ownership":
+                    return new AttachThreadOwnership();
+
                 default: throw new NotImplementedException(string.Format("Action[{0}] is not supported yet"));
             }
         }

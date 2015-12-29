@@ -41,29 +41,7 @@ namespace EasyAnalysis.Actions
 
             pipeline.OnOutput += (values) =>
             {
-                var identifier = Builders<BsonDocument>.Filter.Eq("_id", values["_id"]);
-
-                values.Remove("_id");
-
-                var updateBuilder = Builders<BsonDocument>.Update;
-
-                UpdateDefinition<BsonDocument> updateDefination = null;
-
-                foreach (var kv in values)
-                {
-                    if (updateDefination == null)
-                    {
-                        updateDefination = updateBuilder.Set(kv.Key, kv.Value as string);
-                    }
-                    else
-                    {
-                        updateDefination = updateDefination.Set(kv.Key, kv.Value as string);
-                    }
-                }
-
-                var task = output.UpdateOneAsync(identifier, updateDefination);
-
-                task.Wait();
+                SetValuesToCollection(values, output);
             };
 
             await pipeline.Process((context, item) =>
