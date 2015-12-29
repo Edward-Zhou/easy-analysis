@@ -30,7 +30,6 @@ namespace EasyAnalysis.Backend
                 UseCache = false
             }; 
 
-
             var paginationDiscoveryConfigration = JsonConfigrationManager.Current.GetSetting(settingName);
 
             if(paginationDiscoveryConfigration == null)

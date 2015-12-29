@@ -40,7 +40,6 @@ namespace EasyAnalysis.Actions
 
             await process.ProcessAsync((list, document) =>
             {
-
                 var id = document.GetValue("_id").AsString;
 
                 var dateText = document.GetValue("createdOn").AsString;
