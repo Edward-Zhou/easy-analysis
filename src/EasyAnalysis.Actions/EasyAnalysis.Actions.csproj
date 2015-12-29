@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachThreadOwnership.cs" />
     <Compile Include="BasicDocumentAction.cs" />
     <Compile Include="DocumentToDocumentProcess.cs" />
     <Compile Include="msdn\AddMetadataToThreadProfile.cs" />
