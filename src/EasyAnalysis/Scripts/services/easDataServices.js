@@ -2,8 +2,8 @@
 // [dev]: localhost:58116
 
 var service_config = {
-    web_api: 'app-svr.cloudapp.net'
-    // web_api: 'localhost:58116' //Local Test
+    // web_api: 'app-svr.cloudapp.net'
+    web_api: 'localhost:58116' //Local Test
 }
 
 app.factory('threadService', ['$http', function ($http) {
@@ -100,12 +100,15 @@ app.factory('threadProfileService', ['$http', function ($http) {
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')))
         },
-
         list: function (resp, start, end, tags, answered, page) {
             return $http.get('http://' + service_config.web_api + '/api/ThreadProfiles?repository=' + resp + '&page=' + page + '&length=10&start=' + start +
                 '&end=' + end +
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')));
+        },
+        remove: function (id, repository)
+        {
+            return $http.delete('http://' + service_config.web_api + '/api/ThreadProfiles/' + id + '?repository=' + repository);
         }
     }
 }]);

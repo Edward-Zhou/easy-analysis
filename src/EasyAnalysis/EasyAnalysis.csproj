@@ -201,7 +201,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CategoryResult.cs" />
     <Compile Include="Models\EFTypeConfigrations.cs" />
     <Compile Include="Models\TagSearchResult.cs" />
     <Compile Include="Models\TodoItem.cs" />
@@ -225,6 +224,7 @@
     <Content Include="partials\dupdetection.html" />
     <Content Include="frame.html" />
     <Content Include="partials\embed.html" />
+    <Content Include="partials\question_detail_template.html" />
     <Content Include="partials\threadexplorer.html" />
     <Content Include="partials\userprofiles.html" />
     <Content Include="partials\detail.html" />

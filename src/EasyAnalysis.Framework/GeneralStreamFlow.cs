@@ -22,6 +22,8 @@ namespace EasyAnalysis.Framework
 
     public class GeneralStreamFlow
     {
+        public event Action<IDictionary<string, object>> OnFail;
+
         ICacheService _cacheService;
 
         IURIDiscovery _uriDiscovery;
@@ -120,6 +122,10 @@ namespace EasyAnalysis.Framework
             }
             catch(Exception ex)
             {
+                OnFail(new Dictionary<string, object> {
+                    { "url", url}
+                });
+
                 Logger.Current.Error(string.Format("URL[{0}], ERROR: {1}", url, ex.Message));
             }
         }

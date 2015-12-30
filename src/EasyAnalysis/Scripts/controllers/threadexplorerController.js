@@ -166,6 +166,12 @@
                 applyFilterChange($scope.selection);
             }
 
+            $scope.remove_question = function (id) {
+                threadProfileService.remove(id, $scope.repository)
+                                    .then(function () {
+                                        reload();
+                                    })
+            }
 
             function reload()
             {

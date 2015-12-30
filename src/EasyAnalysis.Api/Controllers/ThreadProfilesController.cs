@@ -31,7 +31,7 @@ namespace EasyAnalysis.Api.Controllers
 
             var builder = Builders<BsonDocument>.Filter;
 
-            FilterDefinition<BsonDocument> filter = "{}";
+            FilterDefinition<BsonDocument> filter = "{del: { $exists: false }}";
 
             List<string> wellKnownTags = new List<string> {
                 "uwp",
@@ -110,7 +110,7 @@ namespace EasyAnalysis.Api.Controllers
 
             var builder = Builders<BsonDocument>.Filter;
 
-            FilterDefinition<BsonDocument> filter = "{}";
+            FilterDefinition<BsonDocument> filter = "{del: { $exists: false }}";
 
             if (start.HasValue && end.HasValue)
             {
@@ -168,8 +168,15 @@ namespace EasyAnalysis.Api.Controllers
         }
 
         // DELETE: api/ThreadProfiles/5
-        public void Delete(int id)
+        public async Task Delete(string id, [FromUri]string repository)
         {
+            IMongoCollection<BsonDocument> threadProfiles = GetCollection(repository.ToLower());
+
+            var identifier = Builders<BsonDocument>.Filter.Eq("_id", id);
+
+            var update = Builders<BsonDocument>.Update.Set("del", true);
+
+            await threadProfiles.UpdateOneAsync(identifier, update);
         }
 
         #region helper methods
