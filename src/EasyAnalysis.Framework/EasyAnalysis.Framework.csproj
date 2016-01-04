@@ -57,6 +57,7 @@
     <Compile Include="Analysis\ModuleConfiguration.cs" />
     <Compile Include="Cache\ICacheClient.cs" />
     <Compile Include="Cache\ICacheService.cs" />
+    <Compile Include="Config\JsonConfigrationManager.cs" />
     <Compile Include="ConnectionStringProviders\ConnectionStringProvider.cs" />
     <Compile Include="ConnectionStringProviders\IConnectionStringProvider.cs" />
     <Compile Include="ConnectionStringProviders\MongoDBConnectionStringProvider.cs" />

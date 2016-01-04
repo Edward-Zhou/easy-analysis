@@ -1,34 +1,22 @@
-﻿using EasyAnalysis.Infrastructure.Discovery;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyAnalysis.Backend
 {
-    internal class JsonConfigrationManager
+    internal class JsonConfigrationManager<TNode>
     {
-        private IDictionary<string, PaginationDiscoveryConfigration> _settings;
+        private IDictionary<string, TNode> _settings;
 
-        private JsonConfigrationManager()
+        public JsonConfigrationManager(string file)
         {
-            var text = File.ReadAllText("config.json");
+            var text = File.ReadAllText(file);
 
-            _settings = JsonConvert.DeserializeObject<Dictionary<string, PaginationDiscoveryConfigration>>(text, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            _settings = JsonConvert.DeserializeObject<Dictionary<string, TNode>>(text, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }
 
-        private static JsonConfigrationManager _current = new JsonConfigrationManager();
-
-        public static JsonConfigrationManager Current
-        {
-            get { return _current; }
-        }
-
-        public PaginationDiscoveryConfigration GetSetting(string name)
+        public TNode GetSetting(string name)
         {
             if(_settings.ContainsKey(name))
             {
@@ -36,7 +24,7 @@ namespace EasyAnalysis.Backend
             }
             else
             {
-                return null;
+                return default(TNode);
             }
         }
     }

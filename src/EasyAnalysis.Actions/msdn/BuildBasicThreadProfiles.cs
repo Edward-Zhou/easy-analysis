@@ -102,6 +102,7 @@ namespace EasyAnalysis.Actions
                                     .Set("users", uniqueUsers)
                                     .Set("replies", replies)
                                     .Set("answered", bool.Parse(item.GetValue("answered").AsString))
+                                    .Set("threadType", item.GetValue("threadType").AsString)
                                     .Set("excerpt", excerpt);
 
                 var identity = Builders<BsonDocument>.Filter.Eq("_id", item.GetValue("_id").AsString);

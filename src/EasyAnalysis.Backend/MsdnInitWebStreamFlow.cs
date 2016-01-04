@@ -5,7 +5,6 @@ using EasyAnalysis.Infrastructure.Discovery;
 using EasyAnalysis.Infrastructure.IO;
 using EasyAnalysis.Modules;
 using System.Collections.Generic;
-using System;
 
 namespace EasyAnalysis.Backend
 {
@@ -29,9 +28,11 @@ namespace EasyAnalysis.Backend
                     }
                 },
                 UseCache = false
-            }; 
+            };
 
-            var paginationDiscoveryConfigration = JsonConfigrationManager.Current.GetSetting(settingName);
+            var jsonConfigrationManager = new JsonConfigrationManager<PaginationDiscoveryConfigration>("config.json");
+
+            var paginationDiscoveryConfigration = jsonConfigrationManager.GetSetting(settingName);
 
             if(paginationDiscoveryConfigration == null)
             {

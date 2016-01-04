@@ -15,7 +15,7 @@
   "uwp_sort_by_post": {
     "@extend": "_base_", 
     "name": "UWP threads sort by post",
-    "urlFormat": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+    "urlFormat": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
     "start": 1,
     "length": 100
   }
