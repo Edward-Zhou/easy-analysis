@@ -59,6 +59,7 @@
     <Compile Include="DataProcessingPipeLineTest.cs" />
     <Compile Include="HtmlTableCollectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpreadsheetCollectionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyAnalysis.Data\EasyAnalysis.Data.csproj">
@@ -76,6 +77,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Outputcat.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>
