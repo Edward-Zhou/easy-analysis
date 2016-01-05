@@ -25,6 +25,7 @@ namespace EasyAnalysis.Api.Controllers
             [FromUri] DateTime? start,
             [FromUri] DateTime? end,
             [FromUri] bool? answered,
+            [FromUri] int? top,
             [FromUri] string tags)
         {
             IMongoCollection<BsonDocument> threadProfiles = GetCollection(repository.ToLower());
@@ -32,6 +33,11 @@ namespace EasyAnalysis.Api.Controllers
             var builder = Builders<BsonDocument>.Filter;
 
             FilterDefinition<BsonDocument> filter = "{del: { $exists: false }}";
+
+            if(!top.HasValue)
+            {
+                top = 30;
+            }
 
             List<string> wellKnownTags = new List<string> {
                 "uwp",
@@ -73,7 +79,7 @@ namespace EasyAnalysis.Api.Controllers
                 .Group("{ _id: '$tags', freq: { $sum: 1 } }")
                 .Project("{ _id: 0, name: '$_id', freq: 1 }")
                 .Sort("{ freq: -1 }")
-                .Limit(30)
+                .Limit(top.GetValueOrDefault())
                 .ToListAsync();
 
             IList<BsonDocument> resultToRemove = new List<BsonDocument>();

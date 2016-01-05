@@ -1,5 +1,5 @@
-﻿controllers.controller('discoverController', ['$scope', '$location', 'threadService', '$routeParams',
-        function ($scope, $location, threadService, $routeParams) {
+﻿controllers.controller('discoverController', ['$scope', '$location', 'threadService', '$routeParams', 'threadProfileService',
+    function ($scope, $location, threadService, $routeParams, threadProfileService) {
             $scope.state = 'init';
 
             $scope.tagCoverage = {
@@ -47,4 +47,23 @@
                 $scope.categoryCoverage = data;
             });
 
-        }]);
+            var range = Utility.getDateRange('l30d');
+
+            $scope.words = [];
+
+            threadProfileService.relatedTags($scope.repository, range[0], range[1], [], '', 150)
+                    .then(function (response) {
+                        var tags = response.data;
+
+                        var words = [];
+
+                        for (var i = 0; i < tags.length; i++)
+                        {
+                            words.push({ text: tags[i].name, weight: tags[i].freq });
+                        }
+
+                        $scope.words = words;
+                    },
+                    function errorCallback(response) {
+                    });
+}]);

@@ -2,8 +2,8 @@
 // [dev]: localhost:58116
 
 var service_config = {
-    // web_api: 'app-svr.cloudapp.net'
-    web_api: 'localhost:58116' //Local Test
+    web_api: 'app-svr.cloudapp.net'
+    // web_api: 'localhost:58116' //Local Test
 }
 
 app.factory('threadService', ['$http', function ($http) {
@@ -93,10 +93,11 @@ app.factory('threadService', ['$http', function ($http) {
 
 app.factory('threadProfileService', ['$http', function ($http) {
     return {
-        relatedTags: function (resp, start, end, tags, answered) {
+        relatedTags: function (resp, start, end, tags, answered, top) {
             return $http.get(
                 'http://' + service_config.web_api + '/api/ThreadProfiles/relatedtags?repository=' + resp + '&start=' + start +
                 '&end=' + end +
+                '&top=' + (top || 30) + 
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')))
         },

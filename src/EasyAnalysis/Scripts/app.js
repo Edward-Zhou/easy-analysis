@@ -1,6 +1,6 @@
 ﻿var controllers = angular.module('controllers', []);
 
-var app = angular.module('_app_', ['ngRoute', 'controllers', 'ngTagsInput']);
+var app = angular.module('_app_', ['ngRoute', 'controllers', 'ngTagsInput', 'angular-jqcloud']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {
