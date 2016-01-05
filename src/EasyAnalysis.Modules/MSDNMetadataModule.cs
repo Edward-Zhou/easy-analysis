@@ -8,13 +8,8 @@ using System.Xml.Linq;
 
 namespace EasyAnalysis.Modules
 {
-    public class MSDNMetadataModule : IModule
+    public class MSDNMetadataModule : IMetadataProcessModule
     {
-        public void Init(IEnumerable<string> arguments)
-        {
-
-        }
-
         public void OnProcess(IDictionary<string, object> metadata, Stream stream)
         {
             FillMetadata(metadata, stream);

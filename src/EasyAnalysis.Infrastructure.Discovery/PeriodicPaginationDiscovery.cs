@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.Infrastructure.Discovery
 {
-    public class PeriodicPaginationDiscovery : PaginationDiscovery, IURIDiscovery
+    public class PeriodicPaginationDiscovery : PaginationDiscovery, IResourceDiscovery
     {
         private string _nextLastStartUrl;
 
@@ -24,7 +24,7 @@ namespace EasyAnalysis.Infrastructure.Discovery
             _lastStartUrl = string.Empty;
         }
 
-        void IURIDiscovery.Start()
+        void IResourceDiscovery.Start()
         {
             Logger.Current.Info("Start periodic pagination discovery");
 

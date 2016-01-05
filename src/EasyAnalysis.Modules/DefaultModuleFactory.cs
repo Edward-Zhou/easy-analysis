@@ -2,11 +2,11 @@
 
 namespace EasyAnalysis.Modules
 {
-    public class DefaultModuleFactory : IModuleFactory
+    public class DefaultModuleFactory : IMetadataProcessModuleFactory
     {
-        public IModule CreateInstance(string name)
+        public IMetadataProcessModule Activate(string name)
         {
-            return new MSDNMetadataModule() as IModule;
+            return new MSDNMetadataModule() as IMetadataProcessModule;
         }
     }
 }

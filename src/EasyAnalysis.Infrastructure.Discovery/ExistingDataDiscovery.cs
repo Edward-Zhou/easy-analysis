@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.Infrastructure.Discovery
 {
-    public class ListDiscovery : IURIDiscovery
+    public class ListDiscovery : IResourceDiscovery
     {
         private IEnumerable<string> _list;
 

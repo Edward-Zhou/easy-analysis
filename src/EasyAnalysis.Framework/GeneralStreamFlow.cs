@@ -11,11 +11,10 @@ namespace EasyAnalysis.Framework
     {
         public GeneralStreamFlowConfigration()
         {
-            // set default values
             UseCache = true;
         }
 
-        public IEnumerable<ModuleConfiguration> ModuleConfigurations { get; set; }
+        public IEnumerable<string> ProcessModules { get; set; }
 
         public bool UseCache { get; set; }
     }
@@ -26,20 +25,20 @@ namespace EasyAnalysis.Framework
 
         ICacheService _cacheService;
 
-        IURIDiscovery _uriDiscovery;
+        IResourceDiscovery _uriDiscovery;
 
-        IModuleFactory _moduleFactory;
+        IMetadataProcessModuleFactory _moduleFactory;
 
         IOutput _output;
 
-        IEnumerable<IModule> _modules;
+        private StreamProcessingPipeline _streamProcessingPipeline;
 
         private readonly GeneralStreamFlowConfigration _config;
 
         public GeneralStreamFlow(
             GeneralStreamFlowConfigration config,
-            IURIDiscovery uriDiscovery, 
-            IModuleFactory moduleFactory,
+            IResourceDiscovery uriDiscovery, 
+            IMetadataProcessModuleFactory moduleFactory,
             ICacheService cacheServcie, 
             IOutput output)
         {
@@ -56,7 +55,7 @@ namespace EasyAnalysis.Framework
 
         public void Init()
         {
-            LoadModules();
+            InitComponents();
         }
 
         public void Run()
@@ -66,22 +65,27 @@ namespace EasyAnalysis.Framework
             _uriDiscovery.Start();
         }
 
-        private void LoadModules()
+        private void InitComponents()
         {
-            var modules = new List<IModule>();
+            var modules = new List<IMetadataProcessModule>();
 
-            foreach(var moduleConfig in _config.ModuleConfigurations)
+            foreach(var moduleName in _config.ProcessModules)
             {
-                var moduleToLoad = _moduleFactory.CreateInstance(moduleConfig.Name);
-
-                moduleToLoad.Init(moduleConfig.Parameters);
+                var moduleToLoad = _moduleFactory.Activate(moduleName);
 
                 modules.Add(moduleToLoad);
 
-                Logger.Current.Info(string.Format("Load module [{0}]", moduleConfig.Name));
+                Logger.Current.Info(string.Format("Load module [{0}]", moduleName));
             }
 
-            _modules = modules;
+            _streamProcessingPipeline = new StreamProcessingPipeline(modules);
+
+            _streamProcessingPipeline.OnOutput += (metadata) => {
+                if (_output != null && metadata.Count > 0)
+                {
+                    _output.Output(metadata);
+                }
+            };
         }
 
         private void OnUriDiscovered(string url)
@@ -107,17 +111,7 @@ namespace EasyAnalysis.Framework
 
                 using (var cache = cacheClient.GetCache(new Uri(url)))
                 {
-                    var metadata = new Dictionary<string, object>();
-
-                    foreach (var module in _modules)
-                    {
-                        module.OnProcess(metadata, cache);
-                    }
-
-                    if (_output != null && metadata.Count > 0)
-                    {
-                        _output.Output(metadata);
-                    }
+                    _streamProcessingPipeline.Process(cache);
                 }
             }
             catch(Exception ex)

@@ -1,14 +1,10 @@
 ﻿using EasyAnalysis.Framework;
-using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Infrastructure.Cache;
 using EasyAnalysis.Infrastructure.Discovery;
 using EasyAnalysis.Infrastructure.IO;
 using EasyAnalysis.Modules;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyAnalysis.Backend
 {
@@ -24,12 +20,9 @@ namespace EasyAnalysis.Backend
 
             var generalDataFlowConfigration = new GeneralStreamFlowConfigration
             {
-                ModuleConfigurations = new List<ModuleConfiguration>
+                ProcessModules = new List<string>
                 {
-                    new ModuleConfiguration
-                    {
-                        Name = "msdn-metadata-module"
-                    }
+                    "msdn-metadata-module"
                 },
                 UseCache = false
             };
@@ -40,10 +33,10 @@ namespace EasyAnalysis.Backend
 
             if (paginationDiscoveryConfigration == null)
             {
-                throw new System.ArgumentException(string.Format("setting [{0}] not found", settingName));
+                throw new ArgumentException(string.Format("setting [{0}] not found", settingName));
             }
 
-            IURIDiscovery discovery = new PeriodicPaginationDiscovery(paginationDiscoveryConfigration);
+            IResourceDiscovery discovery = new PeriodicPaginationDiscovery(paginationDiscoveryConfigration);
 
             var moduleFactory = new DefaultModuleFactory();
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.Infrastructure.Discovery
 {
-    public class PaginationDiscovery : IURIDiscovery
+    public class PaginationDiscovery : IResourceDiscovery
     {
         protected readonly PaginationDiscoveryConfigration _config;
 
