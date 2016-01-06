@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="DataProcessingPipeLineTest.cs" />
     <Compile Include="HtmlTableCollectionTest.cs" />
+    <Compile Include="JsonWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpreadsheetCollectionTests.cs" />
   </ItemGroup>
