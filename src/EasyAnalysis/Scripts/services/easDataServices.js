@@ -93,19 +93,23 @@ app.factory('threadService', ['$http', function ($http) {
 
 app.factory('threadProfileService', ['$http', function ($http) {
     return {
-        relatedTags: function (resp, start, end, tags, answered) {
+        relatedTags: function (resp, start, end, tags, answered, top) {
             return $http.get(
                 'http://' + service_config.web_api + '/api/ThreadProfiles/relatedtags?repository=' + resp + '&start=' + start +
                 '&end=' + end +
+                '&top=' + (top || 30) + 
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')))
         },
-
         list: function (resp, start, end, tags, answered, page) {
             return $http.get('http://' + service_config.web_api + '/api/ThreadProfiles?repository=' + resp + '&page=' + page + '&length=10&start=' + start +
                 '&end=' + end +
                 '&answered=' + answered +
                 '&tags=' + encodeURIComponent(tags.join('|')));
+        },
+        remove: function (id, repository)
+        {
+            return $http.delete('http://' + service_config.web_api + '/api/ThreadProfiles/' + id + '?repository=' + repository);
         }
     }
 }]);

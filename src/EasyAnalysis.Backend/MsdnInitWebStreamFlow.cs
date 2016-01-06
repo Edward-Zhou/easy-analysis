@@ -1,5 +1,4 @@
 ﻿using EasyAnalysis.Framework;
-using EasyAnalysis.Framework.Analysis;
 using EasyAnalysis.Infrastructure.Cache;
 using EasyAnalysis.Infrastructure.Discovery;
 using EasyAnalysis.Infrastructure.IO;
@@ -20,26 +19,14 @@ namespace EasyAnalysis.Backend
 
             var generalDataFlowConfigration = new GeneralStreamFlowConfigration
             {
-                ModuleConfigurations = new List<ModuleConfiguration>
+                ProcessModules = new List<string>
                 {
-                    new ModuleConfiguration
-                    {
-                        Name = "msdn-metadata-module"
-                    }
+                    "msdn-metadata-module"
                 },
                 UseCache = false
-            }; 
+            };
 
-            var paginationDiscoveryConfigration = JsonConfigrationManager.Current.GetSetting(settingName);
-
-            if(paginationDiscoveryConfigration == null)
-            {
-                throw new System.ArgumentException(string.Format("setting [{0}] not found", settingName));
-            }
-
-            Logger.Current.Info("Run general dataflow in init mode");
-
-            IURIDiscovery discovery = new PaginationDiscovery(paginationDiscoveryConfigration);
+            IResourceDiscovery discovery = CreateDiscoveryBySettingName(settingName);
 
             var moduleFactory = new DefaultModuleFactory();
 
@@ -59,6 +46,23 @@ namespace EasyAnalysis.Backend
             dataflow.Init();
 
             dataflow.Run();
+        }
+
+        private static IResourceDiscovery CreateDiscoveryBySettingName(string settingName)
+        {
+            var jsonConfigrationManager = new JsonConfigrationManager<PaginationDiscoveryConfigration>("config.json");
+
+            var paginationDiscoveryConfigration = jsonConfigrationManager.GetSetting(settingName);
+
+            if (paginationDiscoveryConfigration == null)
+            {
+                throw new System.ArgumentException(string.Format("setting [{0}] not found", settingName));
+            }
+
+            Logger.Current.Info("Run general dataflow in init mode");
+
+            IResourceDiscovery discovery = new PaginationDiscovery(paginationDiscoveryConfigration);
+            return discovery;
         }
     }
 }

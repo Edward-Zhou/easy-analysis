@@ -29,12 +29,9 @@ namespace EasyAnalysis.Backend
 
             var generalDataFlowConfigration = new GeneralStreamFlowConfigration
             {
-                ModuleConfigurations = new List<ModuleConfiguration>
+                ProcessModules = new List<string>
                 {
-                    new ModuleConfiguration
-                    {
-                        Name = "msdn-metadata-module"
-                    }
+                    "msdn-metadata-module"
                 },
                 UseCache = false
             };
@@ -58,7 +55,7 @@ namespace EasyAnalysis.Backend
 
             task.Wait();
 
-            IURIDiscovery discovery = new ListDiscovery(list);
+            IResourceDiscovery discovery = new ListDiscovery(list);
 
             var moduleFactory = new DefaultModuleFactory();
 

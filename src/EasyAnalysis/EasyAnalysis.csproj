@@ -201,7 +201,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CategoryResult.cs" />
     <Compile Include="Models\EFTypeConfigrations.cs" />
     <Compile Include="Models\TagSearchResult.cs" />
     <Compile Include="Models\TodoItem.cs" />
@@ -225,6 +224,7 @@
     <Content Include="partials\dupdetection.html" />
     <Content Include="frame.html" />
     <Content Include="partials\embed.html" />
+    <Content Include="partials\question_detail_template.html" />
     <Content Include="partials\threadexplorer.html" />
     <Content Include="partials\userprofiles.html" />
     <Content Include="partials\detail.html" />
@@ -233,6 +233,7 @@
     <Content Include="partials\loading.html" />
     <Content Include="partials\askers.html" />
     <Content Include="Scripts\angucomplete-alt.js" />
+    <Content Include="Scripts\angular-jqcloud.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -260,6 +261,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\services\easDataServices.js" />
+    <Content Include="Scripts\util.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

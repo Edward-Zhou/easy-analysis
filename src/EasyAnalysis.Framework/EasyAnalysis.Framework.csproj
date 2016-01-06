@@ -53,22 +53,25 @@
     <Compile Include="Analysis\IAction.cs" />
     <Compile Include="Analysis\IActionFactory.cs" />
     <Compile Include="Analysis\IModule.cs" />
-    <Compile Include="Analysis\IModuleFactory.cs" />
+    <Compile Include="Analysis\IMetadataProcessModuleFactory.cs" />
     <Compile Include="Analysis\ModuleConfiguration.cs" />
     <Compile Include="Cache\ICacheClient.cs" />
     <Compile Include="Cache\ICacheService.cs" />
+    <Compile Include="Config\JsonConfigrationManager.cs" />
     <Compile Include="ConnectionStringProviders\ConnectionStringProvider.cs" />
     <Compile Include="ConnectionStringProviders\IConnectionStringProvider.cs" />
     <Compile Include="ConnectionStringProviders\MongoDBConnectionStringProvider.cs" />
     <Compile Include="ConnectionStringProviders\SqlServerConnectionStringProvider.cs" />
     <Compile Include="Data\IReadOnlyCollection.cs" />
     <Compile Include="Data\IReadOnlyCollection~.cs" />
+    <Compile Include="DiscoveryStreamFlow.cs" />
     <Compile Include="GeneralStreamFlow.cs" />
     <Compile Include="Discover\IURIDiscovery.cs" />
     <Compile Include="IO\IOutput.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamProcessingPipeline.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
