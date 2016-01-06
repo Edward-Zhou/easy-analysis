@@ -46,9 +46,9 @@ namespace EasyAnalysis.Infrastructure.IO
 
                 document.Set("timestamp", DateTime.Now);
 
-                _outputCollection.DeleteOneAsync(id);
+                _outputCollection.DeleteOneAsync(id).Wait();
 
-                _outputCollection.InsertOneAsync(document);
+                _outputCollection.InsertOneAsync(document).Wait();
             }
         }
     }
