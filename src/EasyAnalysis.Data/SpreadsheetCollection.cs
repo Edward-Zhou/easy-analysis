@@ -17,7 +17,7 @@ namespace EasyAnalysis.Data
         private string _source;
         private string _sheetName;
 
-        public SpreadsheetCollection(string source,string sheetName= "My Active Cases")
+        public SpreadsheetCollection(string source, string sheetName = "My Active Cases")
         {
             _source = source;
             _sheetName = sheetName;
@@ -25,7 +25,8 @@ namespace EasyAnalysis.Data
 
         public Task ForEachAsync(Action<BsonDocument> processor)
         {
-            var task = new Task(() => {
+            var task = new Task(() =>
+            {
 
                 using (SpreadsheetDocument document = SpreadsheetDocument.Open(_source, true))
                 {
@@ -38,14 +39,14 @@ namespace EasyAnalysis.Data
 
                     WorksheetPart worksheetPart = (WorksheetPart)document.WorkbookPart.GetPartById(sheets.First().Id);
 
-                    var headers = ParseCells(worksheetPart.Worksheet.Descendants<Row>().FirstOrDefault(),document);
+                    var headers = ParseCells(worksheetPart.Worksheet.Descendants<Row>().FirstOrDefault(), document);
 
                     foreach (Row row in worksheetPart.Worksheet.Descendants<Row>().Skip(1))
                     {
 
                         var bson = new BsonDocument();
 
-                        var values = ParseCells(row,document);
+                        var values = ParseCells(row, document);
 
                         for (int i = 0; i < headers.Length; i++)
                         {
@@ -56,7 +57,7 @@ namespace EasyAnalysis.Data
 
                     }
                 }
-             
+
             });
 
             task.RunSynchronously();
@@ -66,12 +67,12 @@ namespace EasyAnalysis.Data
 
         private string[] ParseCells(Row row, SpreadsheetDocument document)
         {
-           
+
             var values = new List<string>();
 
             foreach (var cell in row.Descendants<Cell>())
             {
-                
+
                 values.Add(GetCellValue(cell, document));
             }
 
@@ -127,6 +128,33 @@ namespace EasyAnalysis.Data
         public Task ForEachAsync(Func<BsonDocument, Task> processor)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rowIndex">start from 1</param>
+        /// <returns></returns>
+        public string[] GetRow(int rowIndex)
+        {
+
+            using (SpreadsheetDocument document = SpreadsheetDocument.Open(_source, true))
+            {
+
+                IEnumerable<Sheet> sheets = document.WorkbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name == _sheetName);
+                if (sheets.Count() == 0)
+                {
+                    new Exception("The specified worksheet does not exist.");
+                }
+
+                WorksheetPart worksheetPart = (WorksheetPart)document.WorkbookPart.GetPartById(sheets.First().Id);
+
+                Row row = worksheetPart.Worksheet.Descendants<Row>().ElementAt(rowIndex-1);
+                return ParseCells(row, document);
+              
+            }
+            throw new Exception("no row found!");
+
         }
     }
 }
