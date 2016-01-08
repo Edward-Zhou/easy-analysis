@@ -8,11 +8,6 @@
 
         $scope.show_legacy_category = $scope.repository !== 'OFFICE';
 
-        $scope.model = {
-            categorySelect: '-1',
-            typeSelect: '-1'
-        };
-
         // dynamic fields init
         repositoryService.getFields($scope.repository)
                          .success(function (data) {
@@ -39,27 +34,14 @@
                              .success(function (data) {
                                  $scope.item = data;
 
-                                 var typeId = $scope.item.TypeId;
-
-                                 var vm = calculateSelection(typeId);
-
-                                 $scope.model.categorySelect = vm.categorySelect;
-
-                                 // temp workaround to update the UI, refactor the code
-                                 // in the future
-                                 setTimeout(function () {
-                                     $scope.$apply(function () {
-                                         $scope.model.typeSelect = vm.typeSelect;
-                                     });
-                                 }, 0);
+                                 $scope.typeSelection = $scope.item.TypeId;
 
                                  $scope.state = 'done';
                              });
             });
 
-
-        $scope.typeSelectChange = function () {
-            threadService.classify($scope.identifier, $scope.model.typeSelect);
+        $scope.onSelectionChange = function (sel) {
+            console.log('on selection change: ' + sel);
         }
 
         $scope.back = function () {
@@ -83,24 +65,4 @@
         }    
 
         // endregion
-
-        function calculateSelection(id) {
-            var vm = {
-                categorySelect: '-1',
-                typeSelect: '-1'
-            };
-
-            for (var i = 0; i < $scope.data.categories.length; i++) {
-                var group = $scope.data.typeGroups[i];
-
-                for (var j = 0; j < group.length; j++) {
-                    if (group[j].id == id) {
-                        vm.categorySelect = i.toString();
-                        vm.typeSelect = id.toString();
-                    }
-                }
-            }
-
-            return vm;
-        }
     }]);

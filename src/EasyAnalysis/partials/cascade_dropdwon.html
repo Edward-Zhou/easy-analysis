@@ -1,0 +1,16 @@
+﻿<select class="form-control"
+        style="width:200px;float:left;"
+        ng-model="category"
+        ng-change="onFirstLevelSelectionChange(category)"
+        convert-to-number>
+    <option value=""> -- category --</option>
+    <option ng-repeat="option in data.categories" value="{{option.index}}">{{option.name}}</option>
+</select>
+<select class="form-control"
+        style="width:200px;"
+        ng-change="onSecondSelectionChange({value: selection})"
+        ng-model="selection"
+        convert-to-number>
+    <option value=""> -- type --</option>
+    <option ng-repeat="option in currentOptions" value="{{option.id}}">{{option.name}}</option>
+</select>

@@ -221,6 +221,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
+    <Content Include="partials\cascade_dropdwon.html" />
     <Content Include="partials\dupdetection.html" />
     <Content Include="frame.html" />
     <Content Include="partials\embed.html" />

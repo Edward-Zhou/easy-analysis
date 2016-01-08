@@ -18,7 +18,9 @@ namespace EasyAnalysis.ServiceHost
 
             // for eaxmple:
 
-            // {handler: 'import-mt-thread', context: { source: '[put-the-url-here]', to: 'landing.threads' }}
+            // { handler: 'import-mt-thread', context: { url: '[put-the-url-here]', output: 'landing.threads' } }
+
+
         }
     }
 }
