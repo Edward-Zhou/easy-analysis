@@ -7,7 +7,7 @@ using System.Net.Http;
 
 namespace EasyAnalysis.Modules
 {
-    public class ImportMsdnAndTechNetThreadHandler
+    public class ImportMsdnAndTechNetThreadHandler : IHandler
     {
         public void OnProcess(IDictionary<string, object> context)
         {
@@ -40,6 +40,8 @@ namespace EasyAnalysis.Modules
             }catch(Exception ex)
             {
                 Logger.Current.Error(ex.Message);
+
+                throw;
             }           
         }
     }

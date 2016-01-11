@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultModuleFactory.cs" />
+    <Compile Include="HandlerFactory.cs" />
+    <Compile Include="IHandler.cs" />
     <Compile Include="ImportMsdnAndTechNetThreadHandler.cs" />
     <Compile Include="MSDNMetadataModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -25,29 +25,36 @@
             threadService.setField($scope.repository, $scope.identifier, name, value);
         }
 
-        threadService.types($scope.repository)
-            .success(function (data) {
-                $scope.data = data;
+        var loadDetail = function (data) {
+            $scope.data = data;
 
-                // load detail data
-                threadService.detail($scope.identifier)
-                             .success(function (data) {
-                                 $scope.item = data;
+            // load detail data
+            threadService.detail($scope.identifier)
+                         .success(function (data) {
+                             $scope.item = data;
 
-                                 $scope.typeSelection = $scope.item.TypeId;
+                             $scope.typeSelection = $scope.item.TypeId;
 
-                                 $scope.state = 'done';
-                             });
-            });
+                             $scope.state = 'done';
+                         });
+        }
+
+        if ($scope.repository === 'SQL')
+        {
+            threadService.cascadeOptions($scope.identifier)
+             .success(loadDetail);
+        } else {
+            threadService.types($scope.repository)
+            .success(loadDetail);
+        }
 
         $scope.onSelectionChange = function (sel) {
-            console.log('on selection change: ' + sel);
+            threadService.classify($scope.identifier, sel === '' ? '-1' : sel);
         }
 
         $scope.back = function () {
             $location.url('/discover/' + $scope.repository);
         }
-
 
         // region - tag related functions
 

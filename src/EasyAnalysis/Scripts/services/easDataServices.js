@@ -27,6 +27,9 @@ app.factory('threadService', ['$http', function ($http) {
         classify: function (threadId, typeId) {
             return $http.post('api/thread/' + threadId + '/classify/' + typeId);
         },
+        cascadeOptions: function(id) {
+            return $http.get('api/thread/' + id + '/cascade');
+        },
         todo: function (repository) {
             return $http.get('api/thread/' + repository + '/todo');
         },

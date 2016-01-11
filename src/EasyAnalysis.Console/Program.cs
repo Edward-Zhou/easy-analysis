@@ -17,7 +17,11 @@ namespace EasyAnalysis
     {
         static void Main(string[] args)
         {
-            SearchByKeyWord("vb");
+            // var management = new CategoryManagement();
+
+            // management.ImportCategory(@"D:\\temp\\SQL_Call_Code_Tree_Version_dev.xlsx", "Active View");
+
+            // SearchByKeyWord("vb");
             // ParseLog(@"D:\Test\logs");
 
             // MergeTags(from: "build10581", to: "build-10581");
@@ -59,7 +63,7 @@ namespace EasyAnalysis
 
         static void CreateCustomDropDownField()
         {
-            var repository = new EasyAnalysis.Repository.DropDownFieldRepository();
+            var repository = new Repository.DropDownFieldRepository();
 
             repository.New(new Models.DropDownField
             {

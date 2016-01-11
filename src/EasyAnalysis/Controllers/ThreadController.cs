@@ -24,6 +24,7 @@ namespace EasyAnalysis.Controllers
         private readonly IThreadRepository _threadRepository;
         private readonly ITagRepository _tagRepository;
         private readonly FeedFactory _feedFactory;
+        private readonly TypeProvider _typeProvider;
 
         public ThreadController()
         {
@@ -31,6 +32,7 @@ namespace EasyAnalysis.Controllers
             _threadRepository = new ThreadRepository(context);
             _tagRepository = new TagRepository(context);
             _feedFactory = new FeedFactory();
+            _typeProvider = new TypeProvider();
         }
 
         // GET api/thread
@@ -45,6 +47,16 @@ namespace EasyAnalysis.Controllers
             return _threadRepository.Get(id);
         }
 
+        [Route("api/thread/{id}/cascade"), HttpGet]
+        public CategoryResult GetCascadeDropdownOptinos(string id)
+        {
+            var item = _threadRepository.Get(id);
+
+            var cascadeCode = item.ForumId;
+
+            return LoadCategory(cascadeCode);
+        }
+
 
         // TODO: CODE_REFACTOR
         [Route("api/thread/{repository}/types"), HttpGet]
@@ -55,9 +67,14 @@ namespace EasyAnalysis.Controllers
                 repository = "UWP";
             }
 
-            var provider = new TypeProvider();
+            CategoryResult result = LoadCategory(repository);
 
-            var types = provider.GetTypesByRepository(repository);
+            return result;
+        }
+
+        private CategoryResult LoadCategory(string repository)
+        {
+            var types = _typeProvider.GetTypesByRepository(repository);
 
             var result = new CategoryResult();
 
