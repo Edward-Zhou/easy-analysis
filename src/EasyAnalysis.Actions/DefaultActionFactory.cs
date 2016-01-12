@@ -23,6 +23,9 @@ namespace EasyAnalysis.Backend
                 case "clean-up-data":
                     return new CleanUpData();
 
+                case "sync-up-data":
+                    return new SyncUpData();
+
                 case "add-metadata-to-threadprofile":
                     return new AddMetadataToThreadProfile(new UniversalConnectionStringProvider());
 

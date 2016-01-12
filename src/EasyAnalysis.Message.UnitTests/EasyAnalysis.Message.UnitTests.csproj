@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5C39E2A1-2C02-42C5-9ED3-1C6A2D410643}</ProjectGuid>
+    <ProjectGuid>{B98C6585-EAF1-4187-BFDF-3793530A08E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyAnalysis.Actions.UnitTests</RootNamespace>
-    <AssemblyName>EasyAnalysis.Actions.UnitTests</AssemblyName>
+    <RootNamespace>EasyAnalysis.Message.UnitTests</RootNamespace>
+    <AssemblyName>EasyAnalysis.Message.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,16 +35,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,35 +56,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AttachThreadOwnershipTest.cs" />
-    <Compile Include="BuildBasicThreadProfilesTest.cs" />
-    <Compile Include="DetectTagsForMSDNForumTest.cs" />
+    <Compile Include="MessageClientTest.cs" />
+    <Compile Include="MessageListenerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetForumAttributesTest.cs" />
-    <Compile Include="SyncUpDataTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyAnalysis.Actions\EasyAnalysis.Actions.csproj">
-      <Project>{007889cd-7df8-4ee3-af35-4cf5beac4877}</Project>
-      <Name>EasyAnalysis.Actions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyAnalysis.Data\EasyAnalysis.Data.csproj">
-      <Project>{4d44fab3-6f07-45f5-b75d-b62b763637dd}</Project>
-      <Name>EasyAnalysis.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyAnalysis.Framework\EasyAnalysis.Framework.csproj">
-      <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>
-      <Name>EasyAnalysis.Framework</Name>
+    <ProjectReference Include="..\EasyAnalysis.Message\EasyAnalysis.Message.csproj">
+      <Project>{335be168-81d8-4df6-a862-05a5bf1aa00c}</Project>
+      <Name>EasyAnalysis.Message</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="html_collection.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

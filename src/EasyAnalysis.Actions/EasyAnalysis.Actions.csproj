@@ -92,6 +92,7 @@
     <Compile Include="stackoverflow\SyncWithStackoverflow.cs" />
     <Compile Include="stackoverflow\SyncWithStackoverflowTags.cs" />
     <Compile Include="msdn\SyncWithWebDatabase.cs" />
+    <Compile Include="msdn\SyncUpData.cs" />
     <Compile Include="TimeFrameRange.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

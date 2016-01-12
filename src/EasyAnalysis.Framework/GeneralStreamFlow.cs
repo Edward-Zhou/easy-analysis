@@ -116,9 +116,13 @@ namespace EasyAnalysis.Framework
             }
             catch(Exception ex)
             {
-                OnFail(new Dictionary<string, object> {
-                    { "url", url}
-                });
+                if(OnFail != null)
+                {
+                    OnFail.Invoke(
+                        new Dictionary<string, object> {
+                            { "url", url}
+                    });
+                }
 
                 Logger.Current.Error(string.Format("URL[{0}], ERROR: {1}", url, ex.Message));
             }

@@ -61,7 +61,7 @@ namespace EasyAnalysis.Actions
 
             if (timeFrameRange != null)
             {
-                filter = filter & MongoHelper.CreateTimeFrameFilter(timeFrameRange);
+                filter = filter & MongoFilterHelper.CreateTimeFrameFilter(timeFrameRange);
             }
 
             using (var context = new DefaultDbConext())

@@ -57,7 +57,7 @@ namespace EasyAnalysis.Actions
 
             if (args.Length > 1)
             {
-                filter = filter & MongoHelper.CreateTimeFrameFilter(TimeFrameRange.Parse(args[1]));
+                filter = filter & MongoFilterHelper.CreateTimeFrameFilter(TimeFrameRange.Parse(args[1]));
             }
 
             return filter;

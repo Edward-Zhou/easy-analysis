@@ -1,6 +1,10 @@
 ﻿{
-  "_base_": {
+   "uwp_sort_by_post": {
+    "name": "UWP threads sort by post",
+    "urlFormat": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
     "baseUri": "https://social.msdn.microsoft.com",
+    "start": 1,
+    "length": 50,
     "encoding": "utf-8",
     "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
     "lookUp": {
@@ -12,11 +16,293 @@
       "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
     }
   },
-  "uwp_sort_by_post": {
-    "@extend": "_base_", 
-    "name": "UWP threads sort by post",
-    "urlFormat": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  "officedev_sort_by_post": {
+    "name": "OfficeDev threads sort by first post",
+    "urlFormat": "https://social.msdn.microsoft.com/Forums/office/en-US/home?category=officedev&forum=vsto%2Cappsforoffice%2Cexceldev%2Cworddev%2Cofficegeneral%2Coutlookdev%2Caccessdev%2Cofficedevpreview%2Coxmlsdk&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.msdn.microsoft.com",
     "start": 1,
-    "length": 100
-  }
+    "length": 100,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "office_sort_by_post": {
+    "name": "Office threads sort by first post",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/office/en-US/home?category=officeitpro&forum=Office2016forMac%2Coffice2010%2COffice2016setupdeploy%2Cword%2Cexcel%2Cofficeitproprevious%2Cofficeitprolegacy%2Cofficesetupdeploy%2Coutlook%2Cofficeitpromod%2COffice2016ITPro%2Cofficesetupdeployprevious%2Cofficeitpropreview%2Cofficeitpro%2Cofficesetupdeploylegacy&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 100,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "uwp_sort_by_lastpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.msdn.microsoft.com",
+    "start": 1,
+    "length": 1,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqlintegrationservices_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlintegrationservices&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqlreportingservices_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlreportingservices&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqlgetstarted_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlgetstarted&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqlexpress_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlexpress&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqldatabaseengine_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqldatabaseengine&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "databasedesign_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=databasedesign&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqlsetupandupgrade_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlsetupandupgrade&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqldataaccess_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqldataaccess&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "transactsql_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=transactsql&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqldisasterrecovery_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqldisasterrecovery&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqlsecurity_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlsecurity&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqltools_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqltools&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqlreplication_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlreplication&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
+  "sqlanalysisservices_sort_by_firstpost": {
+    "name": "this is the base configration",
+    "urlFormat": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlanalysisservices&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "baseUri": "https://social.technet.microsoft.com",
+    "start": 1,
+    "length": 20,
+    "encoding": "utf-8",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+    "lookUp": {
+      "xPath": "//*[@id=\"threadList\"]/li/div/a",
+      "attribute": "href"
+    },
+    "transform": {
+      "pattern": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
+      "expression": "http://social.msdn.microsoft.com/Forums/en-US/{1}?outputAs=xml"
+    }
+  },
 }

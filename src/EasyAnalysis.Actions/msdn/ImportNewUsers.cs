@@ -58,7 +58,7 @@ namespace EasyAnalysis.Actions
 
             if(timeFrameRange != null)
             {
-                filter = filter & MongoHelper.CreateTimeFrameFilter(timeFrameRange);
+                filter = filter & MongoFilterHelper.CreateTimeFrameFilter(timeFrameRange);
             }
 
             using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("EasIndexConnection")))

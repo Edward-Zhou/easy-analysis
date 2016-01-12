@@ -1,4 +1,5 @@
 ﻿using EasyAnalysis.Framework;
+using EasyAnalysis.Framework.Config;
 using EasyAnalysis.Infrastructure.Cache;
 using EasyAnalysis.Infrastructure.Discovery;
 using EasyAnalysis.Infrastructure.IO;

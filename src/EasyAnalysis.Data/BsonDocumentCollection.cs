@@ -1,9 +1,7 @@
 ﻿using EasyAnalysis.Framework.ConnectionStringProviders;
-using EasyAnalysis.Framework.Data;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EasyAnalysis.Data
@@ -54,11 +52,13 @@ namespace EasyAnalysis.Data
         {
             var temp = source.Split('.');
 
-            var databaseName = temp[0];
+            _databaseName = temp[0];
 
-            var collectionName = temp[1];
+            _collectionName = temp[1];
 
             _filter = "{}";
+
+            _connectionStringProvider = new UniversalConnectionStringProvider();
         }
 
         public static BsonDocumentCollection Parse(string text)

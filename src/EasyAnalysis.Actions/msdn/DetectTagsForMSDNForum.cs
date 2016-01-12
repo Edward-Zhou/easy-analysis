@@ -87,7 +87,7 @@ namespace EasyAnalysis.Actions
 
             if (timeFrameRange != null)
             {
-                filter = MongoHelper.CreateTimeFrameFilter(timeFrameRange);
+                filter = MongoFilterHelper.CreateTimeFrameFilter(timeFrameRange);
             }
 
             var host = "analyzeit.azurewebsites.net";

@@ -42,7 +42,7 @@ namespace EasyAnalysis.Backend
 
             var fb = Builders<BsonDocument>.Filter;
 
-            var filter = fb.Gt("createdOn", dateRange.Start) & fb.Lt("createdOn", dateRange.End);
+            var filter = fb.Gt("createdOn", dateRange.Start) & fb.Lt("createdOn", dateRange.End) & fb.Exists("del", false);
 
             var list = new List<string>();
 

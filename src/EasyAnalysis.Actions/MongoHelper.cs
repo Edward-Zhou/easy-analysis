@@ -1,15 +1,18 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyAnalysis.Actions
 {
-    internal class MongoHelper
+    internal class MongoFilterHelper
     {
+        public static FilterDefinition<BsonDocument> CreateBetween(string name, object left, object right)
+        {
+            var filterBuilder = Builders<BsonDocument>.Filter;
+
+            return filterBuilder.Gte(name, left) & filterBuilder.Lte(name, right);
+        }
+
         public static FilterDefinition<BsonDocument> CreateTimeFrameFilter(TimeFrameRange timeFrameRange)
         {
             var filterBuilder = Builders<BsonDocument>.Filter;
