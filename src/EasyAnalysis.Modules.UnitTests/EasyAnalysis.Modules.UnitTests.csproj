@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasyAnalysis.Message\EasyAnalysis.Message.csproj">
+      <Project>{335be168-81d8-4df6-a862-05a5bf1aa00c}</Project>
+      <Name>EasyAnalysis.Message</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasyAnalysis.Modules\EasyAnalysis.Modules.csproj">
       <Project>{1dff20a6-4f2e-4fe5-8b84-5201541b484d}</Project>
       <Name>EasyAnalysis.Modules</Name>

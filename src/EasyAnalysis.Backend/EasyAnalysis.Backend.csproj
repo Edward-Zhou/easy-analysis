@@ -137,6 +137,10 @@
       <Project>{b57ef93a-9be9-4ec1-8912-58496b8ce7bb}</Project>
       <Name>EasyAnalysis.Infrastructure.Cache</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EasyAnalysis.Message\EasyAnalysis.Message.csproj">
+      <Project>{335be168-81d8-4df6-a862-05a5bf1aa00c}</Project>
+      <Name>EasyAnalysis.Message</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasyAnalysis.Models\EasyAnalysis.Models.csproj">
       <Project>{2e1b9307-25e2-4df0-a209-7fcdd78b4046}</Project>
       <Name>EasyAnalysis.Models</Name>

@@ -1,17 +1,9 @@
 ﻿using EasyAnalysis.Actions;
 using EasyAnalysis.Framework;
-using EasyAnalysis.Framework.Analysis;
-using EasyAnalysis.Infrastructure.Cache;
 using EasyAnalysis.Infrastructure.Discovery;
-using EasyAnalysis.Infrastructure.IO;
-using EasyAnalysis.Modules;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyAnalysis.Backend
 {
@@ -19,22 +11,11 @@ namespace EasyAnalysis.Backend
     {
         public void Run(string[] parameters)
         {
-            string cacheFolder = parameters[0];
+            string inputCollectionName = parameters[0];
 
-            string inputCollectionName = parameters[1];
+            string outputCollectionName = parameters[1];
 
-            string outputCollectionName = parameters[2];
-
-            var dateRange = TimeFrameRange.Parse(parameters[3]);
-
-            var generalDataFlowConfigration = new GeneralStreamFlowConfigration
-            {
-                ProcessModules = new List<string>
-                {
-                    "msdn-metadata-module"
-                },
-                UseCache = false
-            };
+            var dateRange = TimeFrameRange.Parse(parameters[2]);
 
             var collection = Data.MongoDataCollection.Parse(inputCollectionName);
 
@@ -57,24 +38,23 @@ namespace EasyAnalysis.Backend
 
             IResourceDiscovery discovery = new ListDiscovery(list);
 
-            var moduleFactory = new DefaultModuleFactory();
+            using (var client = new Message.MessageClient("import-new-question"))
+            {
+                discovery.OnDiscovered += (url) =>
+                {
+                    var cmd = new Message.Command.ImportQuestionCommand
+                    {
+                        Url = url,
+                        Collection = outputCollectionName
+                    };
 
-            var cacheService = new LocalFileCacheServcie();
+                    client.Send(cmd);
 
-            cacheService.Configure(cacheFolder);
+                    Logger.Current.Info(string.Format("Discovered [{0}]", url));
+                };
 
-            var output = new MongoCollectionOutput(outputCollectionName);
-
-            var dataflow = new GeneralStreamFlow(
-                config: generalDataFlowConfigration,
-                uriDiscovery: discovery,
-                moduleFactory: moduleFactory,
-                cacheServcie: cacheService,
-                output: output);
-
-            dataflow.Init();
-
-            dataflow.Run();
+                discovery.Start();
+            }
         }
     }
 }

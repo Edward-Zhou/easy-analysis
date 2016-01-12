@@ -45,8 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handler\ImportQuestionHandler.cs" />
     <Compile Include="Command\ImportQuestionCommand.cs" />
+    <Compile Include="IMessageHandler.cs" />
     <Compile Include="MessageClient.cs" />
     <Compile Include="MessageListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

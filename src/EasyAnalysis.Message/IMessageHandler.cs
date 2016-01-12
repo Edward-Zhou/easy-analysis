@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.Message
 {
-    public class ImportQuestionHandler
+    public interface IMessageHandler
     {
-
+        void Handle(string body);
     }
 }

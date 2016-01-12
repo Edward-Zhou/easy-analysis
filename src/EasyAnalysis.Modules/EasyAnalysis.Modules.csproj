@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="DefaultModuleFactory.cs" />
     <Compile Include="HandlerFactory.cs" />
-    <Compile Include="IHandler.cs" />
     <Compile Include="ImportMsdnAndTechNetThreadHandler.cs" />
     <Compile Include="MSDNMetadataModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +58,10 @@
     <ProjectReference Include="..\EasyAnalysis.Infrastructure.IO\EasyAnalysis.Infrastructure.IO.csproj">
       <Project>{d558d626-add3-4b96-9fec-6a6d2beade7e}</Project>
       <Name>EasyAnalysis.Infrastructure.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyAnalysis.Message\EasyAnalysis.Message.csproj">
+      <Project>{335be168-81d8-4df6-a862-05a5bf1aa00c}</Project>
+      <Name>EasyAnalysis.Message</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

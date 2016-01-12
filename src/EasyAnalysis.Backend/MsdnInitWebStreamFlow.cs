@@ -1,10 +1,6 @@
 ﻿using EasyAnalysis.Framework;
 using EasyAnalysis.Framework.Config;
-using EasyAnalysis.Infrastructure.Cache;
 using EasyAnalysis.Infrastructure.Discovery;
-using EasyAnalysis.Infrastructure.IO;
-using EasyAnalysis.Modules;
-using System.Collections.Generic;
 
 namespace EasyAnalysis.Backend
 {
@@ -14,39 +10,27 @@ namespace EasyAnalysis.Backend
         {
             string settingName = parameters[0].ToLower();
 
-            string cacheFolder = parameters[1];
-
-            string outputCollectionName = parameters[2];
-
-            var generalDataFlowConfigration = new GeneralStreamFlowConfigration
-            {
-                ProcessModules = new List<string>
-                {
-                    "msdn-metadata-module"
-                },
-                UseCache = false
-            };
+            string outputCollectionName = parameters[1];
 
             IResourceDiscovery discovery = CreateDiscoveryBySettingName(settingName);
 
-            var moduleFactory = new DefaultModuleFactory();
+            using (var client = new Message.MessageClient("import-new-question"))
+            {
+                discovery.OnDiscovered += (url) =>
+                {
+                    var cmd = new Message.Command.ImportQuestionCommand
+                    {
+                        Url = url,
+                        Collection = outputCollectionName
+                    };
 
-            var cacheService = new LocalFileCacheServcie();
+                    client.Send(cmd);
 
-            cacheService.Configure(cacheFolder);
+                    Logger.Current.Info(string.Format("Discovered [{0}]", url));
+                };
 
-            var output = new MongoCollectionOutput(outputCollectionName);
-
-            var dataflow = new GeneralStreamFlow(
-                config: generalDataFlowConfigration,
-                uriDiscovery: discovery,
-                moduleFactory: moduleFactory,
-                cacheServcie: cacheService,
-                output: output);
-
-            dataflow.Init();
-
-            dataflow.Run();
+                discovery.Start();
+            }
         }
 
         private static IResourceDiscovery CreateDiscoveryBySettingName(string settingName)
@@ -63,6 +47,7 @@ namespace EasyAnalysis.Backend
             Logger.Current.Info("Run general dataflow in init mode");
 
             IResourceDiscovery discovery = new PaginationDiscovery(paginationDiscoveryConfigration);
+
             return discovery;
         }
     }

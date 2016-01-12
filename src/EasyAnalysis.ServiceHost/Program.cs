@@ -1,12 +1,7 @@
-﻿using EasyAnalysis.Modules;
-using Newtonsoft.Json;
+﻿using EasyAnalysis.Framework;
+using EasyAnalysis.Message;
+using EasyAnalysis.Modules;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyAnalysis.ServiceHost
 {
@@ -14,52 +9,21 @@ namespace EasyAnalysis.ServiceHost
     {
         static void Main(string[] args)
         {
-            // listen to a task queue
+            var listener = new MessageListener("import-new-question");
 
-            // execute on task task comming
+            var handler = new ImportMsdnAndTechNetThreadHandler();
 
-            // for eaxmple:
-
-            // { handler: 'import-mt-thread', context: { url: '[put-the-url-here]', output: 'landing.threads' } }
-
-            var handlerFactory = new HandlerFactory();
-
-            using (var context = new TaskDbContext())
-            {
-                while (true)
+            listener.OnReceived += (body) => {
+                try
                 {
-                    var tasks = context.Tasks.Where(m => m.Status.Equals("NEW")).Take(10).ToList();
-
-                    foreach (var task in tasks)
-                    {
-                        try
-                        {
-                            var handler = handlerFactory.Activate(task.Handler);
-
-                            var executionContext = JsonConvert.DeserializeObject<IDictionary<string, object>>(task.Context);
-
-                            handler.OnProcess(executionContext);
-
-                            task.Status = "SUCCESS";
-                        }
-                        catch (Exception ex)
-                        {
-                            task.Error = ex.Message;
-
-                            task.Status = "ERROR";
-
-                            Console.WriteLine(ex.Message);
-                        }
-
-                        context.SaveChanges();
-                    }
-
-                    if(tasks.Count == 0)
-                    {
-                        System.Threading.Thread.Sleep(10000);
-                    }
+                    handler.Handle(body);
+                }catch(Exception ex)
+                {
+                    Logger.Current.Error(ex.Message);
                 }
-            }
+            };
+
+            listener.Listen();
         }
     }
 }
