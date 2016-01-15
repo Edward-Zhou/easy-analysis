@@ -50,12 +50,9 @@ namespace EasyAnalysis.Actions
 
             if(timeFrameRange != null)
             {
-                var dateFiled = "createdOn";
 
-                var range = fb.Gte(dateFiled, timeFrameRange.Start) 
-                          & fb.Lte(dateFiled, timeFrameRange.End);
-
-                filter = filter & range;
+                filter = filter & MongoFilterHelper
+                    .CreateBetween("createdOn", timeFrameRange.Start, timeFrameRange.End);
             }
 
             var collection = dsInput.GetData() as IMongoCollection<BsonDocument>;
@@ -69,7 +66,7 @@ namespace EasyAnalysis.Actions
                 var sql = factory.Get("set_forum_attributes");
 
                 await collection.Find(filter)
-                      .Project("{_id: 1, views: 1, users: 1, replies: 1}")
+                      .Project("{_id: 1, views: 1, users: 1, replies: 1, answered: 1}")
                       .ForEachAsync((item) =>
                       {
                           connection.Execute(sql, new {
@@ -77,6 +74,7 @@ namespace EasyAnalysis.Actions
                               Views = item.GetValue("views").AsInt32,
                               Users = item.GetValue("users").AsInt32,
                               Replies = item.GetValue("replies").AsInt32,
+                              Answered = item.GetValue("answered").AsBoolean,
                               Timestamp = DateTime.UtcNow
                           });
                       });

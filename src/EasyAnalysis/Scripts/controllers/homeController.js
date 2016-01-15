@@ -22,12 +22,17 @@
         {
             id: 'SOVSO',
             name: 'Visual Studio Team Services',
-            description: 'Visual Studio Team Services is a hosted Application Lifecycle Management solution from Microsoft which includes source control repositories (Git & TFVC), work item tracking, test case management, hosted automated builds, and more. It is based on Team Foundation Server but there are some differences with new cloud-only services. New features are delivered to the hosted version first and then come later to the Team Foundation Server product.'
+            description: 'Visual Studio Team Services is a hosted Application Lifecycle Management solution from Microsoft which includes source control repositories (Git & TFVC), work item tracking, test case management, hosted automated builds, and more.'
         },
         {
             id: 'OFFICE',
             name: 'Microsoft Office',
             description: 'From home to business, from desktop to web and the devices in between, Office delivers the tools to get work done.'
+        },
+        {
+            id: 'OFFICEDEV',
+            name: 'Microsoft Office for Developers',
+            description: 'Extend the functionality of Office (VSTO, Office Add-in and .etc)'
         },
         {
             id: 'SQL',
