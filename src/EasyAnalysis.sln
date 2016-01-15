@@ -69,6 +69,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Message", "Eas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Message.UnitTests", "EasyAnalysis.Message.UnitTests\EasyAnalysis.Message.UnitTests.csproj", "{B98C6585-EAF1-4187-BFDF-3793530A08E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Reporting", "EasyAnalysis.Reporting\EasyAnalysis.Reporting.csproj", "{99144934-AAFB-4425-BAFA-285E822F4B95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyAnalysis.Reporting.UnitTests", "EasyAnalysis.Reporting.UnitTests\EasyAnalysis.Reporting.UnitTests.csproj", "{11C757BF-6B7D-46CC-8C92-FAF95B2CFE2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +187,14 @@ Global
 		{B98C6585-EAF1-4187-BFDF-3793530A08E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98C6585-EAF1-4187-BFDF-3793530A08E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B98C6585-EAF1-4187-BFDF-3793530A08E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99144934-AAFB-4425-BAFA-285E822F4B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99144934-AAFB-4425-BAFA-285E822F4B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99144934-AAFB-4425-BAFA-285E822F4B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99144934-AAFB-4425-BAFA-285E822F4B95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11C757BF-6B7D-46CC-8C92-FAF95B2CFE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11C757BF-6B7D-46CC-8C92-FAF95B2CFE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11C757BF-6B7D-46CC-8C92-FAF95B2CFE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11C757BF-6B7D-46CC-8C92-FAF95B2CFE2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,5 +221,6 @@ Global
 		{6ECB6B0C-72DD-4DBB-B458-736D00D7816B} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
 		{FC5B5601-24D9-4FB4-9175-9D49867630E8} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
 		{B98C6585-EAF1-4187-BFDF-3793530A08E2} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
+		{11C757BF-6B7D-46CC-8C92-FAF95B2CFE2D} = {21C57808-9DDB-40C1-BAE9-5B5E552EED53}
 	EndGlobalSection
 EndGlobal
