@@ -8,9 +8,9 @@ app.config(['$routeProvider',
         when('/', {
             templateUrl: 'partials/home.html',
             controller: 'homeController'
-        }).when('/discover/:repository', {
+        }).when('/dashboard/:repository', {
             templateUrl: 'partials/discover.html',
-            controller: 'discoverController'
+            controller: 'dashboardController'
         }).when('/detail/:repository/:identifier', {
             templateUrl: 'partials/detail.html',
             controller: 'detailController'

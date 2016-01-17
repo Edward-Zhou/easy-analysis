@@ -178,6 +178,9 @@ app.factory('repositoryService', ['$http', function ($http) {
     return {
         getFields: function (resp) {
             return $http.get('/api/Repository/fields?name=' + encodeURIComponent(resp));
+        },
+        list: function () {
+            return $http.get('api/repository');
         }
     }
 }]);

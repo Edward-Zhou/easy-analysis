@@ -8,6 +8,17 @@ namespace EasyAnalysis.Reporting
 {
     public class CategoryReportObject
     {
+        public Object Run(IDictionary<string, string> nameValues)
+        {
+            var repository = nameValues["repository"];
+
+            var start = DateTime.Parse(nameValues["start"]);
+
+            var end = DateTime.Parse(nameValues["end"]);
+
+            return Run(repository, start, end);
+        }
+
         public IEnumerable<Model.CategoryNodeElement> Run(string repository, DateTime start, DateTime end)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["Reporting"].ConnectionString;

@@ -9,9 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Utility.MSDN;
-using Newtonsoft.Json;
 using System.Text;
-using System.Web.Http.Results;
 using MongoDB.Driver;
 using MongoDB.Bson.IO;
 using MongoDB.Bson;
@@ -23,7 +21,6 @@ namespace EasyAnalysis.Controllers
     {
         private readonly IThreadRepository _threadRepository;
         private readonly ITagRepository _tagRepository;
-        private readonly FeedFactory _feedFactory;
         private readonly TypeProvider _typeProvider;
 
         public ThreadController()
@@ -31,7 +28,6 @@ namespace EasyAnalysis.Controllers
             var context = new DefaultDbConext();
             _threadRepository = new ThreadRepository(context);
             _tagRepository = new TagRepository(context);
-            _feedFactory = new FeedFactory();
             _typeProvider = new TypeProvider();
         }
 
@@ -268,21 +264,6 @@ namespace EasyAnalysis.Controllers
             }
 
             return identifier;
-        }
-
-        [Route("api/thread/{repository}/todo"), HttpGet]
-        public IEnumerable<TodoItem> GetTodoList(string repository)
-        {
-            var result = _feedFactory.GenerateTodoItems(repository).ToList();
-
-            int i = 1;
-
-            foreach (var todo in result)
-            {
-                todo.Index = i++;
-            }
-
-            return result;
         }
 
         [Route("api/thread/{id}/tag"), HttpPost]
