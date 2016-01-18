@@ -2,8 +2,8 @@
 // [dev]: localhost:58116
 
 var service_config = {
-    web_api: 'app-svr.cloudapp.net'
-    // web_api: 'localhost:58116' //Local Test
+    //web_api: 'app-svr.cloudapp.net'
+    web_api: 'localhost:58116' //Local Test
 }
 
 app.factory('threadService', ['$http', function ($http) {
@@ -181,6 +181,26 @@ app.factory('repositoryService', ['$http', function ($http) {
         },
         list: function () {
             return $http.get('api/repository');
+        }
+    }
+}]);
+
+app.factory('reportService', ['$http', function ($http) {
+    return {
+        run: function(name, properties)
+        {
+            var baseUri = 'http://' + service_config.web_api + '/api/report/' + name + '/run';
+
+            var queryExpArray = [];
+
+            for(var prop in properties)
+            {
+                queryExpArray.push(prop + '=' + encodeURIComponent(properties[prop]));
+            }
+
+            var uri = baseUri + '?' + queryExpArray.join('&');
+
+            return $http.get(uri);
         }
     }
 }]);

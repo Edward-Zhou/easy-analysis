@@ -8,25 +8,31 @@
                 if ($scope.repositories[i].code !== code) {
                     options.push($scope.repositories[i]);
                 } else {
-                    $scope.currentRepository = $scope.repositories[i];
-
-                    $scope.context.repository = $scope.currentRepository.code;
+                    $scope.context.repository = $scope.repositories[i];
                 }
             }
 
             $scope.options = options;
         }
 
-        function calculateOptions(code) {
+        function promise(fn)
+        {
             if ($scope.repositories === undefined) {
                 repositoryService.list().then(function (response) {
-                    $scope.repositories = response.data;
-
-                    setCurrentRepository(code);
+                    if ($scope.repositories === undefined)
+                    {
+                        $scope.repositories = response.data;
+                    }
+                    
+                    fn.call();
                 });
             } else {
-                setCurrentRepository(code);
+                fn.call();
             }
+        }
+
+        function calculateOptions(code) {
+            promise(function () { setCurrentRepository(code); });
         }
 
         function changeRepository(code)
@@ -36,7 +42,10 @@
 
         $scope.context = {
             controller: '',
-            repository: ''
+            repository: {
+                code: '',
+                text: 'loading...'
+            }
         };
 
 
@@ -47,7 +56,7 @@
         $scope.navigateTo = function (module) {
             console.log('navigate to dashboard');
 
-            var resp = $scope.context.repository;
+            var resp = $scope.context.repository.code;
 
             if(module === 'dashboard')
             {
@@ -69,12 +78,15 @@
             }
         }
 
+        promise(function () {
+            // load default repositoryu
+            changeRepository($scope.repositories[0].code);
+        });
+
         $scope.$on('$routeChangeSuccess', function (angularEvent, current, previous) {
             calculateOptions(current.params.repository);
 
             $scope.context.controller = current.$$route.controller;
-            console.log('route change success: ' + current.params.repository + 'controller: ' + current.$$route.controller);
         });
-
     }
 ]);

@@ -6,9 +6,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace EasyAnalysis.Api.Controllers
 {
+    [EnableCors("*", "*", "*")]
     public class ReportController : ApiController
     {
         [Route("api/report/{id}/run"), HttpGet]

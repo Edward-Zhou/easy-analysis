@@ -1,5 +1,6 @@
-﻿controllers.controller('dashboardController', ['$scope', '$location', 'threadService', '$routeParams', 'threadProfileService',
-    function ($scope, $location, threadService, $routeParams, threadProfileService) {
+﻿controllers.controller('dashboardController',
+    ['$scope', '$location', 'threadService', '$routeParams', 'threadProfileService', 'reportService',
+    function ($scope, $location, threadService, $routeParams, threadProfileService, reportService) {
         $scope.state = 'init';
 
         $scope.tagCoverage = {
@@ -47,5 +48,11 @@
 
                 $scope.words = words;
             }, function errorCallback(response) { });
+
+        reportService
+            .run('categoryReport', { repository: $scope.repository, start: range[0], end: range[1]})
+            .then(function (response) {
+                $scope.categories = response.data;
+            });
     }
 ]);

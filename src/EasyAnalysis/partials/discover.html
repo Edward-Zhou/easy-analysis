@@ -26,6 +26,22 @@
             <div>
                 <jqcloud words="words" height="300" auto-resize="true" delay="50" steps="7"></jqcloud>
             </div>
+
+            <div>
+                <div ng-repeat="category in categories">
+                    <h2>{{category.categoryName}}</h2>
+                    <div>
+                        <div ng-repeat="element in category.subElements">
+                            <span>+</span>
+                            <span>{{element.typeName}}</span>
+                            <span><b>answered</b> {{element.answered}} in total {{element.total}}, answer rate: <i style="color:red">{{element.answered * 100 / element.total | number:0 }}%</i></span>
+                            <div>
+                                <span ng-repeat="tag in element.tags" class="post-tag">{{tag}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
