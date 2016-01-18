@@ -224,10 +224,11 @@
     <Content Include="frame.html" />
     <Content Include="partials\embed.html" />
     <Content Include="partials\question_detail_template.html" />
+    <Content Include="partials\report.html" />
     <Content Include="partials\threadexplorer.html" />
     <Content Include="partials\userprofiles.html" />
     <Content Include="partials\detail.html" />
-    <Content Include="partials\discover.html" />
+    <Content Include="partials\dashboard.html" />
     <Content Include="partials\home.html" />
     <Content Include="partials\loading.html" />
     <Content Include="partials\askers.html" />
@@ -245,6 +246,7 @@
     <Content Include="Scripts\controllers\dupdetectionController.js" />
     <Content Include="Scripts\controllers\homeController.js" />
     <Content Include="Scripts\controllers\navController.js" />
+    <Content Include="Scripts\controllers\reportController.js" />
     <Content Include="Scripts\controllers\threadexplorerController.js" />
     <Content Include="Scripts\controllers\userProfileController.js" />
     <Content Include="Scripts\iframe.js" />

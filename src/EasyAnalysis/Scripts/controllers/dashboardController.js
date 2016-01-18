@@ -1,33 +1,11 @@
 ﻿controllers.controller('dashboardController',
-    ['$scope', '$location', 'threadService', '$routeParams', 'threadProfileService', 'reportService',
-    function ($scope, $location, threadService, $routeParams, threadProfileService, reportService) {
-        $scope.state = 'init';
-
-        $scope.tagCoverage = {
-            daily: 0.0,
-            weekly: 0.0,
-            monthly: 0.0
-        };
-
-        $scope.categoryCoverage = {
-            daily: 0.0,
-            weekly: 0.0,
-            monthly: 0.0
-        };
-
+    ['$scope', '$location', '$routeParams', 'threadProfileService',
+    function ($scope, $location, $routeParams, threadProfileService) {
         $scope.repository = $routeParams.repository;
 
         $scope.navigateTo = function (id) {
             $location.url('/detail/' + $scope.repository + '/' + id);
         }
-
-        threadService.getTagCoverage($scope.repository).success(function (data) {
-            $scope.tagCoverage = data;
-        });
-
-        threadService.getCategoryCoverage($scope.repository).success(function (data) {
-            $scope.categoryCoverage = data;
-        });
 
         var range = Utility.getDateRange('l30d');
 
@@ -48,11 +26,5 @@
 
                 $scope.words = words;
             }, function errorCallback(response) { });
-
-        reportService
-            .run('categoryReport', { repository: $scope.repository, start: range[0], end: range[1]})
-            .then(function (response) {
-                $scope.categories = response.data;
-            });
     }
 ]);

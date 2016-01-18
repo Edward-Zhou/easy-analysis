@@ -66,6 +66,10 @@
             {
                 $location.url('/explorer/' + resp);
             }
+            else if (module === 'report')
+            {
+                $location.url('/report/' + resp);
+            }
         }
 
         $scope.menuClass = function (controllerName)
