@@ -82,11 +82,6 @@
             }
         }
 
-        promise(function () {
-            // load default repositoryu
-            changeRepository($scope.repositories[0].code);
-        });
-
         $scope.$on('$routeChangeSuccess', function (angularEvent, current, previous) {
             calculateOptions(current.params.repository);
 

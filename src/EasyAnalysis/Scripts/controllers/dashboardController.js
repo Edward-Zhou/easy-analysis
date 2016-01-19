@@ -3,8 +3,14 @@
     function ($scope, $location, $routeParams, threadProfileService) {
         $scope.repository = $routeParams.repository;
 
-        $scope.navigateTo = function (id) {
-            $location.url('/detail/' + $scope.repository + '/' + id);
+        function calculateWeight(freq)
+        {
+            if(freq >= 10)
+            {
+                return 10;
+            } else {
+                return freq;
+            }
         }
 
         var range = Utility.getDateRange('l30d');
@@ -20,7 +26,8 @@
                 for (var i = 0; i < tags.length; i++) {
                     words.push({
                         text: tags[i].name,
-                        weight: tags[i].freq
+                        link: '#/explorer/' + $scope.repository + '?tags=' + tags[i].name,
+                        weight: calculateWeight(tags[i].freq)
                     });
                 }
 

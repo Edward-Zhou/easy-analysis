@@ -13,7 +13,8 @@ app.config(['$routeProvider',
             controller: 'dashboardController'
         }).when('/explorer/:repository', {
             templateUrl: 'partials/threadexplorer.html',
-            controller: 'threadexplorerController'
+            controller: 'threadexplorerController',
+            reloadOnSearch: false
         }).when('/report/:repository', {
             templateUrl: 'partials/report.html',
             controller: 'reportController'

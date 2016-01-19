@@ -1,7 +1,21 @@
-﻿controllers.controller('threadexplorerController', ['$scope', '$location', '$routeParams', 'threadProfileService',
+﻿controllers.controller('threadexplorerController',
+    ['$scope', '$location', '$routeParams', 'threadProfileService',
         function ($scope, $location, $routeParams, threadProfileService) {
             $scope.repository = $routeParams.repository;
 
+            $scope.filter = {
+                tag: {
+                    groups: [],
+                    selected: [],
+                    related: [],
+                },
+                answered: ''
+            };
+
+            if ($routeParams.hasOwnProperty('tags'))
+            {
+                $scope.filter.tag.selected = decodeURIComponent($routeParams.tags).split(',');
+            }
 
             function getDateRange()
             {
@@ -29,6 +43,11 @@
 
                 for (var i = 0; i < $scope.filter.tag.selected.length; i++) {
                     tags.push($scope.filter.tag.selected[i]);
+                }
+
+                if (tags.length > 0)
+                {
+                    $location.search('tags', encodeURIComponent(tags.join(',')));
                 }
 
                 var range = getDateRange();
@@ -74,38 +93,6 @@
             $scope.threadProfiles = [];
 
             $scope.page = 1;
-
-            $scope.filter = {
-                tag: {
-                    groups: [],
-                    selected: [],
-                    related: [],
-                },
-                answered: ''
-            };
-
-            // bug fix - issue#10
-            // CODE REFACTOR
-            if ($scope.repository === 'UWP')
-            {
-                $scope.filter.tag.groups = [{
-                    name: 'Platform', tags: [
-                      { value: '', name: 'All' },
-                      { value: 'uwp', name: 'uwp' },
-                      { value: 'wp8.1', name: 'wp8.1' },
-                      { value: 'w8.1', name: 'w8.1' },
-                      { value: 'u8.1', name: 'u8.1' },
-                      { value: 'wpsl', name: 'wpsl' }]
-                },
-                {
-                    name: 'Language', tags:
-                        [{ value: '', name: 'All' },
-                        { value: 'c#', name: 'c#' },
-                        { value: 'c++', name: 'c++' },
-                        { value: 'vb', name: 'vb' },
-                        { value: 'javascript', name: 'javascript' }]
-                }];
-            }
 
             $scope.selection_value_changed = function (name, selection) {
                 applyFilterChange(selection);
