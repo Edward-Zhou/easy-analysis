@@ -178,6 +178,29 @@ app.factory('repositoryService', ['$http', function ($http) {
     return {
         getFields: function (resp) {
             return $http.get('/api/Repository/fields?name=' + encodeURIComponent(resp));
+        },
+        list: function () {
+            return $http.get('api/repository');
+        }
+    }
+}]);
+
+app.factory('reportService', ['$http', function ($http) {
+    return {
+        run: function(name, properties)
+        {
+            var baseUri = 'http://' + service_config.web_api + '/api/report/' + name + '/run';
+
+            var queryExpArray = [];
+
+            for(var prop in properties)
+            {
+                queryExpArray.push(prop + '=' + encodeURIComponent(properties[prop]));
+            }
+
+            var uri = baseUri + '?' + queryExpArray.join('&');
+
+            return $http.get(uri);
         }
     }
 }]);

@@ -67,9 +67,9 @@ namespace EasyAnalysis.Actions
             {
                 dynamic soThreads = null;
 
-                using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("SoDBConnection")))
+                using (var soConnection = new SqlConnection(_connectionStringProvider.GetConnectionString("SoDBConnection")))
                 {
-                    var inputDs = new NamedQueryReadOnlyCollection("import_thread_tags_" + repository, connection);
+                    var inputDs = new NamedQueryReadOnlyCollection("import_thread_tags_" + repository, soConnection);
 
                     inputDs.SetParameters(new
                     {
@@ -78,45 +78,57 @@ namespace EasyAnalysis.Actions
                     });
 
                     soThreads = inputDs.GetData();
-                }
-                
-                var host = "analyzeit.azurewebsites.net";
-                //var host = "localhost:58277"; //For Debugging
 
-                using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString()))
-                {
-                    var tpDs = new NamedQueryReadOnlyCollection("query_thread_existence", connection);
 
-                    foreach (dynamic row in soThreads)
+                    var host = "analyzeit.azurewebsites.net";
+                    //var host = "localhost:58277"; //For Debugging
+
+                    using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString()))
                     {
-                        tpDs.SetParameters(new
+                        var tpDs = new NamedQueryReadOnlyCollection("query_thread_existence", connection);
+
+                        foreach (dynamic row in soThreads)
                         {
-                            id = "SO_" + row.question_id
-                        });
-
-                        dynamic q = (tpDs.GetData() as IEnumerable<dynamic>).First();
-
-                        int recordExist = q.Total;
-
-                        if (recordExist > 0)
-                        {
-                            String[] tags = row.tags.ToString().Split(';');
-
-                            foreach (string tag in tags)
+                            tpDs.SetParameters(new
                             {
-                                string apiUrl = "http://{0}/api/thread/{1}/tag/";
-                                using (var client = new HttpClient())
+                                id = "SO_" + row.question_id
+                            });
+
+                            dynamic q = (tpDs.GetData() as IEnumerable<dynamic>).First();
+
+                            int recordExist = q.Total;
+
+                            if (recordExist > 0)
+                            {
+                                var tagDs = new NamedQueryReadOnlyCollection("get_sothread_tags", soConnection);
+                                tagDs.SetParameters(new
                                 {
-                                    var request = new StringContent("=" + tag)
+                                    QuestionId = row.question_id
+                                });
+                                dynamic q2 = (tagDs.GetData() as IEnumerable<dynamic>).ToList();
+                                List<string> tags = new List<string>();
+                                foreach (dynamic item in q2)
+                                {
+                                    var tag = item.tagname;
+                                    tags.Add(tag);
+                                }
+
+                                foreach (string tag in tags)
+                                {
+                                    string apiUrl = "http://{0}/api/thread/{1}/tag/";
+                                    using (var client = new HttpClient())
                                     {
-                                        Headers = { ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded") }
-                                    };
-                                    var response = await client.PostAsync(string.Format(apiUrl, host, "SO_" + row.question_id), request);
-                                    //response.EnsureSuccessStatusCode();
+                                        var request = new StringContent("=" + tag)
+                                        {
+                                            Headers = { ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded") }
+                                        };
+                                        var response = await client.PostAsync(string.Format(apiUrl, host, "SO_" + row.question_id), request);
+                                        //response.EnsureSuccessStatusCode();
+                                    }
                                 }
                             }
-                        }
 
+                        }
                     }
                 }
             }

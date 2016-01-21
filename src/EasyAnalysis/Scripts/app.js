@@ -8,24 +8,22 @@ app.config(['$routeProvider',
         when('/', {
             templateUrl: 'partials/home.html',
             controller: 'homeController'
-        }).when('/discover/:repository', {
-            templateUrl: 'partials/discover.html',
-            controller: 'discoverController'
+        }).when('/dashboard/:repository', {
+            templateUrl: 'partials/dashboard.html',
+            controller: 'dashboardController'
+        }).when('/explorer/:repository', {
+            templateUrl: 'partials/threadexplorer.html',
+            controller: 'threadexplorerController',
+            reloadOnSearch: false
+        }).when('/report/:repository', {
+            templateUrl: 'partials/report.html',
+            controller: 'reportController'
         }).when('/detail/:repository/:identifier', {
             templateUrl: 'partials/detail.html',
             controller: 'detailController'
         }).when('/embed/:repository/:identifier', {
             templateUrl: 'partials/embed.html',
             controller: 'detailController'
-        }).when('/askers/:repository', {
-            templateUrl: 'partials/askers.html',
-            controller: 'askersController'
-        }).when('/explorer/:repository', {
-            templateUrl: 'partials/threadexplorer.html',
-            controller: 'threadexplorerController'
-        }).when('/dupdetection/:repository', {
-            templateUrl: 'partials/dupdetection.html',
-            controller: 'dupdetectionController'
         });
   }]);
 

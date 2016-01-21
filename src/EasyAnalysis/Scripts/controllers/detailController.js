@@ -33,7 +33,7 @@
                          .success(function (data) {
                              $scope.item = data;
 
-                             $scope.typeSelection = $scope.item.TypeId;
+                             $scope.typeSelection = $scope.item.typeId;
 
                              $scope.state = 'done';
                          });

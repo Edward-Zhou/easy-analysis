@@ -20,6 +20,27 @@ namespace EasyAnalysis.Controllers
             _dropDownFieldRepository = new DropDownFieldRepository();
         }
 
+        /// <summary>
+        /// api/repository
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<RepositoryModel> Get()
+        {
+            var repositories = new List<RepositoryModel>
+            {
+                new RepositoryModel { Code = "UWP", Text = "Universal Windows Platform"},
+                new RepositoryModel { Code = "SOUWP", Text = "UWP@Stackoverflow"},
+                new RepositoryModel { Code = "SOTFS", Text = "Team Foundation Service"},
+                new RepositoryModel { Code = "SOVSO", Text = "Visual Studio Online"},
+                new RepositoryModel { Code = "OFFICE", Text = "Microsoft Office"},
+                new RepositoryModel { Code = "OFFICEDEV", Text = "Office for Developers"},
+                new RepositoryModel { Code = "SQL", Text = "Microsoft SQL Server"},
+                new RepositoryModel { Code = "SOO365", Text = "Office 365 for Developers"},
+            };
+
+            return repositories;
+        }
+
         [Route("api/repository/fields")]
         public HttpResponseMessage GetRepositoryFields([FromUri] string name)
         {
