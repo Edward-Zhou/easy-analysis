@@ -44,7 +44,7 @@
             controller: '',
             repository: {
                 code: '',
-                text: 'loading...'
+                text: '-- select --'
             }
         };
 

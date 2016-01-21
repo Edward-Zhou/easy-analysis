@@ -35,6 +35,7 @@ namespace EasyAnalysis.Controllers
                 new RepositoryModel { Code = "OFFICE", Text = "Microsoft Office"},
                 new RepositoryModel { Code = "OFFICEDEV", Text = "Office for Developers"},
                 new RepositoryModel { Code = "SQL", Text = "Microsoft SQL Server"},
+                new RepositoryModel { Code = "SOO365", Text = "Office 365 for Developers"},
             };
 
             return repositories;

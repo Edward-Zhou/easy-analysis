@@ -2,8 +2,8 @@
 // [dev]: localhost:58116
 
 var service_config = {
-    //web_api: 'app-svr.cloudapp.net'
-    web_api: 'localhost:58116' //Local Test
+    web_api: 'app-svr.cloudapp.net'
+    // web_api: 'localhost:58116' //Local Test
 }
 
 app.factory('threadService', ['$http', function ($http) {
