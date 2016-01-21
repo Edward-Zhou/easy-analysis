@@ -23,7 +23,7 @@ namespace EasyAnalysis.Backend
         /// 4) run a action
         /// EasyAnalysis.Backend.exe type:action name:correct-datatype parameters:landing.threads
         /// 5) run a package
-        /// EasyAnalysis.Backend.exe type:package name:{package_name} parameters:key1=value1&key2=value2
+        /// EasyAnalysis.Backend.exe type:package name:{package_name} parameters:start=value1&end=value2
         /// </summary>
         /// <param name="args"></param>
         static void Main(string[] args)

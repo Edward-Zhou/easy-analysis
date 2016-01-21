@@ -44,7 +44,7 @@ INNER JOIN
           status,
           IRT
    FROM dbo.Question AS Question_1) AS c ON a.question_id = c.question_id
-INNER JOIN
+LEFT JOIN
   (SELECT answer_id,
           question_id,
           creation_date,
