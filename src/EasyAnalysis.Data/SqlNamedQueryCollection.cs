@@ -50,7 +50,7 @@ namespace EasyAnalysis.Data
             return Task.Run(async () => {
                 var sqlQueryText = SqlQueryFactory.Instance.Get(_queryName);
 
-                using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString()))
+                using (var connection = new SqlConnection(_connectionStringProvider.GetConnectionString(_connectionName)))
                 {
                     var colection = connection.Query<TModel>(sqlQueryText, _parameters);
 
