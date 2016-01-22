@@ -61,6 +61,7 @@
     <Compile Include="JsonWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpreadsheetCollectionTests.cs" />
+    <Compile Include="SqlNamedQueryCollectionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyAnalysis.Data\EasyAnalysis.Data.csproj">
@@ -78,6 +79,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Outputcat.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
