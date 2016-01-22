@@ -42,10 +42,14 @@ namespace EasyAnalysis.ScheduledTask
 
                     var beginOfNextMonth = beginOfThisMonth.AddMonths(1);
 
+                    DateTime dtUtcNow = DateTime.UtcNow;
+
                     var palceholders = new Dictionary<string, string>
                     {
                         {"this_trigger_time", thisTriggerTime.ToString("yyyy-MM-ddThh:mm:ssZ") },
                         {"last_trigger_time", lastTriggerTime.ToString("yyyy-MM-ddThh:mm:ssZ") },
+                        { "$dateAdd(today, 2)", dtUtcNow.AddDays(2).ToString("yyyy-MM-ddThh:mm:ssZ")},
+                        { "$dateAdd(today, -2)", dtUtcNow.AddDays(-2).ToString("yyyy-MM-ddThh:mm:ssZ")},
                         {"begin_of_this_month", beginOfThisMonth.ToString("yyyy-MM-ddThh:mm:ssZ") },
                         {"begin_of_next_month", beginOfNextMonth.ToString("yyyy-MM-ddThh:mm:ssZ") }
                     };
