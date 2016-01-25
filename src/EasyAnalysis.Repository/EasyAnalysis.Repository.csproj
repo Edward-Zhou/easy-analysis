@@ -57,9 +57,11 @@
     <Compile Include="DropDownFieldRepository.cs" />
     <Compile Include="EFTypeConfigrations.cs" />
     <Compile Include="IDropDownFieldRepository.cs" />
+    <Compile Include="IScopeRepository.cs" />
     <Compile Include="ITagRepository.cs" />
     <Compile Include="IThreadRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScopeRepository.cs" />
     <Compile Include="TagRepository.cs" />
     <Compile Include="ThreadRepository.cs" />
   </ItemGroup>

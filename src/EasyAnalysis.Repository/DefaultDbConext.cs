@@ -19,6 +19,8 @@ namespace EasyAnalysis.Repository
 
         public DbSet<DropDownField> DropDownFields { get; set; }
 
+        public DbSet<ScopeModel> Scopes { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
@@ -26,7 +28,8 @@ namespace EasyAnalysis.Repository
                 .Add(new TagTypeConfigration())
                 .Add(new ThreadTypeConfigration())
                 .Add(new DropDownFieldOptionTypeConfigration())
-                .Add(new DropDownFieldTypeConfigration());
+                .Add(new DropDownFieldTypeConfigration())
+                .Add(new ScopeTypeConfigration());
 
             base.OnModelCreating(modelBuilder);
         }

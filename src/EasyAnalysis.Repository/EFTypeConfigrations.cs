@@ -56,6 +56,20 @@ namespace EasyAnalysis.Repository
         }
     }
 
+    public class ScopeTypeConfigration : EntityTypeConfiguration<ScopeModel>
+    {
+        public ScopeTypeConfigration()
+        {
+            ToTable("Scopes");
+
+            HasKey(m => m.Code);
+
+            Property(m => m.Code)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+        }
+    }
+
+
     public class DropDownFieldTypeConfigration : EntityTypeConfiguration<DropDownField>
     {
         public DropDownFieldTypeConfigration ()
