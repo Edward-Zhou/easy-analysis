@@ -19,6 +19,7 @@ namespace EasyAnalysis.ScheduledTask
             if(args.Length < 1)
             {
                 Console.WriteLine("Please specify the task definination file path. e.g. task_def.json");
+                return;
             }
 
             var taskDefininationFilePath = args[0];
