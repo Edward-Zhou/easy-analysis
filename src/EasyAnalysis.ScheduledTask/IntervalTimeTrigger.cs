@@ -11,7 +11,7 @@
 
         public bool IsMatch(ScheduleContext context)
         {
-            return context.SignalTime.TimeOfDay.TotalSeconds % _intervalSeconds == 0;
+            return (int)(context.SignalTime.TimeOfDay.TotalSeconds) % _intervalSeconds == 0;
         }
     }
 }
