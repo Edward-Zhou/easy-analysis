@@ -47,7 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLineDefinition.cs" />
     <Compile Include="IntervalTimeTrigger.cs" />
+    <Compile Include="ITrigger.cs" />
+    <Compile Include="ScheduledTaskDefinition.cs" />
+    <Compile Include="ScheduleEngine.cs" />
+    <Compile Include="ScheduledTask.cs" />
     <Compile Include="TriggerDefinition.cs" />
     <Content Include="Program.cs.txt" />
     <Compile Include="Program.cs" />

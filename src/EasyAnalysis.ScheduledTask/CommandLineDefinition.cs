@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.ScheduledTask
 {
-    public class TriggerDefinition
+    public class CommandLineDefinition
     {
-        public string @Type { get; set; }
+        public string Application { get; set; }
 
-        public string[] Constructor { get; set; }
+        public string Arguments { get; set; }
     }
 }

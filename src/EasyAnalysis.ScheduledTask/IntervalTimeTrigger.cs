@@ -1,56 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-
-namespace EasyAnalysis.ScheduledTask
+﻿namespace EasyAnalysis.ScheduledTask
 {
-    public class IntervalTimeTrigger
+    public class IntervalTimeTrigger : ITrigger
     {
-        private DateTime _lastTriggerTime;
-
         private int _intervalSeconds;
 
-        private Action<DateTime, DateTime> _onTrigger;
-
-        private Timer _timer;
-
-        public IntervalTimeTrigger(int intervalSeconds, Action<DateTime, DateTime> onTrigger)
+        public IntervalTimeTrigger(int intervalSecond)
         {
-            _intervalSeconds = intervalSeconds;
-
-            _onTrigger = onTrigger;
-
-            _timer = new Timer(_intervalSeconds * 1000);
-            
-            _timer.Elapsed += OnTimedEvent;
-
-            _timer.AutoReset = true;
-
-            _timer.Enabled = true;
-
-            _lastTriggerTime = DateTime.UtcNow;
+            _intervalSeconds = intervalSecond;
         }
 
-        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        public bool IsMatch(ScheduleContext context)
         {
-            var temp = DateTime.UtcNow;
-
-            if (_onTrigger != null)
-            {
-                try
-                {
-                    _onTrigger(_lastTriggerTime, temp);
-                }
-                catch (Exception ex)
-                {
-                    // innore the exception
-                }
-            }
-
-            _lastTriggerTime = temp;
+            return context.SignalTime.TimeOfDay.TotalSeconds % _intervalSeconds == 0;
         }
     }
 }

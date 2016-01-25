@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.ScheduledTask
 {
-    public class TriggerDefinition
+    public interface ITrigger
     {
-        public string @Type { get; set; }
-
-        public string[] Constructor { get; set; }
+        bool IsMatch(ScheduleContext context);
     }
 }

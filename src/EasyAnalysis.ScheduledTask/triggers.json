@@ -1,8 +1,15 @@
 ﻿[
   {
-    "name": "uwp msdn trigger",
-    "constructor": ["5"],
-    "application": "applicaiton.exe",
-    "arguments": "type:package name:uwp.json parameters:start={{last_trigger_time}}&end={{this_trigger_time}}&this_month_start={{begin_of_this_month}}&this_month_end={{begin_of_next_month}}"
+    "name": "task name",
+    "trigger": {
+      "type": "IntervalTimeTrigger",
+      "constructor": [ "5" ]
+    },
+    "commands": [
+      {
+        "application": "applicaiton.exe",
+        "arguments": "type:package name:uwp.json parameters:start={{today}}&end={{tomorrow}}&this_month_start={{this_month}}&this_month_end={{next_month}}"
+      }
+    ]
   }
 ]
