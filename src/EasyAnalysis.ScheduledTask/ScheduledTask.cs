@@ -55,7 +55,7 @@ namespace EasyAnalysis.ScheduledTask
 
                 process.Start();
 
-                Framework.Logger.Current.Info(string.Format("{0} {1}", Path.GetFileName(command.Application), command.Arguments));
+                Framework.Logger.Current.Info(string.Format("{0} {1}", Path.GetFileName(command.Application), arguments));
             }
         }
     }

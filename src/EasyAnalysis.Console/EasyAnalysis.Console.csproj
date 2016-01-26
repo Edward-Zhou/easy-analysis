@@ -72,6 +72,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="set_up.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyAnalysis.Algorithm\EasyAnalysis.Algorithm.csproj">
