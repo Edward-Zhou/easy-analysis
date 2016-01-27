@@ -24,4 +24,4 @@ Note: If you want to make this extension works in Internet Explorer InPrivate mo
 - Validate with the OK button.
 - Close all IE windows and start IE in InPrivate mode
 
-[inprivate-bho-setting]: ./img/inprivate-bho-setting.jpg "InPrivate BHO Setting"
+[inprivate-bho-setting]: ../img/inprivate-bho-setting.jpg "InPrivate BHO Setting"
