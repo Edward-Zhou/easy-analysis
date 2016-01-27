@@ -15,3 +15,11 @@
 - Open a thread in Microsoft MSDN/TechNet forum, click the **Tag** icon next to the **RSS** icon 
 
 - Now you will be navigated to Easy Analysis case detail page
+
+Note: If you want to make this extension works in Internet Explorer InPrivate mode, please follow the following steps:
+- Open IE.
+- Click on Tools > Internet Options > Privacy tab
+- In the "InPrivate" section, clear the " Disable toolbars and extensions when InPrivate Browsing starts" checkbox.
+[inprivate-bho-setting]: ./img/inprivate-bho-setting.jpg "InPrivate BHO Setting"
+- Validate with the OK button.
+- Close all IE windows and start IE in InPrivate mode
