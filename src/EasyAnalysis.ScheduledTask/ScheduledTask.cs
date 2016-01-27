@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace EasyAnalysis.ScheduledTask
 {
@@ -46,11 +47,15 @@ namespace EasyAnalysis.ScheduledTask
 
                 startInfo.FileName = applicationExeFile;
 
+                startInfo.WorkingDirectory = Path.GetDirectoryName(command.Application);
+
                 startInfo.Arguments = arguments;
 
                 process.StartInfo = startInfo;
 
                 process.Start();
+
+                Framework.Logger.Current.Info(string.Format("{0} {1}", Path.GetFileName(command.Application), arguments));
             }
         }
     }
