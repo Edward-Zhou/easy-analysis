@@ -20,6 +20,8 @@ Note: If you want to make this extension works in Internet Explorer InPrivate mo
 - Open IE.
 - Click on Tools > Internet Options > Privacy tab
 - In the "InPrivate" section, clear the " Disable toolbars and extensions when InPrivate Browsing starts" checkbox.
-[inprivate-bho-setting]: ./img/inprivate-bho-setting.jpg "InPrivate BHO Setting"
+![alt text][inprivate-bho-setting]
 - Validate with the OK button.
 - Close all IE windows and start IE in InPrivate mode
+
+[inprivate-bho-setting]: ./img/inprivate-bho-setting.jpg "InPrivate BHO Setting"
