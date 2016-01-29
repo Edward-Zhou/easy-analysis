@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultWebStreamFlowFactory.cs" />
+    <Compile Include="ImportStackOverflowDataFlow.cs" />
     <Compile Include="IWebStreamFlow.cs" />
     <Compile Include="MsdnInitWebStreamFlow.cs" />
     <Compile Include="Messages.Designer.cs">

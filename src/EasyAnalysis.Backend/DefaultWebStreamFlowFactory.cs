@@ -15,6 +15,7 @@ namespace EasyAnalysis.Backend
                 case "msdn-monitor": return new MsdnMonitorWebStreamFlow();
                 case "msdn-init": return new MsdnInitWebStreamFlow();
                 case "msdn-refresh": return new MsdnRefreshWebStreamFlow();
+                case "stackoverflow-import": return new ImportStackOverflowDataFlow();
                 default: return null;
             }
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyAnalysis.Models
 {
-    public class RepositoryModel
+    public class ScopeModel
     {
         public string Code { get; set;}
 

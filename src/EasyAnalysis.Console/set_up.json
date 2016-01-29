@@ -1,0 +1,39 @@
+﻿{
+  "code": "UWP",
+  "name": "Universal Windows Platform",
+  "forums": ["{forum guid}"],
+  "fields": [
+    {
+      "id": 1,
+      "displayName": "Language",
+      "options": [
+        { "id": 2, "name": "C#" }
+      ]
+    },
+    {
+      "id":  2,
+      "displayName": "OS",
+      "options": [
+        { "id": 1, "name": "Windows 8.1" }
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id":  1,
+      "category": "Application Model",
+      "options": [
+        {"id": 1, "name": "Microsoft APIs"},
+        {"id": 2, "name": "Background Task"} 
+      ]
+    },
+    {
+      "id":  2,
+      "category": "Deployment",
+      "options": [
+        {"id": 3, "name": "Microsoft Store"},
+        {"id": 4, "name": "Enterpise"} 
+      ]
+    }
+  ]
+}
